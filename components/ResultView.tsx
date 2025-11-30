@@ -66,14 +66,14 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
         const canvas = await html2canvas(element, {
           backgroundColor: '#050510',
-          scale: 1, // 1080x1920 is already high res
+          scale: 1, // 1080x1920 is already high res, no need to scale up
           logging: false,
           useCORS: true, // Crucial for loading local images
           allowTaint: true,
           width: 1080,
           height: 1920,
-          windowWidth: 1920, // FORCE DESKTOP CONTEXT to prevent mobile layout shift
-          windowHeight: 1080,
+          windowWidth: 1080, // FORCE WIDTH to 1080px so layout logic works perfectly
+          windowHeight: 1920,
           x: 0,
           y: 0,
           scrollX: 0,
@@ -254,12 +254,14 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
       {/* HIDDEN SHARE CARD (1080x1920) */}
       {/* 
-         Fixed Dimensions: We enforce strict 1080x1920 px sizing using min-width/height to prevent 
-         mobile browsers from squishing the layout during canvas generation.
+         CRITICAL FIX: 
+         1. Position fixed at 0,0 but z-index -50. This keeps it in the "viewport" for rendering calculations
+            but hides it behind the background. Moving it to -3000px causes layout bugs on mobile browsers.
+         2. Strict Inline styles enforce dimensions.
       */}
       <div 
         id="share-card" 
-        className="fixed top-0 left-[-3000px] z-[-50] flex flex-col items-center justify-between p-20 text-center overflow-hidden bg-[#050510]"
+        className="fixed top-0 left-0 z-[-50] flex flex-col items-center justify-between p-20 text-center overflow-hidden bg-[#050510]"
         style={{
             width: '1080px',
             height: '1920px',
@@ -286,7 +288,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           <div className="flex-1 flex flex-col justify-center items-center gap-16 w-full">
               
               {/* Signs Row */}
-              <div className="flex items-center justify-center gap-12 w-full">
+              <div className="flex flex-row items-center justify-center gap-12 w-full">
                   {/* Sign A */}
                   <div className="flex flex-col items-center gap-6">
                       <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signA.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
