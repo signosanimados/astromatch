@@ -1,0 +1,5 @@
+{
+  "name": "AstroMatch",
+  "description": "Uma aplicação SaaS de compatibilidade astrológica (Sinastria) moderna e visualmente impactante, utilizando a API Gemini para análises profundas.",
+  "requestFramePermissions": []
+}

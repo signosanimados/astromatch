@@ -1,0 +1,308 @@
+import React, { useEffect, useState } from 'react';
+import { CompatibilityResult, SignData } from '../types';
+import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+
+interface ResultViewProps {
+  result: CompatibilityResult;
+  signA: SignData;
+  signB: SignData;
+  mode: 'love' | 'friendship';
+  onReset: () => void;
+}
+
+const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onReset }) => {
+  const [animatedPercent, setAnimatedPercent] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  useEffect(() => {
+    // Animate percentage
+    let start = 0;
+    const end = result.compatibilidade;
+    const duration = 1500;
+    const increment = end / (duration / 16); // 60fps
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        setAnimatedPercent(end);
+        clearInterval(timer);
+      } else {
+        setAnimatedPercent(Math.floor(start));
+      }
+    }, 16);
+
+    return () => clearInterval(timer);
+  }, [result.compatibilidade]);
+
+  const chartData = [
+    { name: 'Match', value: animatedPercent },
+    { name: 'Gap', value: 100 - animatedPercent }
+  ];
+
+  // Determine color based on percentage
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'text-emerald-400';
+    if (score >= 50) return 'text-yellow-400';
+    return 'text-red-400';
+  };
+  
+  const scoreColorHex = (score: number) => {
+    if (score >= 80) return '#34d399'; // Emerald 400
+    if (score >= 50) return '#facc15'; // Yellow 400
+    return '#f87171'; // Red 400
+  };
+
+  const handleDownloadCard = async () => {
+    setIsGenerating(true);
+    const element = document.getElementById('share-card');
+    const html2canvas = (window as any).html2canvas;
+
+    if (element && html2canvas) {
+      try {
+        const canvas = await html2canvas(element, {
+          backgroundColor: '#050510',
+          scale: 1, // 1080x1920 is already high res
+          logging: false,
+          useCORS: true
+        });
+        
+        const link = document.createElement('a');
+        link.download = `AstroMatch-${signA.name}-${signB.name}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } catch (error) {
+        console.error("Erro ao gerar card:", error);
+      } finally {
+        setIsGenerating(false);
+      }
+    } else {
+      setIsGenerating(false);
+      console.error("Biblioteca html2canvas não encontrada ou elemento indisponível.");
+    }
+  };
+
+  const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
+
+  return (
+    <div className="w-full max-w-4xl mx-auto space-y-8 animate-fade-in-up">
+      {/* Header Result Section */}
+      <div className="glass rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+        {/* Decorative background glow */}
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 z-0" />
+        
+        {/* Chart */}
+        <div className="relative z-10 flex-shrink-0 w-48 h-48">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={chartData}
+                cx="50%"
+                cy="50%"
+                innerRadius={60}
+                outerRadius={80}
+                startAngle={90}
+                endAngle={-270}
+                dataKey="value"
+                stroke="none"
+              >
+                <Cell fill={scoreColorHex(result.compatibilidade)} />
+                <Cell fill="#334155" /> 
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className={`text-4xl font-bold font-mono ${getScoreColor(result.compatibilidade)}`}>
+              {animatedPercent}%
+            </span>
+            <span className="text-xs text-slate-400 uppercase tracking-widest mt-1">Match</span>
+          </div>
+        </div>
+
+        {/* Summary Text */}
+        <div className="z-10 flex-1 text-center md:text-left">
+          <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
+             <div className={`text-sm font-bold px-3 py-1 rounded-full bg-slate-800 border border-slate-700 ${signA.color}`}>
+               {signA.name}
+             </div>
+             <span className="text-slate-500">+</span>
+             <div className={`text-sm font-bold px-3 py-1 rounded-full bg-slate-800 border border-slate-700 ${signB.color}`}>
+               {signB.name}
+             </div>
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Resumo Astral</h2>
+          <p className="text-slate-300 leading-relaxed text-lg">
+            {result.resumo}
+          </p>
+        </div>
+      </div>
+
+      {/* Details Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        {/* Pros */}
+        <div className="glass rounded-2xl p-6 border-l-4 border-l-emerald-500">
+          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <span className="bg-emerald-500/20 text-emerald-400 p-1.5 rounded-lg">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+            </span>
+            O que Combina
+          </h3>
+          <ul className="space-y-3">
+            {result.combina.map((item, i) => (
+              <li key={i} className="flex items-start gap-3 text-slate-300 text-sm">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Cons */}
+        <div className="glass rounded-2xl p-6 border-l-4 border-l-red-500">
+          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <span className="bg-red-500/20 text-red-400 p-1.5 rounded-lg">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </span>
+            Desafios
+          </h3>
+          <ul className="space-y-3">
+            {result.nao_combina.map((item, i) => (
+              <li key={i} className="flex items-start gap-3 text-slate-300 text-sm">
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-red-500 flex-shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Tips */}
+        <div className="glass rounded-2xl p-6 border-l-4 border-l-indigo-500 md:col-span-2">
+          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <span className="bg-indigo-500/20 text-indigo-400 p-1.5 rounded-lg">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            </span>
+            {tipsTitle}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             {result.dicas.map((item, i) => (
+              <div key={i} className="bg-slate-800/50 rounded-lg p-4 text-slate-300 text-sm border border-slate-700/50">
+                "{item}"
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-8">
+        <button 
+          onClick={onReset}
+          className="px-8 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-slate-200 transition-colors shadow-lg hover:shadow-xl flex items-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+          Nova Combinação
+        </button>
+
+        <button 
+          onClick={handleDownloadCard}
+          disabled={isGenerating}
+          className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-full hover:bg-indigo-500 transition-colors shadow-lg hover:shadow-xl flex items-center gap-2 disabled:opacity-50"
+        >
+          {isGenerating ? (
+            <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+          ) : (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+          )}
+          {isGenerating ? 'Gerando...' : 'Baixar Stories'}
+        </button>
+      </div>
+
+      {/* HIDDEN SHARE CARD (1080x1920) */}
+      <div 
+        id="share-card" 
+        className="fixed left-[-9999px] top-0 w-[1080px] h-[1920px] bg-[#050510] flex flex-col items-center justify-between p-20 text-center overflow-hidden z-[-1]"
+        style={{
+            background: 'radial-gradient(circle at 50% 30%, #1e1b4b 0%, #050510 60%)'
+        }}
+      >
+          {/* Header */}
+          <div className="flex flex-col items-center gap-4 mt-20">
+              {/* Uses image from App.tsx logic if available, or fallback */}
+              <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-2 border-white/20">
+                  <img src="logo.png" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
+              </div>
+              <h1 className="text-5xl font-bold tracking-[0.3em] uppercase text-white font-mono">
+                  AstroMatch
+              </h1>
+              <div className="h-1 w-40 bg-white/20 mt-4"></div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col justify-center items-center gap-16 w-full">
+              
+              {/* Signs Row */}
+              <div className="flex items-center justify-center gap-12 w-full">
+                  {/* Sign A */}
+                  <div className="flex flex-col items-center gap-6">
+                      <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signA.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
+                        <span className="text-[10rem] leading-none text-white drop-shadow-2xl">
+                          {signA.icon}
+                        </span>
+                      </div>
+                      <span className="text-5xl font-bold text-white uppercase tracking-widest">{signA.name}</span>
+                  </div>
+
+                  <span className="text-8xl text-white/50 font-light">+</span>
+
+                  {/* Sign B */}
+                  <div className="flex flex-col items-center gap-6">
+                      <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signB.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
+                        <span className="text-[10rem] leading-none text-white drop-shadow-2xl">
+                          {signB.icon}
+                        </span>
+                      </div>
+                      <span className="text-5xl font-bold text-white uppercase tracking-widest">{signB.name}</span>
+                  </div>
+              </div>
+
+              {/* Compatibility Score */}
+              <div className="flex flex-col items-center gap-4 mt-12 bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl w-full max-w-2xl">
+                  <span className="text-3xl text-slate-400 uppercase tracking-[0.5em]">Compatibilidade</span>
+                  <span className={`text-[12rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]`}>
+                      {result.compatibilidade}%
+                  </span>
+                  
+                  {/* Progress Bar Visual */}
+                  <div className="w-full h-4 bg-slate-800 rounded-full mt-4 overflow-hidden">
+                      <div 
+                          className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                          style={{ width: `${result.compatibilidade}%` }}
+                      ></div>
+                  </div>
+              </div>
+
+              {/* Summary Snippet */}
+              <p className="text-3xl text-slate-300 leading-normal max-w-3xl px-8 font-light italic">
+                  "{result.resumo}"
+              </p>
+
+          </div>
+
+          {/* Footer */}
+          <div className="mb-20 flex flex-col items-center gap-6 opacity-80">
+              <p className="text-2xl text-slate-300 uppercase tracking-widest">
+                  Descubra a sua combinação em
+              </p>
+              <div className="flex items-center gap-3">
+                 {/* TikTok Logo */}
+                 <svg className="w-10 h-10 fill-white" viewBox="0 0 24 24">
+                   <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.65-1.62-1.12-8.84-.28-9.57-.31-1.07.1v6.19c.01 3.07-2.08 5.84-5.19 6.23-3.07.41-6.17-1.3-7.44-4.13-1.2-2.85-.35-6.17 2.25-7.93 2.15-1.53 4.96-1.1 6.74.83.18-.58.26-1.19.26-1.8V5.35c-1.39-.33-2.86-.42-4.28-.15-2.83.41-5.28 2.45-6.17 5.17-1.3 4.14.73 8.63 4.7 9.87 3.33 1.09 7.07-.35 8.94-3.32 1.13-1.84 1.34-4.14.94-6.28l.02-8.31.02-.32.02-.33z"/>
+                 </svg>
+                 <span className="text-3xl font-bold text-white">@signosanimadosoficial</span>
+              </div>
+          </div>
+      </div>
+    </div>
+  );
+};
+
+export default ResultView;
