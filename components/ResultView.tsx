@@ -234,13 +234,12 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
       {/* HIDDEN SHARE CARD (1080x1920) */}
       {/* 
-         Fix: Using 'fixed', 'top-0', 'left-0' and 'z-[-50]' keeps the element in the render flow 
-         but invisible to the user. 'opacity-0' hides it. 'pointer-events-none' prevents clicks.
-         This prevents alignment issues that occur with 'left: -9999px'.
+         Fix: REMOVED 'opacity-0' and 'left-0'. 
+         Changed to 'left-[-3000px]' to hide from view but keep visible for html2canvas.
       */}
       <div 
         id="share-card" 
-        className="fixed top-0 left-0 z-[-50] opacity-0 pointer-events-none w-[1080px] h-[1920px] bg-[#050510] flex flex-col items-center justify-between p-20 text-center overflow-hidden"
+        className="fixed top-0 left-[-3000px] z-[-50] pointer-events-none w-[1080px] h-[1920px] bg-[#050510] flex flex-col items-center justify-between p-20 text-center overflow-hidden"
         style={{
             background: 'radial-gradient(circle at 50% 30%, #1e1b4b 0%, #050510 60%)'
         }}
