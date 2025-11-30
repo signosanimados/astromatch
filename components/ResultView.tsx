@@ -254,104 +254,104 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
       {/* HIDDEN SHARE CARD (1080x1920) */}
       {/* 
-         CRITICAL FIX: 
-         1. Position fixed at 0,0 but z-index -50. This keeps it in the "viewport" for rendering calculations
-            but hides it behind the background. Moving it to -3000px causes layout bugs on mobile browsers.
-         2. Strict Inline styles enforce dimensions.
+         SOLUTION FOR VISIBILITY & ALIGNMENT:
+         Wrap the actual card in a container with width:0, height:0 and overflow:hidden.
+         This effectively hides it from the UI flow without removing it from DOM (which would break html2canvas).
+         The internal card keeps fixed dimensions.
       */}
-      <div 
-        id="share-card" 
-        className="fixed top-0 left-0 z-[-50] flex flex-col items-center justify-between p-20 text-center overflow-hidden bg-[#050510]"
-        style={{
-            width: '1080px',
-            height: '1920px',
-            minWidth: '1080px',
-            minHeight: '1920px',
-            maxWidth: '1080px',
-            maxHeight: '1920px',
-            background: 'radial-gradient(circle at 50% 30%, #1e1b4b 0%, #050510 60%)',
-            boxSizing: 'border-box'
-        }}
-      >
-          {/* Header */}
-          <div className="flex flex-col items-center gap-4 mt-20">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-2 border-white/20">
-                  <img src="/logo.png" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
-              </div>
-              <h1 className="text-5xl font-bold tracking-[0.3em] uppercase text-white font-mono">
-                  AstroMatch
-              </h1>
-              <div className="h-1 w-40 bg-white/20 mt-4"></div>
-          </div>
+      <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+        <div 
+          id="share-card" 
+          className="flex flex-col items-center justify-between p-20 text-center bg-[#050510]"
+          style={{
+              width: '1080px',
+              height: '1920px',
+              minWidth: '1080px',
+              minHeight: '1920px',
+              background: 'radial-gradient(circle at 50% 30%, #1e1b4b 0%, #050510 60%)',
+              boxSizing: 'border-box'
+          }}
+        >
+            {/* Header */}
+            <div className="flex flex-col items-center gap-4 mt-20">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-2 border-white/20">
+                    <img src="/logo.png" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
+                </div>
+                <h1 className="text-5xl font-bold tracking-[0.3em] uppercase text-white font-mono">
+                    AstroMatch
+                </h1>
+                <div className="h-1 w-40 bg-white/20 mt-4"></div>
+            </div>
 
-          {/* Main Content */}
-          <div className="flex-1 flex flex-col justify-center items-center gap-16 w-full">
-              
-              {/* Signs Row */}
-              <div className="flex flex-row items-center justify-center gap-12 w-full">
-                  {/* Sign A */}
-                  <div className="flex flex-col items-center gap-6">
-                      <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signA.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
-                        <span className="text-[10rem] leading-none text-white drop-shadow-2xl">
-                          {signA.icon}
-                        </span>
-                      </div>
-                      <span className="text-5xl font-bold text-white uppercase tracking-widest">{signA.name}</span>
-                  </div>
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col justify-center items-center gap-16 w-full">
+                
+                {/* Signs Row */}
+                <div className="flex flex-row items-center justify-center gap-12 w-full">
+                    {/* Sign A */}
+                    <div className="flex flex-col items-center gap-6">
+                        <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signA.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
+                          <span className="text-[10rem] leading-none text-white drop-shadow-2xl">
+                            {signA.icon}
+                          </span>
+                        </div>
+                        <span className="text-5xl font-bold text-white uppercase tracking-widest">{signA.name}</span>
+                    </div>
 
-                  <span className="text-8xl text-white/50 font-light">+</span>
+                    <span className="text-8xl text-white/50 font-light">+</span>
 
-                  {/* Sign B */}
-                  <div className="flex flex-col items-center gap-6">
-                      <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signB.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
-                        <span className="text-[10rem] leading-none text-white drop-shadow-2xl">
-                          {signB.icon}
-                        </span>
-                      </div>
-                      <span className="text-5xl font-bold text-white uppercase tracking-widest">{signB.name}</span>
-                  </div>
-              </div>
+                    {/* Sign B */}
+                    <div className="flex flex-col items-center gap-6">
+                        <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signB.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
+                          <span className="text-[10rem] leading-none text-white drop-shadow-2xl">
+                            {signB.icon}
+                          </span>
+                        </div>
+                        <span className="text-5xl font-bold text-white uppercase tracking-widest">{signB.name}</span>
+                    </div>
+                </div>
 
-              {/* Compatibility Score */}
-              <div className="flex flex-col items-center gap-4 mt-12 bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl w-full max-w-2xl">
-                  {/* Mode Label in Card */}
-                  <div className={`inline-flex items-center gap-3 px-6 py-2 rounded-full text-2xl font-bold uppercase tracking-widest mb-2 border ${
-                    mode === 'love' 
-                      ? 'bg-pink-500/20 border-pink-500/40 text-pink-300' 
-                      : 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
-                  }`}>
-                     {mode === 'love' ? 'AMOR' : 'AMIZADE'}
-                  </div>
+                {/* Compatibility Score */}
+                <div className="flex flex-col items-center gap-4 mt-12 bg-white/5 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl w-full max-w-2xl">
+                    {/* Mode Label in Card */}
+                    <div className={`inline-flex items-center gap-3 px-6 py-2 rounded-full text-2xl font-bold uppercase tracking-widest mb-2 border ${
+                      mode === 'love' 
+                        ? 'bg-pink-500/20 border-pink-500/40 text-pink-300' 
+                        : 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
+                    }`}>
+                       {mode === 'love' ? 'AMOR' : 'AMIZADE'}
+                    </div>
 
-                  <span className={`text-[12rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]`}>
-                      {result.compatibilidade}%
-                  </span>
-                  
-                  {/* Progress Bar Visual */}
-                  <div className="w-full h-4 bg-slate-800 rounded-full mt-4 overflow-hidden relative">
-                      <div 
-                          className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 absolute left-0 top-0"
-                          style={{ width: `${result.compatibilidade}%` }}
-                      ></div>
-                  </div>
-              </div>
+                    <span className={`text-[12rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]`}>
+                        {result.compatibilidade}%
+                    </span>
+                    
+                    {/* Progress Bar Visual */}
+                    <div className="w-full h-4 bg-slate-800 rounded-full mt-4 overflow-hidden relative">
+                        <div 
+                            className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 absolute left-0 top-0"
+                            style={{ width: `${result.compatibilidade}%` }}
+                        ></div>
+                    </div>
+                </div>
 
-              {/* Summary Snippet */}
-              <p className="text-3xl text-slate-300 leading-normal max-w-3xl px-8 font-light italic">
-                  "{result.resumo}"
-              </p>
+                {/* Summary Snippet */}
+                <p className="text-3xl text-slate-300 leading-normal max-w-3xl px-8 font-light italic">
+                    "{result.resumo}"
+                </p>
 
-          </div>
+            </div>
 
-          {/* Footer */}
-          <div className="mb-20 flex flex-col items-center gap-6 opacity-80">
-              <p className="text-2xl text-slate-300 uppercase tracking-widest">
-                  Descubra a sua combinação em
-              </p>
-              <div className="flex items-center gap-3">
-                 <span className="text-3xl font-bold text-white">TikTok: @signosanimadosoficial</span>
-              </div>
-          </div>
+            {/* Footer */}
+            <div className="mb-20 flex flex-col items-center gap-6 opacity-80">
+                <p className="text-2xl text-slate-300 uppercase tracking-widest">
+                    Descubra a sua combinação em
+                </p>
+                <div className="flex items-center gap-3">
+                   <span className="text-3xl font-bold text-white">TikTok: @signosanimadosoficial</span>
+                </div>
+            </div>
+        </div>
       </div>
     </div>
   );
