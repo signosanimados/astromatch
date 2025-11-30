@@ -75,9 +75,9 @@ const App: React.FC = () => {
         {/* Header / Brand */}
         <header className="flex justify-between items-center mb-6 pb-4 border-b border-white/5">
           <div className="flex items-center gap-3">
-             {/* Logo image if it exists in public folder, otherwise fallback to text/icon */}
+             {/* Logo image expects /logo.png in the public folder */}
              <img 
-                src="logo.png" 
+                src="/logo.png" 
                 alt="AM" 
                 className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
                 onError={(e) => {

@@ -55,15 +55,20 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const handleDownloadCard = async () => {
     setIsGenerating(true);
     const element = document.getElementById('share-card');
+    
+    // Safety check for library availability
     const html2canvas = (window as any).html2canvas;
 
     if (element && html2canvas) {
       try {
+        // Wait for images to load inside the hidden div
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         const canvas = await html2canvas(element, {
           backgroundColor: '#050510',
           scale: 1, // 1080x1920 is already high res
           logging: false,
-          useCORS: true,
+          useCORS: true, // Crucial for loading local images in some envs
           allowTaint: true
         });
         
@@ -73,13 +78,14 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         link.click();
       } catch (error) {
         console.error("Erro ao gerar card:", error);
-        alert("Não foi possível gerar a imagem no momento. Tente novamente.");
+        alert("Não foi possível gerar a imagem. Verifique se o bloqueador de pop-ups está ativo.");
       } finally {
         setIsGenerating(false);
       }
     } else {
       setIsGenerating(false);
-      console.error("Biblioteca html2canvas não encontrada ou elemento indisponível.");
+      console.error("Biblioteca html2canvas não encontrada.");
+      alert("Erro interno: Biblioteca gráfica não carregada.");
     }
   };
 
@@ -195,7 +201,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-8">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-8 pb-4">
         <button 
           onClick={onReset}
           className="px-8 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-slate-200 transition-colors shadow-lg hover:shadow-xl flex items-center gap-2"
@@ -230,7 +236,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           <div className="flex flex-col items-center gap-4 mt-20">
               {/* Uses image from App.tsx logic if available, or fallback */}
               <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-2 border-white/20">
-                  <img src="logo.png" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
+                  <img src="/logo.png" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
               </div>
               <h1 className="text-5xl font-bold tracking-[0.3em] uppercase text-white font-mono">
                   AstroMatch
