@@ -63,7 +63,8 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           backgroundColor: '#050510',
           scale: 1, // 1080x1920 is already high res
           logging: false,
-          useCORS: true
+          useCORS: true,
+          allowTaint: true
         });
         
         const link = document.createElement('a');
@@ -72,6 +73,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         link.click();
       } catch (error) {
         console.error("Erro ao gerar card:", error);
+        alert("Não foi possível gerar a imagem no momento. Tente novamente.");
       } finally {
         setIsGenerating(false);
       }

@@ -2,7 +2,7 @@ import { CompatibilityResult, SignData, ElementType } from '../types';
 
 /**
  * Calculates a fixed, deterministic score for any pair of signs.
- * This ensures that Aries + Aries is always the same score.
+ * This ensures that Aries + Aries is always the same score for the same pair.
  */
 const calculateDeterministicScore = (signA: SignData, signB: SignData): number => {
   // 1. Sort signs alphabetically by ID to ensure order doesn't matter (Aries+Leo == Leo+Aries)
@@ -21,20 +21,20 @@ const calculateDeterministicScore = (signA: SignData, signB: SignData): number =
   if (s1.id === s2.id) {
     baseScore = 75; // Same sign
   } else if (el1 === el2) {
-    baseScore = 90; // Trine
+    baseScore = 90; // Trine (Same element)
   } else {
     // Check Compatible Elements (Fire+Air or Earth+Water)
     const fireAir = (el1 === FIRE && el2 === AIR) || (el1 === AIR && el2 === FIRE);
     const earthWater = (el1 === EARTH && el2 === WATER) || (el1 === WATER && el2 === EARTH);
 
     if (fireAir || earthWater) {
-      baseScore = 85; // Sextile/Opposition
+      baseScore = 85; // Sextile/Opposition usually positive
     } else {
-      baseScore = 45; // Square/Quincunx
+      baseScore = 45; // Square/Quincunx usually challenging
     }
   }
 
-  // 3. Add Deterministic Variance (-12 to +12)
+  // 3. Add Deterministic Variance (-12 to +12) based on name hash
   const comboId = s1.id + s2.id;
   let hash = 0;
   for (let i = 0; i < comboId.length; i++) {
@@ -42,11 +42,11 @@ const calculateDeterministicScore = (signA: SignData, signB: SignData): number =
   }
   const variance = (Math.abs(hash) % 25) - 12;
 
-  return Math.min(Math.max(baseScore + variance, 10), 99);
+  // Clamp between 15 and 99
+  return Math.min(Math.max(baseScore + variance, 15), 99);
 };
 
-// --- TEMPLATES ---
-// 3 categories (High, Medium, Low) x 2 modes (Love, Friendship) x 5 variations = 30 templates
+// --- TEMPLATES (5 Variations per category) ---
 
 const TEMPLATES_LOVE = {
   high: [
