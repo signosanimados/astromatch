@@ -61,15 +61,23 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
     if (element && html2canvas) {
       try {
-        // Wait for images to load inside the hidden div
+        // Wait for fonts and layout to settle
         await new Promise(resolve => setTimeout(resolve, 500));
 
         const canvas = await html2canvas(element, {
           backgroundColor: '#050510',
           scale: 1, // 1080x1920 is already high res
           logging: false,
-          useCORS: true, // Crucial for loading local images in some envs
-          allowTaint: true
+          useCORS: true, // Crucial for loading local images
+          allowTaint: true,
+          width: 1080,
+          height: 1920,
+          windowWidth: 1080,
+          windowHeight: 1920,
+          x: 0,
+          y: 0,
+          scrollX: 0,
+          scrollY: 0
         });
         
         const link = document.createElement('a');
@@ -225,16 +233,20 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
       </div>
 
       {/* HIDDEN SHARE CARD (1080x1920) */}
+      {/* 
+         Fix: Using 'fixed', 'top-0', 'left-0' and 'z-[-50]' keeps the element in the render flow 
+         but invisible to the user. 'opacity-0' hides it. 'pointer-events-none' prevents clicks.
+         This prevents alignment issues that occur with 'left: -9999px'.
+      */}
       <div 
         id="share-card" 
-        className="fixed left-[-9999px] top-0 w-[1080px] h-[1920px] bg-[#050510] flex flex-col items-center justify-between p-20 text-center overflow-hidden z-[-1]"
+        className="fixed top-0 left-0 z-[-50] opacity-0 pointer-events-none w-[1080px] h-[1920px] bg-[#050510] flex flex-col items-center justify-between p-20 text-center overflow-hidden"
         style={{
             background: 'radial-gradient(circle at 50% 30%, #1e1b4b 0%, #050510 60%)'
         }}
       >
           {/* Header */}
           <div className="flex flex-col items-center gap-4 mt-20">
-              {/* Uses image from App.tsx logic if available, or fallback */}
               <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-2 border-white/20">
                   <img src="/logo.png" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
               </div>
@@ -280,9 +292,9 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                   </span>
                   
                   {/* Progress Bar Visual */}
-                  <div className="w-full h-4 bg-slate-800 rounded-full mt-4 overflow-hidden">
+                  <div className="w-full h-4 bg-slate-800 rounded-full mt-4 overflow-hidden relative">
                       <div 
-                          className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                          className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 absolute left-0 top-0"
                           style={{ width: `${result.compatibilidade}%` }}
                       ></div>
                   </div>
@@ -301,11 +313,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                   Descubra a sua combinação em
               </p>
               <div className="flex items-center gap-3">
-                 {/* TikTok Logo */}
-                 <svg className="w-10 h-10 fill-white" viewBox="0 0 24 24">
-                   <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.65-1.62-1.12-8.84-.28-9.57-.31-1.07.1v6.19c.01 3.07-2.08 5.84-5.19 6.23-3.07.41-6.17-1.3-7.44-4.13-1.2-2.85-.35-6.17 2.25-7.93 2.15-1.53 4.96-1.1 6.74.83.18-.58.26-1.19.26-1.8V5.35c-1.39-.33-2.86-.42-4.28-.15-2.83.41-5.28 2.45-6.17 5.17-1.3 4.14.73 8.63 4.7 9.87 3.33 1.09 7.07-.35 8.94-3.32 1.13-1.84 1.34-4.14.94-6.28l.02-8.31.02-.32.02-.33z"/>
-                 </svg>
-                 <span className="text-3xl font-bold text-white">@signosanimadosoficial</span>
+                 <span className="text-3xl font-bold text-white">TikTok: @signosanimadosoficial</span>
               </div>
           </div>
       </div>
