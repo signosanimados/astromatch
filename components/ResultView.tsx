@@ -72,8 +72,8 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           allowTaint: true,
           width: 1080,
           height: 1920,
-          windowWidth: 1080,
-          windowHeight: 1920,
+          windowWidth: 1920, // FORCE DESKTOP CONTEXT to prevent mobile layout shift
+          windowHeight: 1080,
           x: 0,
           y: 0,
           scrollX: 0,
@@ -234,14 +234,21 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
       {/* HIDDEN SHARE CARD (1080x1920) */}
       {/* 
-         Fix: REMOVED 'opacity-0' and 'left-0'. 
-         Changed to 'left-[-3000px]' to hide from view but keep visible for html2canvas.
+         Fixed Dimensions: We enforce strict 1080x1920 px sizing using min-width/height to prevent 
+         mobile browsers from squishing the layout during canvas generation.
       */}
       <div 
         id="share-card" 
-        className="fixed top-0 left-[-3000px] z-[-50] pointer-events-none w-[1080px] h-[1920px] bg-[#050510] flex flex-col items-center justify-between p-20 text-center overflow-hidden"
+        className="fixed top-0 left-[-3000px] z-[-50] flex flex-col items-center justify-between p-20 text-center overflow-hidden bg-[#050510]"
         style={{
-            background: 'radial-gradient(circle at 50% 30%, #1e1b4b 0%, #050510 60%)'
+            width: '1080px',
+            height: '1920px',
+            minWidth: '1080px',
+            minHeight: '1920px',
+            maxWidth: '1080px',
+            maxHeight: '1920px',
+            background: 'radial-gradient(circle at 50% 30%, #1e1b4b 0%, #050510 60%)',
+            boxSizing: 'border-box'
         }}
       >
           {/* Header */}
