@@ -104,7 +104,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         });
         
         const link = document.createElement('a');
-        link.download = `AstroMatch-${signA.name}-${signB.name}.png`;
+        link.download = `SignosCombinados-${signA.name}-${signB.name}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
       } catch (error) {
@@ -123,8 +123,8 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
   // Determine if we need to flip the background image
-  // Updated Logic: Flip if Sign A comes BEFORE Sign B alphabetically (e.g. Aries x Leo -> Flip)
-  const shouldFlipBackground = PORTUGUESE_NAMES[signA.id].localeCompare(PORTUGUESE_NAMES[signB.id]) < 0;
+  // FIX: User requested to revert global flipping and ONLY flip specifically for Aries (A) x Leo (B)
+  const shouldFlipBackground = signA.id === 'aries' && signB.id === 'leo';
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8 animate-fade-in-up">

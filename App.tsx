@@ -87,10 +87,10 @@ const App: React.FC = () => {
                 }} 
              />
              <div className="hidden w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-[0_0_15px_rgba(99,102,241,0.6)] border border-white/20">
-               AM
+               SC
              </div>
              <h1 className="text-xl font-bold tracking-[0.2em] uppercase text-slate-300">
-               AstroMatch
+               Signos Combinados
              </h1>
           </div>
         </header>
