@@ -75,23 +75,30 @@ const App: React.FC = () => {
         {/* Header / Brand */}
         <header className="flex justify-between items-center mb-6 pb-4 border-b border-white/5">
           <div className="flex items-center gap-3">
-             {/* Logo image using direct link */}
-             <img 
-                src={APP_LOGO}
-                alt="AM" 
-                className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
-                crossOrigin="anonymous"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                }} 
-             />
-             <div className="hidden w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-[0_0_15px_rgba(99,102,241,0.6)] border border-white/20">
-               SC
-             </div>
-             <h1 className="text-xl font-bold tracking-[0.2em] uppercase text-slate-300">
-               Signos Combinados
-             </h1>
+             {/* Logo image and Text as a Link */}
+             <a 
+               href="https://www.tiktok.com/@signosanimadosoficial?is_from_webapp=1&sender_device=pc" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
+             >
+               <img 
+                  src={APP_LOGO}
+                  alt="AM" 
+                  className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+                  crossOrigin="anonymous"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                  }} 
+               />
+               <div className="hidden w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-[0_0_15px_rgba(99,102,241,0.6)] border border-white/20">
+                 SC
+               </div>
+               <h1 className="text-xl font-bold tracking-[0.2em] uppercase text-slate-300">
+                 Signos Combinados
+               </h1>
+             </a>
           </div>
         </header>
 

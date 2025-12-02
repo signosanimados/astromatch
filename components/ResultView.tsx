@@ -123,18 +123,48 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
   // Determine if we need to flip the background image
-  // FIX: User requested to revert global flipping and ONLY flip specifically for Aries (A) x Leo (B)
-  const shouldFlipBackground = signA.id === 'aries' && signB.id === 'leo';
+  // 1. GLOBAL RULE: Flip if signs are selected in reverse alphabetical order (Sign A > Sign B)
+  //    This aligns the static image (usually Alpha-Beta) with the dynamic text (Selected A - Selected B).
+  const nameA = PORTUGUESE_NAMES[signA.id];
+  const nameB = PORTUGUESE_NAMES[signB.id];
+  let shouldFlipBackground = nameA.localeCompare(nameB) > 0;
+
+  // 2. EXCEPTION: Aries and Leo
+  //    The user identified that the 'ARIESxLEAO.png' image is natively inverted (Leo Left, Aries Right).
+  //    So we invert the flip logic exclusively for this pair to make it match.
+  const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
+  
+  if (isAriesLeo) {
+    shouldFlipBackground = !shouldFlipBackground;
+  }
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8 animate-fade-in-up">
       
-      {/* Top Branding (Web View) */}
-      <div className="flex justify-center opacity-70">
-        <div className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">
+      {/* Top Branding (Web View) & Download Button */}
+      <div className="flex flex-col items-center gap-4">
+        <a 
+          href="https://www.tiktok.com/@signosanimadosoficial?is_from_webapp=1&sender_device=pc"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
+        >
            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
            TikTok: @signosanimadosoficial
-        </div>
+        </a>
+
+        <button 
+          onClick={handleDownloadCard}
+          disabled={isGenerating}
+          className="px-6 py-2 bg-indigo-600 text-white text-xs font-bold rounded-full hover:bg-indigo-500 transition-colors shadow-lg hover:shadow-xl flex items-center gap-2 disabled:opacity-50"
+        >
+          {isGenerating ? (
+            <span className="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full"></span>
+          ) : (
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+          )}
+          {isGenerating ? 'Gerando...' : 'Baixar Imagem'}
+        </button>
       </div>
 
       {/* Header Result Section (Web View) */}
@@ -273,19 +303,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
           Nova Combinação
         </button>
-
-        <button 
-          onClick={handleDownloadCard}
-          disabled={isGenerating}
-          className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-full hover:bg-indigo-500 transition-colors shadow-lg hover:shadow-xl flex items-center gap-2 disabled:opacity-50"
-        >
-          {isGenerating ? (
-            <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
-          ) : (
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-          )}
-          {isGenerating ? 'Gerando...' : 'Baixar Stories'}
-        </button>
       </div>
 
       {/* HIDDEN SHARE CARD (1080x1920) */}
@@ -316,7 +333,9 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                    width: '100%', 
                    height: '100%', 
                    objectFit: 'cover',
-                   // FLIP HORIZONTALLY if the signs were selected in reverse alphabetical order (A before B)
+                   // FLIP HORIZONTALLY logic:
+                   // 1. If alphabetical order is inverted (B then A), flip to match.
+                   // 2. UNLESS it is Aries/Leo, then invert that logic (because that image is unique).
                    transform: shouldFlipBackground ? 'scaleX(-1)' : 'none'
                  }}
                  onError={(e) => {
