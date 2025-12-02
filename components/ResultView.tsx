@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CompatibilityResult, SignData } from '../types';
-import { APP_LOGO, PORTUGUESE_NAMES, DEFAULT_BACKGROUND } from '../constants';
+import { APP_LOGO, PORTUGUESE_NAMES, DEFAULT_BACKGROUND, BACKGROUND_URLS } from '../constants';
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 interface ResultViewProps {
@@ -30,9 +30,11 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
       const name1 = PORTUGUESE_NAMES[sortedSigns[0].id];
       const name2 = PORTUGUESE_NAMES[sortedSigns[1].id];
 
-      // Construct filename: /backgrounds/ARIESxTOURO.png
-      // IMPORTANT: Files in public/backgrounds must match this pattern exactly.
-      return `/backgrounds/${name1}x${name2}.png`;
+      // Key format: ARIESxTOURO
+      const key = `${name1}x${name2}`;
+      
+      // Look up URL in map, fallback to default if not found
+      return BACKGROUND_URLS[key] || DEFAULT_BACKGROUND;
     };
 
     setBgImage(determineBackgroundImage());
