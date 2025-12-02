@@ -20,7 +20,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
     // Determine dynamic background image
     const determineBackgroundImage = () => {
       // 1. Sort signs alphabetically by the MAPPED NAME to ensure consistency 
-      // This guarantees ARIESxTOURO is generated even if user clicked Touro then Aries
       const sortedSigns = [signA, signB].sort((a, b) => {
         const nameA = PORTUGUESE_NAMES[a.id];
         const nameB = PORTUGUESE_NAMES[b.id];
@@ -123,10 +122,14 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
+  // Determine if we need to flip the background image
+  // Updated Logic: Flip if Sign A comes BEFORE Sign B alphabetically (e.g. Aries x Leo -> Flip)
+  const shouldFlipBackground = PORTUGUESE_NAMES[signA.id].localeCompare(PORTUGUESE_NAMES[signB.id]) < 0;
+
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8 animate-fade-in-up">
       
-      {/* Top Branding */}
+      {/* Top Branding (Web View) */}
       <div className="flex justify-center opacity-70">
         <div className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">
            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
@@ -134,7 +137,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         </div>
       </div>
 
-      {/* Header Result Section */}
+      {/* Header Result Section (Web View) */}
       <div className="glass rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
         {/* Decorative background glow */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 z-0" />
@@ -167,7 +170,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           </div>
         </div>
 
-        {/* Summary Text */}
+        {/* Summary Text (Web View) */}
         <div className="z-10 flex-1 text-center md:text-left flex flex-col items-center md:items-start">
           
           {/* Mode Indicator Badge */}
@@ -205,7 +208,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         </div>
       </div>
 
-      {/* Details Grid */}
+      {/* Details Grid (Web View) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* Pros */}
@@ -309,7 +312,13 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                <img 
                  src={bgImage} 
                  crossOrigin="anonymous" 
-                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                 style={{ 
+                   width: '100%', 
+                   height: '100%', 
+                   objectFit: 'cover',
+                   // FLIP HORIZONTALLY if the signs were selected in reverse alphabetical order (A before B)
+                   transform: shouldFlipBackground ? 'scaleX(-1)' : 'none'
+                 }}
                  onError={(e) => {
                    // Fallback if specific combo image is missing
                    e.currentTarget.src = DEFAULT_BACKGROUND;
@@ -323,46 +332,39 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
                 {/* Header / Logo Section */}
                 <div className="flex flex-col items-center gap-4 mt-20 z-10 drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
-                    <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-4 border-white/20">
+                    {/* Increased Logo Size */}
+                    <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-4 border-white/20">
                         <img src={APP_LOGO} crossOrigin="anonymous" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
                     </div>
-                    <h1 className="text-3xl font-bold tracking-[0.1em] text-white font-mono uppercase bg-black/40 px-6 py-3 rounded-lg backdrop-blur-sm border border-white/5 mt-4">
+                    {/* Cleaned up TikTok Text (No Box) */}
+                    <h1 className="text-3xl font-bold tracking-[0.1em] text-white font-mono uppercase mt-6 drop-shadow-md">
                         TikTok: @signosanimadosoficial
                     </h1>
                 </div>
 
-                {/* Main Content Container */}
+                {/* Main Content Container (Pushed down) */}
                 <div 
-                  className="flex-1 flex flex-col justify-center items-center w-full z-10"
+                  className="flex-1 flex flex-col justify-center items-center w-full z-10 mt-10"
                   style={{
                     filter: 'drop-shadow(0px 0px 10px rgba(0,0,0,0.5))'
                   }}
                 >
                     {/* Horizontal Layout: Sign A - Score - Sign B */}
-                    <div className="flex flex-row items-center justify-center gap-8 w-full px-4 mt-10">
+                    <div className="flex flex-row items-center justify-center gap-2 w-full px-8">
                         
                         {/* Sign A */}
                         <div className="flex flex-col items-center gap-6">
                             <div className="w-64 h-64 flex items-center justify-center">
                               <img src={signA.icon} alt={signA.name} className="w-64 h-64 object-cover rounded-full drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] border-4 border-white/10" crossOrigin="anonymous" />
                             </div>
-                            <span className="text-6xl font-bold text-white uppercase tracking-widest text-shadow-lg">{signA.name}</span>
+                            <span className="text-3xl font-bold text-white uppercase tracking-wide text-center text-shadow-lg whitespace-nowrap">{signA.name}</span>
                         </div>
 
-                        {/* Center Score Block */}
-                        <div className="flex flex-col items-center justify-center mx-4 gap-4">
-                             {/* Mode Label - HUGE */}
-                             <div className={`px-10 py-4 rounded-full text-5xl font-bold uppercase tracking-[0.2em] border bg-black/40 backdrop-blur-md mb-8 ${
-                              mode === 'love' 
-                                ? 'border-pink-500/60 text-pink-300' 
-                                : 'border-cyan-500/60 text-cyan-300'
-                            }`}>
-                               {mode === 'love' ? 'AMOR' : 'AMIZADE'}
-                            </div>
-
+                        {/* Center Score Block (Just Percentage now) */}
+                        <div className="flex flex-col items-center justify-center mx-2 gap-4">
                             {/* Percentage Number - HUGE */}
                             <div className="flex items-baseline">
-                                 <span className={`text-[12rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]`}>
+                                 <span className={`text-[9rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]`}>
                                     {result.compatibilidade}
                                  </span>
                                  <span className={`text-6xl font-bold ${getScoreColor(result.compatibilidade)}`}>%</span>
@@ -374,12 +376,22 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                             <div className="w-64 h-64 flex items-center justify-center">
                               <img src={signB.icon} alt={signB.name} className="w-64 h-64 object-cover rounded-full drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] border-4 border-white/10" crossOrigin="anonymous" />
                             </div>
-                            <span className="text-6xl font-bold text-white uppercase tracking-widest text-shadow-lg">{signB.name}</span>
+                            <span className="text-3xl font-bold text-white uppercase tracking-wide text-center text-shadow-lg whitespace-nowrap">{signB.name}</span>
                         </div>
                     </div>
 
-                    {/* Summary Snippet */}
-                    <div className="mt-20 px-24 w-full">
+                    {/* Summary Snippet with Mode Title Above */}
+                    <div className="mt-16 px-20 w-full flex flex-col items-center gap-6">
+                       
+                       {/* Mode Label - Text Only, No Box */}
+                       <span className={`text-4xl font-bold uppercase tracking-[0.2em] drop-shadow-md ${
+                              mode === 'love' 
+                                ? 'text-pink-300' 
+                                : 'text-cyan-300'
+                            }`}>
+                               {mode === 'love' ? 'AMOR' : 'AMIZADE'}
+                       </span>
+
                        <p className="text-5xl text-white leading-tight font-light italic text-center drop-shadow-[0_4px_8px_rgba(0,0,0,1)]" style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.8)' }}>
                           "{result.resumo}"
                        </p>
