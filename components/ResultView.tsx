@@ -19,8 +19,8 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   useEffect(() => {
     // Determine dynamic background image
     const determineBackgroundImage = () => {
-      // 1. Sort signs alphabetically by ID to ensure consistency (Aries+Leo is same as Leo+Aries)
-      // We use the ID to lookup the PORTUGUESE_NAME
+      // 1. Sort signs alphabetically by the MAPPED NAME to ensure consistency 
+      // This guarantees ARIESxTOURO is generated even if user clicked Touro then Aries
       const sortedSigns = [signA, signB].sort((a, b) => {
         const nameA = PORTUGUESE_NAMES[a.id];
         const nameB = PORTUGUESE_NAMES[b.id];
@@ -31,6 +31,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
       const name2 = PORTUGUESE_NAMES[sortedSigns[1].id];
 
       // Construct filename: /backgrounds/ARIESxTOURO.png
+      // IMPORTANT: Files in public/backgrounds must match this pattern exactly.
       return `/backgrounds/${name1}x${name2}.png`;
     };
 

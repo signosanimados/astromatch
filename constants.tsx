@@ -1,19 +1,19 @@
 import React from 'react';
 import { SignData, ElementType } from './types';
 
-// Link direto do Imgur (Convertido de álbum para imagem direta .png)
-// Para funcionar no download, TEM que ser o link direto (i.imgur.com/...)
+// Link direto do Imgur (Logo do App)
 export const APP_LOGO = "https://i.imgur.com/azbf6qp.png";
 
-// Imagem de Fallback (Reserva) caso a imagem da combinação específica não exista
+// Imagem de Fallback (Reserva) caso a imagem da combinação específica não exista na pasta backgrounds
 export const DEFAULT_BACKGROUND = "https://i.imgur.com/SpAFefg.jpeg";
 
-// Mapeamento para nomes de arquivo (Ex: 'aries' -> 'ARIES')
-// Isso permite montar o nome do arquivo: ARIESxTOURO.png
+// Mapeamento para nomes de arquivo
+// IMPORTANTE: Os arquivos na pasta /public/backgrounds/ devem seguir este padrão exato (SEM ACENTOS)
+// Exemplo: ARIESxLEAO.png, GEMEOSxAQUARIO.png
 export const PORTUGUESE_NAMES: Record<string, string> = {
   aries: 'ARIES',
   taurus: 'TOURO',
-  gemini: 'GEMEOS', // Sem acento para evitar problemas em arquivos
+  gemini: 'GEMEOS',
   cancer: 'CANCER',
   leo: 'LEAO',
   virgo: 'VIRGEM',
@@ -58,7 +58,7 @@ export const SIGNS: SignData[] = [
     date: '21 Mai - 20 Jun',
     element: ElementType.AIR,
     color: `text-[${COLORS.AIR}]`,
-    gradient: `from-[${COLORS.AIR}]/10 to-[${COLORS.AIR}]/60`, // Opacidade menor para o branco não estourar
+    gradient: `from-[${COLORS.AIR}]/10 to-[${COLORS.AIR}]/60`,
     icon: 'https://i.imgur.com/6F9Gu1T.png' 
   },
   {
