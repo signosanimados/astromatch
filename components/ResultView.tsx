@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CompatibilityResult, SignData } from '../types';
+import { APP_LOGO } from '../constants';
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 interface ResultViewProps {
@@ -68,7 +69,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           backgroundColor: '#050510',
           scale: 1, // 1080x1920 is already high res, no need to scale up
           logging: false,
-          useCORS: true, // Crucial for loading local images
+          useCORS: true, // Crucial for loading local images and Drive/Imgur images
           allowTaint: true,
           width: 1080,
           height: 1920,
@@ -159,7 +160,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
               </>
             ) : (
               <>
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                 <span>Compatibilidade de Amizade</span>
               </>
             )}
@@ -262,12 +263,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
       </div>
 
       {/* HIDDEN SHARE CARD (1080x1920) */}
-      {/* 
-         SOLUTION FOR VISIBILITY & ALIGNMENT:
-         Wrap the actual card in a container with width:0, height:0 and overflow:hidden.
-         This effectively hides it from the UI flow without removing it from DOM (which would break html2canvas).
-         The internal card keeps fixed dimensions.
-      */}
       <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
         <div 
           id="share-card" 
@@ -284,7 +279,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
             {/* Header */}
             <div className="flex flex-col items-center gap-4 mt-20">
                 <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-2 border-white/20">
-                    <img src="/logo.png" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
+                    <img src={APP_LOGO} crossOrigin="anonymous" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
                 </div>
                 <h1 className="text-5xl font-bold tracking-[0.3em] uppercase text-white font-mono">
                     AstroMatch
@@ -300,9 +295,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                     {/* Sign A */}
                     <div className="flex flex-col items-center gap-6">
                         <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signA.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
-                          <span className="text-[10rem] leading-none text-white drop-shadow-2xl">
-                            {signA.icon}
-                          </span>
+                          <img src={signA.icon} alt={signA.name} className="w-56 h-56 object-contain drop-shadow-2xl" crossOrigin="anonymous" />
                         </div>
                         <span className="text-5xl font-bold text-white uppercase tracking-widest">{signA.name}</span>
                     </div>
@@ -312,9 +305,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                     {/* Sign B */}
                     <div className="flex flex-col items-center gap-6">
                         <div className={`w-64 h-80 rounded-3xl border-4 border-white/20 bg-gradient-to-t ${signB.gradient} flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.1)]`}>
-                          <span className="text-[10rem] leading-none text-white drop-shadow-2xl">
-                            {signB.icon}
-                          </span>
+                          <img src={signB.icon} alt={signB.name} className="w-56 h-56 object-contain drop-shadow-2xl" crossOrigin="anonymous" />
                         </div>
                         <span className="text-5xl font-bold text-white uppercase tracking-widest">{signB.name}</span>
                     </div>

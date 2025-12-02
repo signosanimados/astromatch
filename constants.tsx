@@ -1,114 +1,126 @@
 import React from 'react';
 import { SignData, ElementType } from './types';
 
+// Link direto do Imgur (Convertido de álbum para imagem direta .png)
+// Para funcionar no download, TEM que ser o link direto (i.imgur.com/...)
+export const APP_LOGO = "https://i.imgur.com/azbf6qp.png";
+
+// Paleta de Cores por Elemento
+const COLORS = {
+  FIRE: '#FC4629',   // Vermelho
+  EARTH: '#A3CB00',  // Verde
+  WATER: '#1D5EFF',  // Azul
+  AIR: '#FFFFFF'     // Branco
+};
+
 export const SIGNS: SignData[] = [
   {
     id: 'aries',
     name: 'Áries',
     date: '21 Mar - 19 Abr',
     element: ElementType.FIRE,
-    color: 'text-red-400',
-    gradient: 'from-red-900/50 to-red-600/50',
-    icon: '♈'
+    color: `text-[${COLORS.FIRE}]`,
+    gradient: `from-[${COLORS.FIRE}]/20 to-[${COLORS.FIRE}]/80`,
+    icon: 'https://i.imgur.com/1jfkg85.png'
   },
   {
     id: 'taurus',
     name: 'Touro',
     date: '20 Abr - 20 Mai',
     element: ElementType.EARTH,
-    color: 'text-emerald-400',
-    gradient: 'from-emerald-900/50 to-emerald-600/50',
-    icon: '♉'
+    color: `text-[${COLORS.EARTH}]`,
+    gradient: `from-[${COLORS.EARTH}]/20 to-[${COLORS.EARTH}]/80`,
+    icon: 'https://i.imgur.com/Je2j4uC.png'
   },
   {
     id: 'gemini',
     name: 'Gêmeos',
     date: '21 Mai - 20 Jun',
     element: ElementType.AIR,
-    color: 'text-amber-400',
-    gradient: 'from-amber-900/50 to-amber-600/50',
-    icon: '♊' 
+    color: `text-[${COLORS.AIR}]`,
+    gradient: `from-[${COLORS.AIR}]/10 to-[${COLORS.AIR}]/60`, // Opacidade menor para o branco não estourar
+    icon: 'https://i.imgur.com/6F9Gu1T.png' 
   },
   {
     id: 'cancer',
     name: 'Câncer',
     date: '21 Jun - 22 Jul',
     element: ElementType.WATER,
-    color: 'text-violet-400',
-    gradient: 'from-violet-900/50 to-violet-600/50',
-    icon: '♋'
+    color: `text-[${COLORS.WATER}]`,
+    gradient: `from-[${COLORS.WATER}]/20 to-[${COLORS.WATER}]/80`,
+    icon: 'https://i.imgur.com/Jev0I5P.png'
   },
   {
     id: 'leo',
     name: 'Leão',
     date: '23 Jul - 22 Ago',
     element: ElementType.FIRE,
-    color: 'text-orange-400',
-    gradient: 'from-orange-900/50 to-orange-600/50',
-    icon: '♌'
+    color: `text-[${COLORS.FIRE}]`,
+    gradient: `from-[${COLORS.FIRE}]/20 to-[${COLORS.FIRE}]/80`,
+    icon: 'https://i.imgur.com/iXWGgB5.png'
   },
   {
     id: 'virgo',
     name: 'Virgem',
     date: '23 Ago - 22 Set',
     element: ElementType.EARTH,
-    color: 'text-lime-400',
-    gradient: 'from-lime-900/50 to-lime-600/50',
-    icon: '♍'
+    color: `text-[${COLORS.EARTH}]`,
+    gradient: `from-[${COLORS.EARTH}]/20 to-[${COLORS.EARTH}]/80`,
+    icon: 'https://i.imgur.com/p2w1syF.png'
   },
   {
     id: 'libra',
     name: 'Libra',
     date: '23 Set - 22 Out',
     element: ElementType.AIR,
-    color: 'text-pink-400',
-    gradient: 'from-pink-900/50 to-pink-600/50',
-    icon: '♎'
+    color: `text-[${COLORS.AIR}]`,
+    gradient: `from-[${COLORS.AIR}]/10 to-[${COLORS.AIR}]/60`,
+    icon: 'https://i.imgur.com/8yyWG6m.png'
   },
   {
     id: 'scorpio',
     name: 'Escorpião',
     date: '23 Out - 21 Nov',
     element: ElementType.WATER,
-    color: 'text-indigo-400',
-    gradient: 'from-indigo-900/50 to-indigo-600/50',
-    icon: '♏'
+    color: `text-[${COLORS.WATER}]`,
+    gradient: `from-[${COLORS.WATER}]/20 to-[${COLORS.WATER}]/80`,
+    icon: 'https://i.imgur.com/XMz6rP6.png'
   },
   {
     id: 'sagittarius',
     name: 'Sagitário',
     date: '22 Nov - 21 Dez',
     element: ElementType.FIRE,
-    color: 'text-fuchsia-400',
-    gradient: 'from-fuchsia-900/50 to-fuchsia-600/50',
-    icon: '♐'
+    color: `text-[${COLORS.FIRE}]`,
+    gradient: `from-[${COLORS.FIRE}]/20 to-[${COLORS.FIRE}]/80`,
+    icon: 'https://i.imgur.com/ar07j7y.png'
   },
   {
     id: 'capricorn',
     name: 'Capricórnio',
     date: '22 Dez - 19 Jan',
     element: ElementType.EARTH,
-    color: 'text-stone-400',
-    gradient: 'from-stone-800/80 to-stone-500/50',
-    icon: '♑'
+    color: `text-[${COLORS.EARTH}]`,
+    gradient: `from-[${COLORS.EARTH}]/20 to-[${COLORS.EARTH}]/80`,
+    icon: 'https://i.imgur.com/iD9niIf.png'
   },
   {
     id: 'aquarius',
     name: 'Aquário',
     date: '20 Jan - 18 Fev',
     element: ElementType.AIR,
-    color: 'text-sky-400',
-    gradient: 'from-sky-900/50 to-sky-600/50',
-    icon: '♒'
+    color: `text-[${COLORS.AIR}]`,
+    gradient: `from-[${COLORS.AIR}]/10 to-[${COLORS.AIR}]/60`,
+    icon: 'https://i.imgur.com/b7dHYgk.png'
   },
   {
     id: 'pisces',
     name: 'Peixes',
     date: '19 Fev - 20 Mar',
     element: ElementType.WATER,
-    color: 'text-cyan-400',
-    gradient: 'from-cyan-900/50 to-cyan-600/50',
-    icon: '♓'
+    color: `text-[${COLORS.WATER}]`,
+    gradient: `from-[${COLORS.WATER}]/20 to-[${COLORS.WATER}]/80`,
+    icon: 'https://i.imgur.com/IDVKxlq.png'
   }
 ];
 

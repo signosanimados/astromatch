@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SIGNS } from './constants';
+import { SIGNS, APP_LOGO } from './constants';
 import { SignData, CompatibilityResult } from './types';
 import SignCard from './components/SignCard';
 import ResultView from './components/ResultView';
@@ -75,11 +75,12 @@ const App: React.FC = () => {
         {/* Header / Brand */}
         <header className="flex justify-between items-center mb-6 pb-4 border-b border-white/5">
           <div className="flex items-center gap-3">
-             {/* Logo image expects /logo.png in the public folder */}
+             {/* Logo image using direct link */}
              <img 
-                src="/logo.png" 
+                src={APP_LOGO}
                 alt="AM" 
                 className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+                crossOrigin="anonymous"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling?.classList.remove('hidden');
@@ -149,9 +150,7 @@ const App: React.FC = () => {
                       {signA ? (
                         <>
                           <div className={`absolute inset-0 bg-gradient-to-br ${signA.gradient} opacity-20`}></div>
-                          <div className="text-6xl drop-shadow-lg relative z-10">
-                            {signA.icon}
-                          </div>
+                          <img src={signA.icon} alt={signA.name} className="w-20 h-20 object-contain drop-shadow-lg relative z-10" />
                           <div className="absolute bottom-2 text-[10px] uppercase font-bold text-white tracking-widest">{signA.name}</div>
                         </>
                       ) : (
@@ -167,9 +166,7 @@ const App: React.FC = () => {
                       {signB ? (
                         <>
                           <div className={`absolute inset-0 bg-gradient-to-br ${signB.gradient} opacity-20`}></div>
-                          <div className="text-6xl drop-shadow-lg relative z-10">
-                            {signB.icon}
-                          </div>
+                          <img src={signB.icon} alt={signB.name} className="w-20 h-20 object-contain drop-shadow-lg relative z-10" />
                           <div className="absolute bottom-2 text-[10px] uppercase font-bold text-white tracking-widest">{signB.name}</div>
                         </>
                       ) : (
@@ -246,15 +243,15 @@ const App: React.FC = () => {
            {/* Mini Sign Previews */}
            <div className="flex items-center gap-3 pl-2">
               {/* Sign A Mini */}
-              <div onClick={handleDeselectA} className={`w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center cursor-pointer transition-all ${signA ? 'bg-gradient-to-t ' + signA.gradient + ' border-white/50' : 'bg-slate-900 border-dashed'}`}>
-                 {signA ? <span className="text-xl drop-shadow-md">{signA.icon}</span> : <span className="text-slate-600">+</span>}
+              <div onClick={handleDeselectA} className={`w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center cursor-pointer transition-all overflow-hidden ${signA ? 'bg-gradient-to-t ' + signA.gradient + ' border-white/50' : 'bg-slate-900 border-dashed'}`}>
+                 {signA ? <img src={signA.icon} alt={signA.name} className="w-8 h-8 object-contain" /> : <span className="text-slate-600">+</span>}
               </div>
               
               <span className="text-slate-600 text-xs">+</span>
 
               {/* Sign B Mini */}
-              <div onClick={handleDeselectB} className={`w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center cursor-pointer transition-all ${signB ? 'bg-gradient-to-t ' + signB.gradient + ' border-white/50' : 'bg-slate-900 border-dashed'}`}>
-                 {signB ? <span className="text-xl drop-shadow-md">{signB.icon}</span> : <span className="text-slate-600">+</span>}
+              <div onClick={handleDeselectB} className={`w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center cursor-pointer transition-all overflow-hidden ${signB ? 'bg-gradient-to-t ' + signB.gradient + ' border-white/50' : 'bg-slate-900 border-dashed'}`}>
+                 {signB ? <img src={signB.icon} alt={signB.name} className="w-8 h-8 object-contain" /> : <span className="text-slate-600">+</span>}
               </div>
            </div>
 

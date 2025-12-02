@@ -26,16 +26,22 @@ const SignCard: React.FC<SignCardProps> = ({ sign, isSelected, onClick, disabled
       {/* Top Decor */}
       <div className="w-full flex justify-between items-start opacity-70">
          <span className={`text-[10px] uppercase tracking-widest ${isSelected ? 'text-white' : 'text-slate-500'}`}>
-           No. {sign.id.substring(0,3).toUpperCase()}
+           {sign.element}
          </span>
          <div className={`p-1 rounded-full ${isSelected ? 'bg-white/20 text-white' : 'bg-slate-800/50 text-slate-500'}`}>
             {ElementIcons[sign.element]}
           </div>
       </div>
 
-      {/* Main Icon (Emoji) */}
-      <div className={`transition-all duration-500 text-6xl leading-none ${isSelected ? 'scale-125 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]' : `${sign.color} group-hover:scale-125 group-hover:text-white`}`}>
-        {sign.icon}
+      {/* Main Icon (Image) */}
+      <div className={`transition-all duration-500 flex items-center justify-center w-full h-full p-2`}>
+        <img 
+          src={sign.icon} 
+          alt={sign.name}
+          className={`w-24 h-24 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-transform duration-500
+            ${isSelected ? 'scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]' : 'group-hover:scale-110'}
+          `}
+        />
       </div>
       
       {/* Bottom Info */}
