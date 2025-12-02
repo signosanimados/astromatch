@@ -5,6 +5,26 @@ import { SignData, ElementType } from './types';
 // Para funcionar no download, TEM que ser o link direto (i.imgur.com/...)
 export const APP_LOGO = "https://i.imgur.com/azbf6qp.png";
 
+// Imagem de Fallback (Reserva) caso a imagem da combinação específica não exista
+export const DEFAULT_BACKGROUND = "https://i.imgur.com/SpAFefg.jpeg";
+
+// Mapeamento para nomes de arquivo (Ex: 'aries' -> 'ARIES')
+// Isso permite montar o nome do arquivo: ARIESxTOURO.png
+export const PORTUGUESE_NAMES: Record<string, string> = {
+  aries: 'ARIES',
+  taurus: 'TOURO',
+  gemini: 'GEMEOS', // Sem acento para evitar problemas em arquivos
+  cancer: 'CANCER',
+  leo: 'LEAO',
+  virgo: 'VIRGEM',
+  libra: 'LIBRA',
+  scorpio: 'ESCORPIAO',
+  sagittarius: 'SAGITARIO',
+  capricorn: 'CAPRICORNIO',
+  aquarius: 'AQUARIO',
+  pisces: 'PEIXES'
+};
+
 // Paleta de Cores por Elemento
 const COLORS = {
   FIRE: '#FC4629',   // Vermelho

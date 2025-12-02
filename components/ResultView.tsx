@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CompatibilityResult, SignData } from '../types';
-import { APP_LOGO } from '../constants';
+import { APP_LOGO, PORTUGUESE_NAMES, DEFAULT_BACKGROUND } from '../constants';
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 interface ResultViewProps {
@@ -14,8 +14,28 @@ interface ResultViewProps {
 const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onReset }) => {
   const [animatedPercent, setAnimatedPercent] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [bgImage, setBgImage] = useState<string>(DEFAULT_BACKGROUND);
 
   useEffect(() => {
+    // Determine dynamic background image
+    const determineBackgroundImage = () => {
+      // 1. Sort signs alphabetically by ID to ensure consistency (Aries+Leo is same as Leo+Aries)
+      // We use the ID to lookup the PORTUGUESE_NAME
+      const sortedSigns = [signA, signB].sort((a, b) => {
+        const nameA = PORTUGUESE_NAMES[a.id];
+        const nameB = PORTUGUESE_NAMES[b.id];
+        return nameA.localeCompare(nameB);
+      });
+
+      const name1 = PORTUGUESE_NAMES[sortedSigns[0].id];
+      const name2 = PORTUGUESE_NAMES[sortedSigns[1].id];
+
+      // Construct filename: /backgrounds/ARIESxTOURO.png
+      return `/backgrounds/${name1}x${name2}.png`;
+    };
+
+    setBgImage(determineBackgroundImage());
+
     // Animate percentage
     let start = 0;
     const end = result.compatibilidade;
@@ -33,7 +53,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
     }, 16);
 
     return () => clearInterval(timer);
-  }, [result.compatibilidade]);
+  }, [result.compatibilidade, signA, signB]);
 
   const chartData = [
     { name: 'Match', value: animatedPercent },
@@ -284,9 +304,13 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
             {/* LAYER 1: Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                <img 
-                 src="https://i.imgur.com/SpAFefg.jpeg" 
+                 src={bgImage} 
                  crossOrigin="anonymous" 
                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                 onError={(e) => {
+                   // Fallback if specific combo image is missing
+                   e.currentTarget.src = DEFAULT_BACKGROUND;
+                 }}
                />
                <div className="absolute inset-0 bg-black/50" />
             </div>
