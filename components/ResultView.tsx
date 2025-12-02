@@ -123,19 +123,33 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
   // Determine if we need to flip the background image
-  // 1. GLOBAL RULE: Flip if signs are selected in reverse alphabetical order (Sign A > Sign B)
-  //    This aligns the static image (usually Alpha-Beta) with the dynamic text (Selected A - Selected B).
-  const nameA = PORTUGUESE_NAMES[signA.id];
-  const nameB = PORTUGUESE_NAMES[signB.id];
-  let shouldFlipBackground = nameA.localeCompare(nameB) > 0;
-
-  // 2. EXCEPTION: Aries and Leo
-  //    The user identified that the 'ARIESxLEAO.png' image is natively inverted (Leo Left, Aries Right).
-  //    So we invert the flip logic exclusively for this pair to make it match.
-  const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
+  // Logic Explanation:
+  // 1. Standard Rule (e.g., Capricorn & Pisces):
+  //    - If selected Alphabetically (A-B): No Flip.
+  //    - If selected Reverse (B-A): Flip.
+  // 2. Exceptions (Aries & Leo, Aquarius & Pisces):
+  //    - If selected Alphabetically (A-B): Flip.
+  //    - If selected Reverse (B-A): No Flip.
   
-  if (isAriesLeo) {
-    shouldFlipBackground = !shouldFlipBackground;
+  const nameA = PORTUGUESE_NAMES[signA.id]; // First selected
+  const nameB = PORTUGUESE_NAMES[signB.id]; // Second selected
+  
+  // Check if selection is in Alphabetical Order (A comes before B)
+  const isAlphabeticalOrder = nameA.localeCompare(nameB) < 0;
+
+  // Identify Exceptions
+  const isAquariusPisces = (signA.id === 'aquarius' && signB.id === 'pisces') || (signA.id === 'pisces' && signB.id === 'aquarius');
+  const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
+  const isExceptionPair = isAquariusPisces || isAriesLeo;
+
+  let shouldFlipBackground = false;
+
+  if (isExceptionPair) {
+      // For exceptions: Flip if alphabetical
+      shouldFlipBackground = isAlphabeticalOrder;
+  } else {
+      // For standard: Flip if NOT alphabetical
+      shouldFlipBackground = !isAlphabeticalOrder;
   }
 
   return (
@@ -335,7 +349,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                    objectFit: 'cover',
                    // FLIP HORIZONTALLY logic:
                    // 1. If alphabetical order is inverted (B then A), flip to match.
-                   // 2. UNLESS it is Aries/Leo, then invert that logic (because that image is unique).
+                   // 2. EXCEPTIONS: Aries/Leo and Aquarius/Pisces (Invert logic)
                    transform: shouldFlipBackground ? 'scaleX(-1)' : 'none'
                  }}
                  onError={(e) => {
