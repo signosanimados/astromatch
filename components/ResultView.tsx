@@ -67,13 +67,13 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
         const canvas = await html2canvas(element, {
           backgroundColor: null, // Transparent to let background image show
-          scale: 1, // 1080x1920 is already high res, no need to scale up
+          scale: 1, // 1080x1920 is already high res
           logging: false,
           useCORS: true, // Crucial for loading local images and Drive/Imgur images
           allowTaint: true,
           width: 1080,
           height: 1920,
-          windowWidth: 1080, // FORCE WIDTH to 1080px so layout logic works perfectly
+          windowWidth: 1080, // FORCE WIDTH to 1080px
           windowHeight: 1920,
           x: 0,
           y: 0,
@@ -266,7 +266,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
       <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
         <div 
           id="share-card" 
-          className="flex flex-col items-center p-0"
+          className="flex flex-col items-center p-0 relative"
           style={{
               position: 'absolute',
               top: 0,
@@ -276,88 +276,92 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
               height: '1920px',
               minWidth: '1080px',
               minHeight: '1920px',
-              backgroundImage: 'url(https://i.imgur.com/SpAFefg.jpeg)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
               boxSizing: 'border-box',
-              fontFamily: 'sans-serif'
+              fontFamily: 'sans-serif',
+              backgroundColor: '#000'
           }}
         >
-            {/* Header / Logo Section */}
-            <div className="flex flex-col items-center gap-4 mt-16 z-10">
-                <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-4 border-white/20">
-                    <img src={APP_LOGO} crossOrigin="anonymous" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
-                </div>
-                <h1 className="text-2xl font-bold tracking-[0.1em] text-white font-mono uppercase bg-black/40 px-4 py-2 rounded-lg backdrop-blur-sm border border-white/5">
-                    TikTok: @signosanimadosoficial
-                </h1>
+            {/* LAYER 1: Background Image & Overlay */}
+            <div className="absolute inset-0 z-0">
+               <img 
+                 src="https://i.imgur.com/SpAFefg.jpeg" 
+                 crossOrigin="anonymous" 
+                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+               />
+               <div className="absolute inset-0 bg-black/50" />
             </div>
 
-            {/* Glass Box Container for Content */}
-            <div 
-              className="flex-1 flex flex-col justify-center items-center gap-12 mt-8 mb-20 px-12 py-16 bg-[#050510]/60 backdrop-blur-2xl rounded-[4rem] border border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.4)]"
-              style={{
-                width: '940px', // 1080 - 70px margin each side
-                flexShrink: 0
-              }}
-            >
-                {/* Signs Row (Without Backgrounds) */}
-                <div className="flex flex-row items-center justify-center gap-12 w-full">
-                    {/* Sign A */}
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="w-56 h-56 flex items-center justify-center">
-                          <img src={signA.icon} alt={signA.name} className="w-56 h-56 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.4)]" crossOrigin="anonymous" />
-                        </div>
-                        <span className="text-5xl font-bold text-white uppercase tracking-widest">{signA.name}</span>
-                    </div>
+            {/* LAYER 2: Content (Sits on top of Layer 1) */}
+            <div className="relative z-10 w-full h-full flex flex-col items-center">
 
-                    <span className="text-8xl text-white/50 font-light mt-[-30px]">+</span>
-
-                    {/* Sign B */}
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="w-56 h-56 flex items-center justify-center">
-                          <img src={signB.icon} alt={signB.name} className="w-56 h-56 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.4)]" crossOrigin="anonymous" />
-                        </div>
-                        <span className="text-5xl font-bold text-white uppercase tracking-widest">{signB.name}</span>
+                {/* Header / Logo Section */}
+                <div className="flex flex-col items-center gap-4 mt-20 z-10 drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+                    <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-4 border-white/20">
+                        <img src={APP_LOGO} crossOrigin="anonymous" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
                     </div>
+                    <h1 className="text-3xl font-bold tracking-[0.1em] text-white font-mono uppercase bg-black/40 px-6 py-3 rounded-lg backdrop-blur-sm border border-white/5 mt-4">
+                        TikTok: @signosanimadosoficial
+                    </h1>
                 </div>
 
-                {/* Compatibility Score Circle (CSS Conic Gradient) */}
-                <div className="flex flex-col items-center gap-4 mt-4 w-full max-w-2xl">
-                    
-                     {/* Mode Label */}
-                    <div className={`inline-flex items-center gap-3 px-8 py-3 rounded-full text-2xl font-bold uppercase tracking-widest mb-8 border ${
-                      mode === 'love' 
-                        ? 'bg-pink-500/20 border-pink-500/40 text-pink-300' 
-                        : 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
-                    }`}>
-                       {mode === 'love' ? 'AMOR' : 'AMIZADE'}
+                {/* Main Content Container */}
+                <div 
+                  className="flex-1 flex flex-col justify-center items-center w-full z-10"
+                  style={{
+                    filter: 'drop-shadow(0px 0px 10px rgba(0,0,0,0.5))'
+                  }}
+                >
+                    {/* Horizontal Layout: Sign A - Score - Sign B */}
+                    <div className="flex flex-row items-center justify-center gap-8 w-full px-4 mt-10">
+                        
+                        {/* Sign A */}
+                        <div className="flex flex-col items-center gap-6">
+                            <div className="w-64 h-64 flex items-center justify-center">
+                              <img src={signA.icon} alt={signA.name} className="w-64 h-64 object-cover rounded-full drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] border-4 border-white/10" crossOrigin="anonymous" />
+                            </div>
+                            <span className="text-6xl font-bold text-white uppercase tracking-widest text-shadow-lg">{signA.name}</span>
+                        </div>
+
+                        {/* Center Score Block */}
+                        <div className="flex flex-col items-center justify-center mx-4 gap-4">
+                             {/* Mode Label - HUGE */}
+                             <div className={`px-10 py-4 rounded-full text-5xl font-bold uppercase tracking-[0.2em] border bg-black/40 backdrop-blur-md mb-8 ${
+                              mode === 'love' 
+                                ? 'border-pink-500/60 text-pink-300' 
+                                : 'border-cyan-500/60 text-cyan-300'
+                            }`}>
+                               {mode === 'love' ? 'AMOR' : 'AMIZADE'}
+                            </div>
+
+                            {/* Percentage Number - HUGE */}
+                            <div className="flex items-baseline">
+                                 <span className={`text-[12rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]`}>
+                                    {result.compatibilidade}
+                                 </span>
+                                 <span className={`text-6xl font-bold ${getScoreColor(result.compatibilidade)}`}>%</span>
+                            </div>
+                        </div>
+
+                        {/* Sign B */}
+                        <div className="flex flex-col items-center gap-6">
+                            <div className="w-64 h-64 flex items-center justify-center">
+                              <img src={signB.icon} alt={signB.name} className="w-64 h-64 object-cover rounded-full drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] border-4 border-white/10" crossOrigin="anonymous" />
+                            </div>
+                            <span className="text-6xl font-bold text-white uppercase tracking-widest text-shadow-lg">{signB.name}</span>
+                        </div>
                     </div>
 
-                    {/* Donut Chart Visual */}
-                    <div 
-                      className="relative rounded-full flex items-center justify-center shadow-[0_0_60px_rgba(255,255,255,0.15)]"
-                      style={{
-                        width: '400px',
-                        height: '400px',
-                        background: `conic-gradient(${scoreColorHex(result.compatibilidade)} ${result.compatibilidade}%, #334155 ${result.compatibilidade}% 100%)`
-                      }}
-                    >
-                      {/* Inner Circle (The Hole) */}
-                      <div className="w-[320px] h-[320px] bg-[#0c0c1f] rounded-full flex flex-col items-center justify-center">
-                         <span className={`text-[8rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_20px_rgba(0,0,0,0.5)]`}>
-                            {result.compatibilidade}%
-                         </span>
-                         <span className="text-xl text-slate-400 uppercase tracking-[0.3em] mt-2">MATCH</span>
-                      </div>
+                    {/* Summary Snippet */}
+                    <div className="mt-20 px-24 w-full">
+                       <p className="text-5xl text-white leading-tight font-light italic text-center drop-shadow-[0_4px_8px_rgba(0,0,0,1)]" style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.8)' }}>
+                          "{result.resumo}"
+                       </p>
                     </div>
+
                 </div>
-
-                {/* Summary Snippet */}
-                <p className="text-3xl text-slate-200 leading-normal max-w-3xl px-4 font-light italic text-center">
-                    "{result.resumo}"
-                </p>
-
+                
+                {/* Bottom Spacer */}
+                <div className="h-20"></div>
             </div>
         </div>
       </div>

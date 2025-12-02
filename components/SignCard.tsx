@@ -38,7 +38,7 @@ const SignCard: React.FC<SignCardProps> = ({ sign, isSelected, onClick, disabled
         <img 
           src={sign.icon} 
           alt={sign.name}
-          className={`w-24 h-24 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-transform duration-500
+          className={`w-24 h-24 object-cover rounded-full drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-transform duration-500
             ${isSelected ? 'scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]' : 'group-hover:scale-110'}
           `}
         />
