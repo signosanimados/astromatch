@@ -109,6 +109,10 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         link.download = `SignosCombinados-${signA.name}-${signB.name}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
+
+        if (userEmail) {
+             // Placeholder for analytics
+        }
       } catch (error) {
         console.error("Erro ao gerar card:", error);
         alert("Não foi possível gerar a imagem. Verifique se o bloqueador de pop-ups está ativo.");
@@ -125,39 +129,27 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
   // Determine if we need to flip the background image
-  // Logic:
-  // 1. Get Portuguese names for Alphabetical comparison (ARIES, TOURO, etc)
+  // Name Lookup
   const nameA = PORTUGUESE_NAMES[signA.id]; // First Selected Sign
   const nameB = PORTUGUESE_NAMES[signB.id]; // Second Selected Sign
   
-  // 2. Check if selection matches alphabetical order (A before B)
-  // True if Selection is Alpha -> Beta (e.g. Touro -> Virgem)
-  // False if Selection is Beta -> Alpha (e.g. Virgem -> Touro)
+  // Check if the selection order is Alphabetical (A before B)
   const isAlphabeticalSelection = nameA.localeCompare(nameB) < 0;
 
-  // 3. Identify Exceptions (Pairs where behavior must be INVERTED)
-  // Exception 1: Aquarius & Pisces
-  // Exception 2: Aries & Leo
+  // Identify Exceptions (Pairs where behavior must be INVERTED)
   const isAquariusPisces = (signA.id === 'aquarius' && signB.id === 'pisces') || (signA.id === 'pisces' && signB.id === 'aquarius');
   const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
   const isExceptionPair = isAquariusPisces || isAriesLeo;
 
-  // 4. Apply Logic
-  // STANDARD RULE: 
-  // The file is named A-B (Alphabetical).
-  // If user selects A-B (Alphabetical), NO FLIP (false).
-  // If user selects B-A (Reverse), FLIP (true).
-  // EXCEPTION RULE (Inverted):
-  // If user selects A-B (Alphabetical), FLIP (true).
-  // If user selects B-A (Reverse), NO FLIP (false).
+  // Apply Logic
+  // STANDARD RULE: Flip if selection is NOT alphabetical (Reverse order)
+  // EXCEPTION RULE: Flip if selection IS alphabetical (Invert logic)
   
   let shouldFlipBackground;
 
   if (isExceptionPair) {
-     // Exception logic: Flip if alphabetical
      shouldFlipBackground = isAlphabeticalSelection;
   } else {
-     // Standard logic: Flip if NOT alphabetical
      shouldFlipBackground = !isAlphabeticalSelection;
   }
 
