@@ -1,4 +1,3 @@
-
 import { createClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
 import { buffer } from 'micro';
@@ -9,8 +8,9 @@ export const config = {
   },
 };
 
+// Inicializa Stripe e Supabase usando variáveis de ambiente do servidor (Vercel)
+// Isso é seguro e não expõe suas chaves no GitHub.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -40,25 +40,21 @@ export default async function handler(req, res) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    
     const userId = session.client_reference_id;
     const amountTotal = session.amount_total || 0;
 
     if (userId) {
       try {
+        // 1 Real = 1 Crédito (centavos / 100)
         const creditsToAdd = Math.floor(amountTotal / 100);
 
-        console.log(`Processando pagamento para usuário ${userId}: +${creditsToAdd} créditos.`);
+        console.log(`Processando pagamento para ${userId}: +${creditsToAdd} créditos.`);
 
-        const { data: profile, error: fetchError } = await supabase
+        const { data: profile } = await supabase
           .from('profiles')
           .select('credits')
           .eq('id', userId)
           .single();
-
-        if (fetchError) {
-            console.error('Erro ao buscar perfil:', fetchError);
-        }
 
         const currentCredits = profile?.credits || 0;
         const newBalance = currentCredits + creditsToAdd;
@@ -70,13 +66,11 @@ export default async function handler(req, res) {
 
         if (updateError) throw updateError;
 
-        console.log(`✅ Sucesso! Usuário ${userId} agora tem ${newBalance} créditos.`);
+        console.log(`✅ Sucesso! Novo saldo: ${newBalance}`);
       } catch (error) {
-        console.error('❌ Erro crítico ao atualizar Supabase:', error);
+        console.error('❌ Erro Supabase:', error);
         return res.status(500).json({ error: 'Database update failed' });
       }
-    } else {
-        console.warn('⚠️ Pagamento recebido sem ID de usuário (client_reference_id).');
     }
   }
 

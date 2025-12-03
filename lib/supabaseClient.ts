@@ -1,23 +1,17 @@
-
 import { createClient } from '@supabase/supabase-js';
 
-// Acesso seguro às variáveis de ambiente.
-// Em alguns ambientes, import.meta.env pode ser undefined, então verificamos antes.
-const env = (import.meta as any).env || {};
+// Tenta ler do ambiente (Vercel/Local)
+// Em produção (Vercel), import.meta.env.VITE_... funcionará se configurado no painel.
+// Cast import.meta to any to avoid "Property 'env' does not exist on type 'ImportMeta'" error
+const envUrl = (import.meta as any).env?.VITE_SUPABASE_URL;
+const envKey = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY;
 
-const envUrl = env.VITE_SUPABASE_URL;
-const envKey = env.VITE_SUPABASE_ANON_KEY;
-
-// Valores de Fallback (Reserva) para garantir que o preview funcione
-// mesmo se o arquivo .env não for carregado corretamente pelo ambiente de sandbox.
+// Fallback APENAS para a chave pública (não tem problema grave de segurança expor a anon key e URL)
+// Isso garante que o preview continue funcionando se a env falhar.
 const FALLBACK_URL = "https://lmbevoblimlwqkbubdwx.supabase.co";
-const FALLBACK_KEY = "sb_publishable_SXLQnwzjM_2_SizZQYCUkg_NwBeyZKT";
+const FALLBACK_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxtYmV2b2JsaW1sd3FrYnViZHd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3MTk5OTQsImV4cCI6MjA4MDI5NTk5NH0.EYJM4-Qy7PG_joPnsGzhpCi988iZdXzXu08xDELbpbc";
 
 const supabaseUrl = envUrl || FALLBACK_URL;
 const supabaseKey = envKey || FALLBACK_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  console.warn('⚠️ As chaves do Supabase não foram encontradas. O login não funcionará.');
-}
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
