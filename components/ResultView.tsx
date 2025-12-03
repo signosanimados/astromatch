@@ -184,6 +184,21 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
       {/* Header Result Section (Web View) */}
       <div className="glass rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+        {/* Background Image Layer (Same as download card) */}
+        <div className="absolute inset-0 z-0 overflow-hidden rounded-3xl">
+          <img
+            src={bgImage}
+            alt=""
+            className="w-full h-full object-cover opacity-5"
+            style={{
+              transform: shouldFlipBackground ? 'scaleX(-1)' : 'none'
+            }}
+            onError={(e) => {
+              e.currentTarget.src = DEFAULT_BACKGROUND;
+            }}
+          />
+        </div>
+
         {/* Decorative background glow */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 z-0" />
         
