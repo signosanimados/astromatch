@@ -1,0 +1,1406 @@
+{
+  "aries-aries": {
+    "resumo": "Dois fogos juntos criam uma relação intensa, apaixonada e cheia de atitude, em que ninguém tem medo de tomar iniciativa. Mas se não houver maturidade, essa paixão facilmente vira guerra de egos e disputas intermináveis.",
+    "combina": [
+      "Muita energia, desejo e atração física",
+      "Parceria perfeita para aventuras, projetos ousados e grandes mudanças",
+      "Sinceridade brutal que impede a relação de virar algo morno ou sem graça"
+    ],
+    "nao_combina": [
+      "Competição exagerada para ver quem manda mais ou tem mais razão",
+      "Explosões de raiva e brigas impulsivas por coisas pequenas",
+      "Dificuldade em ceder e pedir desculpas quando erram"
+    ],
+    "dicas": [
+      "Lembrem que vocês estão no mesmo time: usem o fogo para proteger a relação, não para destruir um ao outro.",
+      "Criem regras de combate justo: podem discordar, mas sem humilhar, desrespeitar ou jogar passado na cara."
+    ],
+    "compatibilidade": 82
+  },
+  "aries-taurus": {
+    "resumo": "Áries acelera tudo, enquanto Touro prefere ir com calma e segurança, criando uma relação de ritmos opostos que pode ser supercomplementar. Se os dois se respeitarem, o fogo de Áries e a constância de Touro constroem algo sólido e duradouro.",
+    "combina": [
+      "Touro traz estabilidade emocional e material para os impulsos de Áries",
+      "Áries inspira Touro a se arriscar mais e sair da zona de conforto",
+      "Os dois apreciam lealdade e podem formar um casal muito fiel"
+    ],
+    "nao_combina": [
+      "Teimosia dos dois quando se sentem contrariados",
+      "Impaciência de Áries com a lentidão e o apego às rotinas de Touro",
+      "Conflitos sobre mudanças, onde um quer ação rápida e o outro quer pensar por semanas"
+    ],
+    "dicas": [
+      "Áries precisa aprender a respeitar o tempo de Touro, sem forçar decisões na base da pressão.",
+      "Touro, por sua vez, ganha muito quando cede um pouco e mostra flexibilidade para experimentar o novo junto com Áries."
+    ],
+    "compatibilidade": 64
+  },
+  "aries-gemini": {
+    "resumo": "Áries e Gêmeos formam uma dupla elétrica, cheia de movimento, conversas e improviso, criando uma relação em que o tédio praticamente não existe. O desafio é transformar tanta leveza e espontaneidade em compromisso real e presença genuína.",
+    "combina": [
+      "Os dois gostam de variedade, novidade e aventuras inesperadas",
+      "Conexão mental forte, com muita conversa, risadas e piadas internas",
+      "Facilidade em perdoar rápido e seguir em frente depois de pequenas brigas"
+    ],
+    "nao_combina": [
+      "Falta de profundidade emocional em alguns momentos importantes",
+      "Impulsividade de Áries versus indecisão e mudanças de ideia de Gêmeos",
+      "Dificuldade em manter a consistência em planos de longo prazo"
+    ],
+    "dicas": [
+      "Criem alguns combinados básicos (como respeito a horários, mensagens e acordos) para dar estrutura à relação sem engessá-la.",
+      "Lembrem que compromisso não precisa matar a liberdade: é possível ter aventura com responsabilidade emocional."
+    ],
+    "compatibilidade": 78
+  },
+  "aries-cancer": {
+    "resumo": "Áries chega com força, impulso e franqueza, enquanto Câncer traz sensibilidade, cuidado e profundidade emocional. Essa combinação pode ser uma história de cura e proteção, ou um campo de batalha entre dureza e mágoas silenciosas.",
+    "combina": [
+      "Câncer oferece acolhimento e carinho que tocam o coração de Áries",
+      "Áries traz coragem, defesa e postura de proteção para Câncer",
+      "Os dois levam relacionamento a sério quando se comprometem de verdade"
+    ],
+    "nao_combina": [
+      "Áries pode ser bruto nas palavras e atitudes, ferindo a sensibilidade de Câncer",
+      "Câncer tende a guardar ressentimentos e relembrar feridas antigas",
+      "Diferenças na forma de lidar com conflitos: um quer resolver rápido, o outro precisa de tempo"
+    ],
+    "dicas": [
+      "Áries: escolha melhor as palavras, principalmente em momentos de irritação; nem tudo precisa ser dito na hora da raiva.",
+      "Câncer: em vez de se fechar e esperar que o outro adivinhe, comunique o que sente e o que precisa de forma direta e honesta."
+    ],
+    "compatibilidade": 58
+  },
+  "aries-leo": {
+    "resumo": "Áries e Leão formam um casal de fogo em todos os sentidos, com muita paixão, presença e vontade de viver intensamente. A relação é épica, cheia de histórias, mas também repleta de cenas dramáticas quando o orgulho entra em cena.",
+    "combina": [
+      "Química física intensa e atração imediata entre os dois",
+      "Ambos têm energia, coragem e gostam de viver grandes experiências",
+      "Admiram a força, a autenticidade e o jeito decidido um do outro"
+    ],
+    "nao_combina": [
+      "Competição por protagonismo, atenção e reconhecimento",
+      "Dificuldade enorme em admitir erros e dar o braço a torcer",
+      "Brigas que podem virar espetáculos de orgulho ferido, com palavras duras"
+    ],
+    "dicas": [
+      "Aprendam a elogiar e reconhecer as qualidades do outro com generosidade, em vez de comparar quem brilha mais.",
+      "Decidam juntos que o ego não vai comandar o relacionamento: às vezes ganhar é ceder, para não perder a conexão."
+    ],
+    "compatibilidade": 86
+  },
+  "aries-virgo": {
+    "resumo": "Áries age primeiro e pensa depois, enquanto Virgem analisa tudo dez vezes antes de se mover, criando uma dinâmica de choque entre impulso e perfeccionismo. Se houver respeito, essa diferença pode virar um grande motor de evolução para os dois.",
+    "combina": [
+      "Virgem ajuda Áries a planejar melhor e evitar erros desnecessários",
+      "Áries motiva Virgem a agir, mesmo sem ter tudo 100% perfeito",
+      "Os dois podem se apoiar na vida prática e no dia a dia de forma eficiente"
+    ],
+    "nao_combina": [
+      "Críticas constantes de Virgem podem minar a confiança de Áries",
+      "Áries pode ignorar conselhos importantes por achar tudo 'frescura'",
+      "Virgem pode se frustrar com a desorganização e o improviso de Áries"
+    ],
+    "dicas": [
+      "Virgem: foque em críticas construtivas e reconheça quando Áries acerta; isso fortalece a parceria.",
+      "Áries: tente ouvir antes de reagir; às vezes, um pouco de planejamento evita muito desgaste depois."
+    ],
+    "compatibilidade": 55
+  },
+  "aries-libra": {
+    "resumo": "Áries é direto e impulsivo, Libra é diplomático e busca harmonia, formando um casal que representa dois lados do mesmo eixo: o eu e o outro. Quando conseguem se equilibrar, essa combinação é muito rica em crescimento emocional e relacional.",
+    "combina": [
+      "Libra traz empatia, charme e visão de ambos os lados da história",
+      "Áries traz decisão, ação e coragem de falar o que ninguém diz",
+      "Os dois podem aprender muito sobre equilíbrio entre individualidade e parceria"
+    ],
+    "nao_combina": [
+      "Áries pode achar Libra indeciso e excessivamente preocupado com a opinião alheia",
+      "Libra pode achar Áries grosso, precipitado e pouco sensível",
+      "Conflitos sobre a forma de discutir: um vai reto ao ponto, o outro rodeia para evitar briga"
+    ],
+    "dicas": [
+      "Unam o melhor dos dois mundos: sinceridade de Áries com o tato de Libra, sem excluir nenhum dos dois.",
+      "Falarem abertamente sobre como gostam de receber críticas e pedidos ajuda muito a evitar ressentimentos."
+    ],
+    "compatibilidade": 75
+  },
+  "aries-scorpio": {
+    "resumo": "Áries e Escorpião trazem uma energia de intensidade, desejo e confrontos profundos, com um magnetismo difícil de ignorar. Porém, essa mesma força pode virar jogos de poder, ciúmes e testes emocionais pesados se não houver maturidade.",
+    "combina": [
+      "Muita química sexual e atração quase irresistível",
+      "Os dois são corajosos e não fogem de temas difíceis",
+      "Lealdade forte quando decidem se comprometer de verdade"
+    ],
+    "nao_combina": [
+      "Ciúmes, possessividade e disputas por controle",
+      "Discussões que facilmente viram confrontos destrutivos",
+      "Tendência a testar o outro para ver até onde ele vai"
+    ],
+    "dicas": [
+      "Estabeleçam confiança como prioridade máxima, evitando jogos mentais e provocações desnecessárias.",
+      "Trabalhem a vulnerabilidade: abrir o coração é mais poderoso do que atacar primeiro para não se machucar."
+    ],
+    "compatibilidade": 70
+  },
+  "aries-sagittarius": {
+    "resumo": "Áries e Sagitário formam um casal fogoso, espontâneo e sempre pronto para a próxima aventura, viagem ou loucura. A relação é cheia de risadas, sinceridade e movimento, mas pode pecar por falta de profundidade emocional em certos momentos.",
+    "combina": [
+      "Ambos valorizam liberdade, autenticidade e sinceridade",
+      "Gostam de desafios, ação e experiências intensas juntos",
+      "Têm facilidade para superar pequenos conflitos e seguir em frente"
+    ],
+    "nao_combina": [
+      "Pouca tolerância para dramas emocionais prolongados",
+      "Dificuldade em lidar com rotinas, responsabilidades e cobranças",
+      "Possibilidade de prometer coisas no calor do momento e não sustentar depois"
+    ],
+    "dicas": [
+      "Criem espaço para conversas mais profundas, falando de medos e vulnerabilidades sem piada ou fuga.",
+      "Mesmo amando liberdade, estabeleçam acordos mínimos de respeito e presença, para a relação não virar algo solto demais."
+    ],
+    "compatibilidade": 88
+  },
+  "aries-capricorn": {
+    "resumo": "Áries é impulso e urgência, Capricórnio é estratégia e paciência, compondo um casal que pode construir muito se aprender a jogar no mesmo time. O choque entre espontaneidade e seriedade é grande, mas também extremamente produtivo quando bem dirigido.",
+    "combina": [
+      "Capricórnio dá estrutura, foco e planejamento para as ideias de Áries",
+      "Áries traz energia, ousadia e iniciativa para sair da inércia",
+      "Os dois podem se admirar pela força, pela determinação e pela honestidade"
+    ],
+    "nao_combina": [
+      "Capricórnio pode achar Áries imaturo, irresponsável ou precipitado",
+      "Áries pode achar Capricórnio frio, pessimista ou controlador demais",
+      "Conflitos sobre tempo e prioridades: um quer agora, o outro quer fazer direito"
+    ],
+    "dicas": [
+      "Estabeleçam objetivos em comum, unindo a coragem de começar com a disciplina de terminar.",
+      "Capricórnio: reconheça o valor do entusiasmo; Áries: enxergue o quanto a visão de longo prazo protege o relacionamento."
+    ],
+    "compatibilidade": 60
+  },
+  "aquarius-aries": {
+    "resumo": "Áries e Aquário formam uma dupla explosiva e original, com muita independência, autenticidade e debates intensos. O relacionamento tende a fugir do padrão, mas pode esbarrar em teimosia e dificuldade para lidar com emoções mais profundas.",
+    "combina": [
+      "Os dois apreciam liberdade, novidade e experiências diferentes",
+      "Conexão mental forte, com muitas conversas francas e sem tabu",
+      "Respeito pela individualidade e pelo espaço pessoal de cada um"
+    ],
+    "nao_combina": [
+      "Teimosia elevada: ambos acham que estão certos",
+      "Dificuldade em lidar com inseguranças e vulnerabilidades emocionais",
+      "Possibilidade de racionalizar demais sentimentos importantes"
+    ],
+    "dicas": [
+      "Lembrem que sentir não é fraqueza: abrir o jogo sobre emoções aproxima mais do que qualquer discurso perfeito.",
+      "Criem acordos claros sobre liberdade, compromisso e exclusividade para ninguém ficar interpretando sozinho."
+    ],
+    "compatibilidade": 80
+  },
+  "aries-pisces": {
+    "resumo": "Áries é direto e contundente, enquanto Peixes é delicado e emocional, criando um contraste entre força e sensibilidade. Se ambos estiverem dispostos a aprender um com o outro, a relação pode ser profundamente transformadora.",
+    "combina": [
+      "Peixes traz romantismo, imaginação e compaixão para a relação",
+      "Áries oferece proteção, coragem e a sensação de que 'dá pra ir' atrás dos sonhos",
+      "Os dois podem se inspirar mutuamente a crescer em áreas que sozinhos não iriam"
+    ],
+    "nao_combina": [
+      "Áries pode atropelar a sensibilidade de Peixes com palavras duras",
+      "Peixes pode se vitimizar ou fugir dos conflitos em vez de enfrentá-los",
+      "Diferenças na forma de lidar com frustrações: um explode, o outro se dissolve"
+    ],
+    "dicas": [
+      "Áries: seja firme, mas gentil; escolha momentos e formas mais suaves para falar verdades difíceis.",
+      "Peixes: pratique a honestidade emocional direta; dizer o que dói é melhor do que esperar que o outro adivinhe."
+    ],
+    "compatibilidade": 57
+  },
+  "taurus-taurus": {
+    "resumo": "Dois taurinos juntos criam uma relação estável, sensual e muito voltada para conforto, segurança e prazer. Porém, se não houver flexibilidade, essa mesma estabilidade pode virar estagnação e resistência quase absoluta a mudanças.",
+    "combina": [
+      "Lealdade, constância e compromisso real com a relação",
+      "Apreço por conforto, boa comida, bons lugares e tempo de qualidade",
+      "Forte química física, com foco em carinho, contato e sensualidade tranquila"
+    ],
+    "nao_combina": [
+      "Teimosia em dobro, com pouca vontade de ceder quando há divergências",
+      "Dificuldade em mudar hábitos, rotinas e perspectivas mesmo quando necessário",
+      "Possibilidade de ficar preso em zonas de conforto que não fazem mais sentido"
+    ],
+    "dicas": [
+      "Incluam pequenas novidades na rotina para não deixar o relacionamento ficar previsível demais.",
+      "Lembrem que ceder um pouco não ameaça a segurança de vocês; muitas vezes, é isso que renova a relação."
+    ],
+    "compatibilidade": 84
+  },
+  "gemini-taurus": {
+    "resumo": "Touro busca estabilidade, previsibilidade e certezas, enquanto Gêmeos busca movimento, troca e mudança constante. Essa relação pode ser muito enriquecedora, trazendo tanto segurança quanto leveza — ou virar uma eterna fonte de frustração mútua.",
+    "combina": [
+      "Gêmeos traz humor, curiosidade e novos temas para a vida de Touro",
+      "Touro oferece presença, segurança e um porto seguro para Gêmeos",
+      "Os dois podem aprender a equilibrar rotina e novidade de forma inteligente"
+    ],
+    "nao_combina": [
+      "Touro pode se sentir inseguro com a instabilidade e as mudanças de humor de Gêmeos",
+      "Gêmeos pode achar Touro previsível, rígido ou dramático demais com mudanças",
+      "Descompasso entre necessidade de controle (Touro) e necessidade de liberdade (Gêmeos)"
+    ],
+    "dicas": [
+      "Definam juntos quais áreas podem ter improviso e quais precisam de estabilidade para ninguém surtar.",
+      "Touro ganha ao flexibilizar um pouco; Gêmeos cresce ao honrar compromissos e cuidar da confiança do outro."
+    ],
+    "compatibilidade": 59
+  },
+  "cancer-taurus": {
+    "resumo": "Touro e Câncer formam um casal extremamente acolhedor, carinhoso e voltado para laços duradouros, família e aconchego. Essa é uma combinação clássica de amor que cuida, protege e constrói, com um clima de porto seguro para ambos.",
+    "combina": [
+      "Ambos valorizam segurança emocional e relacionamentos estáveis",
+      "Gostam de cuidar um do outro através de gestos concretos, comida, toque e presença",
+      "Têm facilidade para construir uma vida tranquila, com foco em casa, família e intimidade"
+    ],
+    "nao_combina": [
+      "Dificuldade em lidar com mudanças repentinas ou situações imprevisíveis",
+      "Tendência a guardar mágoas e não falar abertamente sobre incômodos",
+      "Possível apego excessivo, com ciúmes ou medo de abandono"
+    ],
+    "dicas": [
+      "Criem o hábito de conversar sobre sentimentos antes que eles virem silêncio duro ou afastamento.",
+      "Lembrem que segurança não é ficar parado, e sim se movimentar juntos de forma honesta e alinhada."
+    ],
+    "compatibilidade": 90
+  },
+  "leo-taurus": {
+    "resumo": "Touro e Leão formam uma dupla sensual, vaidosa e muito ligada ao prazer e ao conforto, mas também incrivelmente teimosa. Quando se entendem, viram um casal poderoso; quando entram em rota de colisão, ninguém quer ceder um centímetro.",
+    "combina": [
+      "Os dois apreciam coisas boas: boa comida, bons ambientes e certa dose de luxo",
+      "Forte atração física e química quando há admiração mútua",
+      "Podem formar uma relação estável, leal e cheia de momentos marcantes"
+    ],
+    "nao_combina": [
+      "Disputa velada ou explícita por controle e poder dentro da relação",
+      "Orgulho ferido de ambos quando se sentem desvalorizados",
+      "Rigidez para mudar de opinião, de planos ou de dinâmica"
+    ],
+    "dicas": [
+      "Trabalhem a arte do elogio sincero: alimentar o ego saudável do outro ajuda a reduzir as disputas.",
+      "Escolham bem as batalhas: nem toda divergência precisa virar uma guerra por quem está certo."
+    ],
+    "compatibilidade": 68
+  },
+  "taurus-virgo": {
+    "resumo": "Touro e Virgem são dois signos de terra que buscam estabilidade, segurança e praticidade, formando um casal extremamente confiável. A relação tende a ser calma, realista e focada em construir uma vida sólida, mas precisa de doses de prazer e espontaneidade para não ficar séria demais.",
+    "combina": [
+      "Valores semelhantes sobre dinheiro, trabalho e compromisso",
+      "Boa capacidade de organizar a vida material e o dia a dia juntos",
+      "Apoio mútuo em momentos de dificuldade, com atitudes concretas e não só palavras"
+    ],
+    "nao_combina": [
+      "Possibilidade de excesso de crítica, perfeccionismo e cobrança",
+      "Risco de rotina previsível demais e pouco espaço para romance, jogo e novidade",
+      "Dificuldade em lidar com situações fora do planejado"
+    ],
+    "dicas": [
+      "Reservem momentos para o amor leve: encontros, surpresas simples, elogios e carinho gratuito.",
+      "Lembrem que a relação não é só um projeto de eficiência; é também lugar de prazer e vulnerabilidade."
+    ],
+    "compatibilidade": 88
+  },
+  "libra-taurus": {
+    "resumo": "Touro e Libra compartilham o regente Vênus, o que traz uma forte conexão com beleza, prazer e relações. Esse casal costuma ser estético, charmoso e muito ligado à ideia de parceria, mas precisa alinhar expectativas sobre compromisso e mudança.",
+    "combina": [
+      "Os dois apreciam ambientes agradáveis, bons lugares e certa sofisticação",
+      "Valorizam relacionamentos duradouros e não gostam de jogar seus vínculos fora por qualquer coisa",
+      "Têm potencial para uma relação cheia de carinho, toques, presentes e gestos românticos"
+    ],
+    "nao_combina": [
+      "Libra pode demorar demais para decidir, irritando a objetividade de Touro",
+      "Touro pode ser possessivo, gerando desconforto na sociabilidade de Libra",
+      "Conflitos quando Libra tenta evitar brigas e Touro quer resolver direto"
+    ],
+    "dicas": [
+      "Libra: seja mais claro sobre o que quer; Touro precisa de segurança, não de sinais confusos.",
+      "Touro: lembre que Libra precisa de leveza e circulação; controle em excesso sufoca o relacionamento."
+    ],
+    "compatibilidade": 72
+  },
+  "scorpio-taurus": {
+    "resumo": "Touro e Escorpião formam um eixo de intensidade, possessividade e lealdade extrema. A relação é profunda, carnal e emocional, com forte apego, tanto para o bem quanto para o caos, se o ciúme e o controle tomarem conta.",
+    "combina": [
+      "Os dois levam o relacionamento a sério e não gostam de coisas superficiais",
+      "Há forte atração física e emocional, com sensação de 'é tudo ou nada'",
+      "Capacidade de construir laços muito consistentes e quase inquebráveis"
+    ],
+    "nao_combina": [
+      "Ciúmes, controle e necessidade de 'provar' lealdade o tempo todo",
+      "Teimosia dos dois, com dificuldade em recuar em discussões",
+      "Possibilidade de relacionamentos que se tornam intensos demais e pouco saudáveis"
+    ],
+    "dicas": [
+      "Trabalhem confiança com transparência, não com testes e provocações.",
+      "Lembrem que amor não precisa ser guerra emocional constante; estabilidade também pode ser intensa."
+    ],
+    "compatibilidade": 76
+  },
+  "sagittarius-taurus": {
+    "resumo": "Touro quer raízes, enquanto Sagitário quer horizontes, resultando numa relação em que um puxa para dentro e o outro puxa para fora. Isso pode gerar um equilíbrio interessante ou uma sensação de que estão sempre em direções opostas.",
+    "combina": [
+      "Touro oferece estabilidade e cuidado concreto para Sagitário",
+      "Sagitário traz leveza, aventura e entusiasmo para a vida de Touro",
+      "Os dois podem se complementar em visão de mundo, mesclando segurança e expansão"
+    ],
+    "nao_combina": [
+      "Sagitário pode sentir que Touro é controlador e resistente a mudanças",
+      "Touro pode ver Sagitário como irresponsável, instável ou distante",
+      "Conflitos frequentes sobre liberdade, viagens, rolês e rotina"
+    ],
+    "dicas": [
+      "Conversem com clareza sobre o que cada um espera de compromisso e liberdade.",
+      "Encontrar rituais fixos (Touro) e espaços de improviso (Sagitário) ajuda a relação a não pender demais para um lado só."
+    ],
+    "compatibilidade": 52
+  },
+  "capricorn-taurus": {
+    "resumo": "Touro e Capricórnio formam uma combinação altamente estável, comprometida e focada em resultados práticos. Juntos, podem construir uma vida estruturada e sólida, mas correm o risco de deixar o romance em segundo plano se só olharem para deveres.",
+    "combina": [
+      "Valores parecidos sobre trabalho, responsabilidade e comprometimento",
+      "Capacidade de planejar o futuro e cumprir o que combinam",
+      "Relação leal, confiável e resistente a crises externas"
+    ],
+    "nao_combina": [
+      "Excesso de seriedade e pouco espaço para brincadeiras, romance e leveza",
+      "Possível tendência ao pessimismo e à preocupação constante",
+      "Dificuldade em falar sobre sentimentos com naturalidade"
+    ],
+    "dicas": [
+      "Criem momentos para celebrar conquistas e também para simplesmente se curtirem, sem pauta.",
+      "Abrir espaço para vulnerabilidade é tão importante quanto pagar boletos e bater metas."
+    ],
+    "compatibilidade": 89
+  },
+  "aquarius-taurus": {
+    "resumo": "Aquário quer inovação, mudança e liberdade, enquanto Touro gosta do que é conhecido, seguro e previsível. Essa combinação pode ser uma grande aula de flexibilidade e estabilidade, se os dois estiverem abertos a aprender.",
+    "combina": [
+      "Aquário expande a visão de mundo de Touro, apresentando novas ideias e estilos de vida",
+      "Touro mostra para Aquário o valor da constância, do compromisso e da construção passo a passo",
+      "Os dois podem criar uma relação única, com base em respeito às diferenças"
+    ],
+    "nao_combina": [
+      "Conflitos sobre mudanças abruptas versus apego a hábitos antigos",
+      "Aquário pode achar Touro rígido ou retrógrado",
+      "Touro pode perceber Aquário como frio, distante ou imprevisível demais"
+    ],
+    "dicas": [
+      "Explorem novidades em doses: nem tudo precisa mudar de uma vez, nem tudo precisa ficar igual para sempre.",
+      "Respeitem o modo de amar do outro: o amor de Touro é presença; o de Aquário é liberdade com lealdade."
+    ],
+    "compatibilidade": 50
+  },
+  "pisces-taurus": {
+    "resumo": "Touro e Peixes se encontram num terreno de carinho, romantismo e desejo de proteção. É uma relação doce, calma e acolhedora, com potencial de se tornar um verdadeiro refúgio para ambos, se não caírem na fuga da realidade.",
+    "combina": [
+      "Touro oferece segurança, presença física e apoio concreto para Peixes",
+      "Peixes traz imaginação, empatia e sensibilidade para o mundo de Touro",
+      "Os dois prezam por gestos de carinho, toque e momentos íntimos"
+    ],
+    "nao_combina": [
+      "Peixes pode evitar conflitos, deixando problemas sem solução",
+      "Touro pode ser direto e frio demais em situações sensíveis",
+      "Possível tendência a se fechar em uma bolha e ignorar questões práticas importantes"
+    ],
+    "dicas": [
+      "Touro: exercite a escuta sensível, não só a solução prática; às vezes o outro só precisa ser ouvido.",
+      "Peixes: seja honesto sobre o que te incomoda e participe das decisões, em vez de só seguir o fluxo."
+    ],
+    "compatibilidade": 85
+  },
+  "gemini-gemini": {
+    "resumo": "Dois geminianos juntos criam uma relação cheia de conversas, risadas, mudanças de planos e redescobertas constantes. A conexão mental é forte, mas o desafio é manter profundidade e constância num mar de possibilidades.",
+    "combina": [
+      "Conversas infinitas sobre qualquer assunto, com muito humor e curiosidade",
+      "Capacidade de se adaptar com facilidade a mudanças e imprevistos",
+      "Ambiente leve, divertido e inteligente, sem espaço para tédio"
+    ],
+    "nao_combina": [
+      "Dificuldade em manter compromissos emocionais firmes",
+      "Mudanças rápidas de humor, planos e prioridades",
+      "Tendência a fugir de problemas mais densos com piada ou distração"
+    ],
+    "dicas": [
+      "Criem alguns pilares emocionais inegociáveis, mesmo que o resto seja flexível.",
+      "Abram espaço para conversas profundas de vez em quando, para não ficarem só na superfície da relação."
+    ],
+    "compatibilidade": 77
+  },
+  "cancer-gemini": {
+    "resumo": "Gêmeos traz leveza e movimento, enquanto Câncer traz profundidade e clima de 'casa', criando uma dinâmica que pode equilibrar razão e emoção. Se não souberem respeitar as diferenças, porém, acaba virando uma relação de mágoas e mal-entendidos.",
+    "combina": [
+      "Gêmeos ajuda Câncer a rir mais das situações e tirar peso de pequenas coisas",
+      "Câncer oferece acolhimento, cuidado e um senso de pertencimento a Gêmeos",
+      "Podem aprender muito sobre comunicação emocional e verbal juntos"
+    ],
+    "nao_combina": [
+      "Câncer pode se sentir não levado a sério, achando que Gêmeos banaliza sentimentos",
+      "Gêmeos pode se sentir sufocado com demandas emocionais intensas",
+      "Tendência a falhas de comunicação, onde um fala e o outro sente outra coisa"
+    ],
+    "dicas": [
+      "Gêmeos: dedique atenção total quando Câncer abrir o coração; isso vale ouro pra ele.",
+      "Câncer: tente não interpretar tudo como rejeição; pergunte antes de tirar conclusões."
+    ],
+    "compatibilidade": 56
+  },
+  "gemini-leo": {
+    "resumo": "Gêmeos e Leão formam um casal carismático, expressivo e cheio de histórias para contar. A relação é vibrante e social, mas precisa de doses de sinceridade emocional para não virar só um espetáculo sem bastidor sólido.",
+    "combina": [
+      "Os dois gostam de diversão, socialização e momentos marcantes",
+      "Gêmeos traz humor e flexibilidade mental para a relação",
+      "Leão traz calor, presença e orgulho de estar com o parceiro"
+    ],
+    "nao_combina": [
+      "Possível tendência a competir por atenção e brilho",
+      "Dificuldade em lidar com momentos emocionalmente mais densos",
+      "Gêmeos pode irritar Leão com mudanças de humor ou falta de foco"
+    ],
+    "dicas": [
+      "Reservem momentos longe dos holofotes para conversar sobre sentimentos reais.",
+      "Valorizem o que o outro oferece: o show é incrível, mas o bastidor é o que sustenta a relação."
+    ],
+    "compatibilidade": 79
+  },
+  "gemini-virgo": {
+    "resumo": "Gêmeos e Virgem são regidos por Mercúrio, o planeta da mente, mas o usam de formas bem diferentes: um é flexível e múltiplo, o outro é analítico e detalhista. A relação pode ser intelectualmente estimulante, mas também cheia de críticas e cobranças.",
+    "combina": [
+      "Boa comunicação e capacidade de falar sobre quase tudo",
+      "Virgem pode ajudar Gêmeos a organizar ideias e planos",
+      "Gêmeos pode ajudar Virgem a pensar fora da caixa e relativizar algumas preocupações"
+    ],
+    "nao_combina": [
+      "Virgem pode achar Gêmeos irresponsável, disperso ou superficial",
+      "Gêmeos pode sentir que Virgem critica demais e elogia de menos",
+      "Diferenças no ritmo: um quer experimentar, o outro quer garantir que está perfeito"
+    ],
+    "dicas": [
+      "Virgem: ofereça orientação sem humilhar ou diminuir o jeito leve de Gêmeos.",
+      "Gêmeos: aprenda a receber feedback sem interpretar tudo como controle; há sabedoria em alguns detalhes."
+    ],
+    "compatibilidade": 63
+  },
+  "gemini-libra": {
+    "resumo": "Gêmeos e Libra formam um casal leve, social e mentalmente conectado, com muita conversa e afinidade em gostos. A relação tem tudo para ser harmoniosa, desde que alguém tope encarar os conflitos que ambos tendem a evitar.",
+    "combina": [
+      "Conversas que fluem naturalmente, com trocas inteligentes e divertidas",
+      "Facilidade para socializar em casal, ampliar círculo social e fazer coisas juntos",
+      "Valor compartilhado pela liberdade e pela leveza nas trocas"
+    ],
+    "nao_combina": [
+      "Dificuldade em tomar decisões importantes a dois",
+      "Tendência a evitar conversas mais difíceis para não estragar o clima",
+      "Possibilidade de promessas vagas e expectativas não alinhadas"
+    ],
+    "dicas": [
+      "Decidam em quais temas alguém precisa assumir postura firme, mesmo que não agrade todo mundo.",
+      "Incluam momentos onde vulnerabilidade é bem-vinda, sem piadas ou racionalizações demais."
+    ],
+    "compatibilidade": 87
+  },
+  "gemini-scorpio": {
+    "resumo": "Gêmeos quer leveza, variedade e movimento, enquanto Escorpião busca profundidade, entrega total e verdades intensas. Essa combinação pode ser fascinante, mas também exaustiva se não houver respeito ao tempo emocional de cada um.",
+    "combina": [
+      "Escorpião ajuda Gêmeos a encarar temas mais profundos e transformadores",
+      "Gêmeos traz humor e ar fresco para os dramas de Escorpião",
+      "Os dois podem se atrair pela diferença, com uma curiosidade mútua muito forte"
+    ],
+    "nao_combina": [
+      "Escorpião pode desconfiar da instabilidade e das mudanças de humor de Gêmeos",
+      "Gêmeos pode sentir o peso do ciúme, das cobranças e da intensidade escorpiana",
+      "Possíveis mal-entendidos quando um leva algo a sério e o outro trata com leveza"
+    ],
+    "dicas": [
+      "Gêmeos: não transforme tudo em piada quando Escorpião estiver vulnerável; isso machuca.",
+      "Escorpião: nem toda leveza é falta de amor; às vezes é só o jeito do outro se proteger também."
+    ],
+    "compatibilidade": 48
+  },
+  "gemini-sagittarius": {
+    "resumo": "Gêmeos e Sagitário formam o eixo do conhecimento, da curiosidade e da expansão, criando um relacionamento cheio de histórias, viagens, conversas filosóficas e risadas. O desafio é transformar tanta liberdade em algo que também ofereça segurança.",
+    "combina": [
+      "Amor por novidades, viagens, estudos e experiências diferentes",
+      "Valorização de sinceridade, mesmo quando é um pouco direta demais",
+      "Capacidade de reinventar a relação várias vezes ao longo do tempo"
+    ],
+    "nao_combina": [
+      "Medo de compromissos que pareçam limitar a liberdade individual",
+      "Tendência a minimizar sentimentos mais densos com piada ou racionalização",
+      "Possibilidade de inconsistência na presença: aparece muito em alguns momentos, some em outros"
+    ],
+    "dicas": [
+      "Definam juntos o que é compromisso para vocês, sem copiar modelos tradicionais se eles não fizerem sentido.",
+      "Lembrem que liberdade verdadeira não é fugir, mas escolher ficar mesmo podendo ir embora."
+    ],
+    "compatibilidade": 83
+  },
+  "capricorn-gemini": {
+    "resumo": "Capricórnio olha para resultado, estrutura e responsabilidade, enquanto Gêmeos olha para possibilidades, trocas e experiências. A relação é um choque entre pragmatismo e curiosidade, que pode ser complementar ou irritante, dependendo da maturidade de ambos.",
+    "combina": [
+      "Capricórnio traz foco, direção e senso de responsabilidade",
+      "Gêmeos traz networking, versatilidade e adaptabilidade",
+      "Podem se ajudar muito em projetos concretos, misturando estratégia com criatividade"
+    ],
+    "nao_combina": [
+      "Capricórnio pode julgar Gêmeos como infantil ou volátil demais",
+      "Gêmeos pode achar Capricórnio duro, frio e pesado",
+      "Diferenças na forma de lidar com compromissos e horários"
+    ],
+    "dicas": [
+      "Capricórnio: reconheça o valor da flexibilidade e da comunicação leve; isso também produz resultados.",
+      "Gêmeos: mostrar consistência em pequenas coisas ajuda Capricórnio a confiar mais em você."
+    ],
+    "compatibilidade": 54
+  },
+  "aquarius-gemini": {
+    "resumo": "Gêmeos e Aquário formam uma união de mentes inquietas, criativas e fora do padrão. A relação tende a ser muito mental e livre, com uma parceria que funciona bem quando ninguém exige demonstrações emocionais 'tradicionais'.",
+    "combina": [
+      "Interesse por assuntos diferentes, ideias novas e visões alternativas de vida",
+      "Valorização da liberdade individual e do respeito ao espaço do outro",
+      "Capacidade de conversar por horas sem cair na mesmice"
+    ],
+    "nao_combina": [
+      "Dificuldade em lidar com demandas emocionais intensas",
+      "Tendência a racionalizar demais sentimentos importantes",
+      "Sumiços ou distanciamentos que podem ser mal interpretados"
+    ],
+    "dicas": [
+      "Criem momentos onde o foco não seja só ideia, mas também emoção: perguntar como o outro se sente faz diferença.",
+      "Pequenos gestos de carinho e presença já equilibram o lado mais desapegado dessa dupla."
+    ],
+    "compatibilidade": 88
+  },
+  "gemini-pisces": {
+    "resumo": "Gêmeos pensa rápido e muda de direção com facilidade, enquanto Peixes sente profundamente e se deixa levar pelas emoções. A relação é criativa, poética e cheia de possibilidades, mas também suscetível a confusões e desencontros.",
+    "combina": [
+      "Muita imaginação, criatividade e potencial para projetos artísticos ou viagens",
+      "Capacidade de enxergar diferentes perspectivas de uma mesma situação",
+      "Ambiente de liberdade para conversar sobre temas subjetivos e espirituais"
+    ],
+    "nao_combina": [
+      "Comunicação confusa, com ruídos, intenções mal interpretadas e indiretas",
+      "Gêmeos pode parecer frio ou descompromissado para Peixes",
+      "Peixes pode parecer dramático, confuso ou vitimista para Gêmeos"
+    ],
+    "dicas": [
+      "Evitem suposições: perguntem explicitamente o que o outro quis dizer ou pretende fazer.",
+      "Criem acordos claros sobre presença e compromisso, mesmo que o estilo da relação seja mais fluido."
+    ],
+    "compatibilidade": 53
+  },
+  "cancer-cancer": {
+    "resumo": "Dois cancerianos juntos criam uma relação extremamente emocional, intuitiva e cheia de delicadezas. Há muito cuidado, romantismo e profundidade, mas também grande vulnerabilidade a mágoas e mudanças de humor.",
+    "combina": [
+      "Entendem o olhar, o silêncio e os gestos sutis um do outro",
+      "Valorizam família, segurança afetiva e lealdade",
+      "Têm facilidade em criar um ambiente acolhedor, romântico e íntimo"
+    ],
+    "nao_combina": [
+      "Tendência a guardar mágoas por muito tempo sem falar sobre elas",
+      "Oscilações emocionais que podem se amplificar no outro",
+      "Possível vitimização mútua e dificuldade em assumir responsabilidade"
+    ],
+    "dicas": [
+      "Façam pactos de sinceridade amorosa: falar sobre o que dói com carinho é melhor do que só se afastar.",
+      "Lembrem que vulnerabilidade é um ponto forte da relação, mas não precisa virar autoabandono."
+    ],
+    "compatibilidade": 88
+  },
+  "cancer-leo": {
+    "resumo": "Câncer busca segurança emocional e intimidade, enquanto Leão busca reconhecimento, alegria e expressão. Juntos, formam uma relação calorosa, dramática e cheia de cenas intensas, tanto de amor quanto de conflito.",
+    "combina": [
+      "Câncer oferece cuidado, carinho e um espaço seguro para Leão desarmar a pose",
+      "Leão traz luz, entusiasmo e orgulho do parceiro, estimulando Câncer a brilhar também",
+      "Os dois têm grande capacidade de demonstrar afeto através de gestos e presença"
+    ],
+    "nao_combina": [
+      "Câncer pode se sentir em segundo plano quando Leão busca muita atenção externa",
+      "Leão pode se irritar com as oscilações emocionais e carências de Câncer",
+      "Conflitos quando um quer recolhimento e o outro quer festa e exposição"
+    ],
+    "dicas": [
+      "Valorizem a forma do outro amar: Câncer cuida no detalhe; Leão mostra no palco.",
+      "Criem espaços para ambos: momentos tranquilos de intimidade e momentos de brilho social compartilhado."
+    ],
+    "compatibilidade": 67
+  },
+  "cancer-virgo": {
+    "resumo": "Câncer e Virgem combinam sensibilidade com praticidade, criando uma relação que cuida tanto do alma quanto da vida concreta. Quando bem equilibrada, é uma parceria muito protetora, mas pode se tornar crítica demais se não houver gentileza.",
+    "combina": [
+      "Virgem ajuda a organizar a vida de Câncer e lidar melhor com o dia a dia",
+      "Câncer oferece acolhimento, carinho e compreensão emocional para Virgem",
+      "Ambos gostam de ser úteis e cuidar de quem amam de forma prática"
+    ],
+    "nao_combina": [
+      "Virgem pode ser excessivamente crítico com a sensibilidade de Câncer",
+      "Câncer pode interpretar feedback como rejeição ou falta de amor",
+      "Possível dificuldade em falar abertamente sobre frustrações sem ferir o outro"
+    ],
+    "dicas": [
+      "Virgem: suavize as palavras e reforce o carinho antes das críticas.",
+      "Câncer: tente ouvir a intenção por trás da cobrança; às vezes é cuidado, não rejeição."
+    ],
+    "compatibilidade": 82
+  },
+  "cancer-libra": {
+    "resumo": "Câncer sente profundamente e busca vínculos intensos, enquanto Libra busca equilíbrio, leveza e harmonia. A relação pode ser charmosa e bonita, mas exige cuidado para que a diplomacia não vire superficialidade emocional.",
+    "combina": [
+      "Libra traz equilíbrio, gentileza e habilidade em lidar com pessoas",
+      "Câncer traz profundidade emocional e um afeto genuíno",
+      "Ambos gostam de estar em relacionamento e valorizam parceria"
+    ],
+    "nao_combina": [
+      "Câncer pode sentir que Libra evita conflitos importantes, preferindo manter a aparência de paz",
+      "Libra pode se incomodar com o excesso de intensidade ou carência de Câncer",
+      "Diferenças na velocidade de decisão: Câncer decide pelo sentimento, Libra pondera demais"
+    ],
+    "dicas": [
+      "Libra: seja mais claro sobre o que sente, não apenas o que pensa ser equilibrado.",
+      "Câncer: nem todo desacordo é abandono; Libra precisa de tempo para avaliar antes de mergulhar."
+    ],
+    "compatibilidade": 58
+  },
+  "cancer-scorpio": {
+    "resumo": "Câncer e Escorpião são dois signos de água que mergulham fundo nas emoções, criando uma relação intensa, leal e transformadora. A conexão é forte, mas também suscetível a ciúmes, silêncio e dramas prolongados.",
+    "combina": [
+      "Empatia e intuição muito fortes, quase telepáticas",
+      "Lealdade e compromisso emocional profundo",
+      "Capacidade de crescer juntos em temas de cura, psicologia e espiritualidade"
+    ],
+    "nao_combina": [
+      "Ciúmes, medo de abandono e necessidade de controle emocional",
+      "Risco de guardar ressentimentos por muito tempo sem resolver",
+      "Possibilidade de relações que se tornam dependentes ou tóxicas se não houver limites"
+    ],
+    "dicas": [
+      "Cultivem transparência: digam quando algo incomoda, antes de virar veneno silencioso.",
+      "Lembrem que amor intenso não precisa significar sofrimento constante; terapia e autoconhecimento ajudam muito aqui."
+    ],
+    "compatibilidade": 91
+  },
+  "cancer-sagittarius": {
+    "resumo": "Câncer deseja raiz, intimidade e segurança, enquanto Sagitário deseja horizonte, liberdade e aventura. A relação pode ser uma troca rica entre casa e mundo, ou um desencontro contínuo de expectativas.",
+    "combina": [
+      "Sagitário traz leveza, humor e novas experiências para a vida de Câncer",
+      "Câncer oferece acolhimento, carinho e um porto seguro para Sagitário",
+      "Os dois podem expandir a noção de amor: nem só lar, nem só estrada"
+    ],
+    "nao_combina": [
+      "Câncer pode se sentir abandonado se Sagitário precisar de muito espaço e movimento",
+      "Sagitário pode se sentir sufocado por cobranças emocionais",
+      "Diferenças na forma de encarar compromisso, rotina e família"
+    ],
+    "dicas": [
+      "Conversem abertamente sobre o que cada um espera de presença, mensagens, planos e futuro.",
+      "Câncer ganha ao permitir mais espaço; Sagitário amadurece ao entender que liberdade não exclui cuidado e constância."
+    ],
+    "compatibilidade": 49
+  },
+  "cancer-capricorn": {
+    "resumo": "Câncer e Capricórnio representam o eixo família–carreira, emoção–estrutura, criando uma relação com grande potencial de construção. Juntos, podem formar um casal que cuida tanto do lar quanto do futuro material.",
+    "combina": [
+      "Câncer oferece acolhimento, carinho e suporte emocional",
+      "Capricórnio oferece estabilidade, planejamento e responsabilidade",
+      "Os dois levam compromisso a sério e não entram em relacionamento à toa"
+    ],
+    "nao_combina": [
+      "Capricórnio pode parecer frio, distante ou excessivamente focado em trabalho",
+      "Câncer pode dramatizar carências, interpretando ausência como desamor",
+      "Diferenças na forma de expressar amor: um mostra fazendo, o outro mostrando sentir"
+    ],
+    "dicas": [
+      "Capricórnio: expresse mais verbalmente e fisicamente seu carinho; não confie só nos atos implícitos.",
+      "Câncer: reconheça o esforço prático de Capricórnio; cuidado também aparece como responsabilidade."
+    ],
+    "compatibilidade": 83
+  },
+  "aquarius-cancer": {
+    "resumo": "Câncer vive pela emoção e pela intuição, enquanto Aquário vive pela lógica, ideias e visão ampla. A relação é cheia de aprendizado, mas exige paciência para que ninguém se sinta invalidado.",
+    "combina": [
+      "Aquário pode ampliar a visão de mundo de Câncer e tirá-lo da bolha emocional",
+      "Câncer ensina Aquário sobre intimidade, afeto e conexão familiar",
+      "Os dois podem se complementar em temas sociais, emocionais e humanitários"
+    ],
+    "nao_combina": [
+      "Câncer pode sentir Aquário frio, distante ou indiferente às emoções",
+      "Aquário pode ver Câncer como dramático e preso ao passado",
+      "Diferenças profundas na forma de reagir a problemas: um sente, o outro analisa"
+    ],
+    "dicas": [
+      "Aquário: valide os sentimentos de Câncer, mesmo que você não os entenda totalmente.",
+      "Câncer: lembre que o jeito racional de Aquário também é uma forma de cuidar, não necessariamente desamor."
+    ],
+    "compatibilidade": 45
+  },
+  "cancer-pisces": {
+    "resumo": "Câncer e Peixes são dois signos de água, sensíveis, românticos e altamente empáticos. A relação tende a ser muito afetuosa, espiritual e intuitiva, mas precisa de chão firme para não se perder em emoções e fantasias.",
+    "combina": [
+      "Entendimento profundo sem necessidade de muitas palavras",
+      "Romantismo, imaginação e capacidade de criar um mundo só dos dois",
+      "Apoio emocional mútuo em momentos difíceis, com muita empatia"
+    ],
+    "nao_combina": [
+      "Possível tendência à fuga da realidade e dos problemas práticos",
+      "Oscilações emocionais que podem se amplificar no relacionamento",
+      "Dificuldade em estabelecer limites claros com família, ex, amigos, etc."
+    ],
+    "dicas": [
+      "Tragam rotinas, planos e um mínimo de organização para sustentar toda essa sensibilidade.",
+      "Lembrem que dizer 'não' e colocar limites também é um ato de amor, inclusive com o próprio relacionamento."
+    ],
+    "compatibilidade": 89
+  },
+  "leo-leo": {
+    "resumo": "Dois leoninos juntos criam uma relação calorosa, dramática e cheia de presença. Há generosidade, orgulho, paixão e uma grande necessidade de reconhecimento mútuo, o que pode fortalecer o amor ou alimentar guerras de ego se não houver cuidado.",
+    "combina": [
+      "Muito carisma, química e vontade de viver histórias grandiosas",
+      "Generosidade afetiva, com demonstrações claras de amor e admiração",
+      "Capacidade de motivar o outro a brilhar, conquistar e se destacar"
+    ],
+    "nao_combina": [
+      "Competição velada ou explícita por atenção e protagonismo",
+      "Dificuldade em admitir erros e pedir desculpas de forma sincera",
+      "Brigas de orgulho que podem se prolongar mais do que o necessário"
+    ],
+    "dicas": [
+      "Lembrem que elogiar o outro não diminui o próprio brilho, apenas fortalece a relação.",
+      "Criem um espaço seguro para vulnerabilidade, onde não seja vergonhoso dizer 'errei' ou 'senti ciúmes'."
+    ],
+    "compatibilidade": 81
+  },
+  "leo-virgo": {
+    "resumo": "Leão gosta de se expressar com intensidade e confiança, enquanto Virgem prefere a discrição, a análise e a cautela. A relação mistura brilho com pragmatismo, podendo ser uma parceria muito eficiente se houver respeito aos estilos diferentes.",
+    "combina": [
+      "Leão traz entusiasmo, coragem e autoestima para a vida de Virgem",
+      "Virgem oferece senso de realidade, organização e cuidado prático a Leão",
+      "Os dois podem construir juntos uma rotina funcional, mas não entediante"
+    ],
+    "nao_combina": [
+      "Virgem pode criticar demais o jeito expansivo de Leão",
+      "Leão pode se ofender com feedbacks sinceros, mas pouco delicados",
+      "Diferença entre foco em detalhes (Virgem) e foco em impacto (Leão)"
+    ],
+    "dicas": [
+      "Virgem: escolha bem as batalhas e elogie mais, especialmente o esforço de Leão.",
+      "Leão: leve as críticas como oportunidade de ajuste, não como ataque à sua pessoa."
+    ],
+    "compatibilidade": 62
+  },
+  "leo-libra": {
+    "resumo": "Leão e Libra formam um casal elegante, social e cheio de charme, com grande potencial de ser admirado como dupla. Há beleza, romance e sintonia social, mas é preciso cuidar para que a relação não fique apenas na aparência.",
+    "combina": [
+      "Ambos gostam de bons ambientes, encontros agradáveis e um certo luxo",
+      "Libra aprecia o carisma de Leão, e Leão se encanta com o charme de Libra",
+      "Facilidade para brilhar em público e criar uma estética marcante como casal"
+    ],
+    "nao_combina": [
+      "Libra pode evitar conflitos que precisam ser encarados de frente",
+      "Leão pode exigir mais atenção e validação do que Libra consegue dar",
+      "Possíveis mal-entendidos quando um sente que o outro está flertando demais"
+    ],
+    "dicas": [
+      "Conversem sobre ciúmes e limites com clareza, sem joguinhos ou indiretas.",
+      "Lembrem que a relação precisa ser bonita por dentro também, não só nas fotos e nos momentos públicos."
+    ],
+    "compatibilidade": 84
+  },
+  "leo-scorpio": {
+    "resumo": "Leão e Escorpião formam uma combinação intensa, magnética e cheia de mistério, onde orgulho e profundidade se encontram. A atração é forte, mas as disputas de poder e o ciúme podem desafiar bastante a convivência.",
+    "combina": [
+      "Os dois são leais e não gostam de relações mornas ou superficiais",
+      "Há forte atração física e emocional, com sensação de intensidade constante",
+      "Capacidade de se protegerem mutuamente e enfrentar desafios juntos"
+    ],
+    "nao_combina": [
+      "Escorpião pode desconfiar de qualquer coisa que ameace a exclusividade",
+      "Leão pode se sentir controlado ou sufocado com ciúmes e jogos emocionais",
+      "Brigas podem virar disputas para ver quem dói mais o outro"
+    ],
+    "dicas": [
+      "Trabalhem confiança com diálogo, não com testes e provocações.",
+      "Reconheçam a sensibilidade por trás do orgulho e do controle: os dois têm medo de se machucar."
+    ],
+    "compatibilidade": 72
+  },
+  "leo-sagittarius": {
+    "resumo": "Leão e Sagitário se encontram num terreno de fogo, entusiasmo e liberdade, formando um casal divertido, aventureiro e cheio de histórias. A relação tende a ser leve e sincera, mas precisa de responsabilidade para não virar um eterno 'tanto faz'.",
+    "combina": [
+      "Ambos valorizam autenticidade e detestam falsidade",
+      "Gostam de viagens, experiências novas e rolês cheios de vida",
+      "Conseguem rir juntos, mesmo de situações difíceis, com bom humor"
+    ],
+    "nao_combina": [
+      "Pouca paciência para lidar com vulnerabilidades mais profundas",
+      "Possibilidade de negligenciar conversas sérias em nome da diversão",
+      "Sagitário pode ser mais desapegado do que Leão tolera em algumas fases"
+    ],
+    "dicas": [
+      "Reservem momentos para falar de medo, ciúmes e expectativas sem zoação.",
+      "Lembrem que responsabilidade afetiva não limita a liberdade; ela dá base para que ela exista."
+    ],
+    "compatibilidade": 90
+  },
+  "capricorn-leo": {
+    "resumo": "Leão quer brilho e reconhecimento, enquanto Capricórnio quer resultados e estabilidade. A relação pode ser uma grande sociedade afetiva, capaz de construir muito na vida prática, se conseguir equilibrar vaidade e disciplina.",
+    "combina": [
+      "Capricórnio ajuda Leão a estruturar sonhos e transformá-los em metas reais",
+      "Leão traz entusiasmo, visibilidade e energia para os planos de Capricórnio",
+      "Os dois podem se admirar pela força, pela resiliência e pela capacidade de realizar"
+    ],
+    "nao_combina": [
+      "Capricórnio pode julgar Leão dramático ou superficial demais",
+      "Leão pode sentir Capricórnio frio, crítico e pouco demonstrativo",
+      "Diferenças na forma de lidar com dinheiro, risco e exposição"
+    ],
+    "dicas": [
+      "Capricórnio: demonstre mais reconhecimento e elogio, não só correção e ajuste.",
+      "Leão: respeite o tempo de Capricórnio e mostre que consegue ser responsável além de brilhante."
+    ],
+    "compatibilidade": 61
+  },
+  "aquarius-leo": {
+    "resumo": "Leão e Aquário formam um eixo que fala de amor próprio e amor ao coletivo, de ego e de causa. A relação é instigante, original e muitas vezes pouco convencional, mas precisa de equilíbrio entre atenção e liberdade.",
+    "combina": [
+      "Ambos valorizam autenticidade e odeiam hipocrisia",
+      "Leão traz calor, afeto e presença marcante para Aquário",
+      "Aquário oferece visão ampla, ideias diferentes e admiração pela individualidade de Leão"
+    ],
+    "nao_combina": [
+      "Leão pode sentir que Aquário é distante, frio ou desapegado demais",
+      "Aquário pode achar Leão carente de atenção e validação constante",
+      "Diferenças na forma de demonstrar amor: um é teatral, o outro mais racional"
+    ],
+    "dicas": [
+      "Conversem sobre o que cada um entende como prova de amor: gesto, palavra, tempo, liberdade...",
+      "Lembrem que dá para ser um casal e ainda assim preservar espaço individual e causas pessoais."
+    ],
+    "compatibilidade": 74
+  },
+  "leo-pisces": {
+    "resumo": "Leão é sol, presença e clareza, enquanto Peixes é mar, sonho e sensibilidade. A relação é poética e afetuosa, mas precisa de cuidados para que nenhum dos dois se sinta invisível dentro da dinâmica.",
+    "combina": [
+      "Leão traz segurança, coragem e proteção para Peixes",
+      "Peixes oferece carinho, compreensão e apoio emocional para Leão",
+      "Os dois podem viver um romance muito imaginativo, criativo e cheio de gestos simbólicos"
+    ],
+    "nao_combina": [
+      "Peixes pode se magoar com brincadeiras ou comentários diretos de Leão",
+      "Leão pode se irritar com indecisão, fuga ou vitimização de Peixes",
+      "Diferenças na forma de lidar com conflito: um enfrenta, o outro evita"
+    ],
+    "dicas": [
+      "Leão: escolha momentos e palavras com mais delicadeza quando o assunto for sensível.",
+      "Peixes: fale claramente sobre o que doeu, em vez de apenas se recolher esperando que o outro perceba."
+    ],
+    "compatibilidade": 64
+  },
+  "virgo-virgo": {
+    "resumo": "Dois virginianos juntos tendem a criar uma relação organizada, responsável e bastante comprometida com a melhoria constante. Há cuidado, dedicação e vontade de acertar, mas o perfeccionismo pode pesar e minar a leveza.",
+    "combina": [
+      "Compromisso real em fazer a relação funcionar na prática",
+      "Boa parceria no dia a dia, dividindo tarefas e responsabilidades",
+      "Apoio mútuo em momentos difíceis, com soluções concretas"
+    ],
+    "nao_combina": [
+      "Críticas excessivas, muitas vezes motivadas por preocupação",
+      "Dificuldade em relaxar e apenas curtir o momento sem avaliar tudo",
+      "Autocobrança em dobro, que pode transformar divergências em ataques pessoais"
+    ],
+    "dicas": [
+      "Lembrem de elogiar explicitamente, não só corrigir o que não está perfeito.",
+      "Reservem espaços para diversão sem pauta de produtividade ou melhoria."
+    ],
+    "compatibilidade": 86
+  },
+  "libra-virgo": {
+    "resumo": "Virgem é objetividade, análise e praticidade; Libra é diplomacia, estética e harmonia. A relação pode ser muito equilibrada, desde que consigam alinhar o desejo de eficiência com a necessidade de leveza.",
+    "combina": [
+      "Virgem ajuda Libra a tomar decisões mais claras e firmes",
+      "Libra suaviza a rigidez de Virgem com charme e tato",
+      "Os dois podem construir uma vida bem organizada e socialmente agradável"
+    ],
+    "nao_combina": [
+      "Libra pode achar Virgem crítico, duro ou frio em algumas situações",
+      "Virgem pode ver Libra como indeciso, superficial ou evasivo",
+      "Possibilidade de conversas que giram em torno de 'como deveria ser' sem ação"
+    ],
+    "dicas": [
+      "Virgem: aja com carinho ao apontar problemas; a forma importa tanto quanto o conteúdo.",
+      "Libra: assuma posicionamentos claros quando o assunto for importante para o relacionamento."
+    ],
+    "compatibilidade": 60
+  },
+  "scorpio-virgo": {
+    "resumo": "Virgem observa detalhes e busca lógica; Escorpião sente intensamente e busca profundidade. Juntos, podem formar um casal que enxerga o que muita gente não vê, mas que também pode cair em desconfiança e controle excessivos.",
+    "combina": [
+      "Capacidade de ler nuances e perceber mudanças sutis no outro",
+      "Boa parceria para enfrentar problemas complexos de forma racional e emocional",
+      "Los dois valorizam lealdade, compromisso e discrição"
+    ],
+    "nao_combina": [
+      "Escorpião pode achar Virgem frio ou racional demais diante de certas dores",
+      "Virgem pode sentir o peso do intensidade emocional de Escorpião",
+      "Possível tendência a remoer o passado e analisar tudo em excesso"
+    ],
+    "dicas": [
+      "Procurem equilibrar análise com sensação: nem tudo precisa ser dissecado, nem tudo precisa ser sentido no extremo.",
+      "Façam acordos de confiança claros para que ninguém se sinta testado o tempo todo."
+    ],
+    "compatibilidade": 73
+  },
+  "sagittarius-virgo": {
+    "resumo": "Virgem gosta de planejar e reduzir riscos; Sagitário gosta de improvisar e ampliar horizontes. A relação é um choque entre controle e liberdade, mas pode ser um aprendizado valioso para ambos.",
+    "combina": [
+      "Virgem oferece estrutura para os planos de Sagitário acontecerem de verdade",
+      "Sagitário traz leveza, humor e novas perspectivas para a vida de Virgem",
+      "Podem crescer muito se aprenderem a negociar responsabilidade e aventura"
+    ],
+    "nao_combina": [
+      "Virgem pode ver Sagitário como irresponsável ou imaturo",
+      "Sagitário pode sentir Virgem pesado, controlador ou excessivamente crítico",
+      "Conflitos sobre dinheiro, rotina, viagens e prioridades"
+    ],
+    "dicas": [
+      "Criem regras mínimas para compromissos e prazos que respeitem a necessidade de ambos.",
+      "Virgem: permita um pouco de improviso; Sagitário: mostre que sabe cumprir o que promete."
+    ],
+    "compatibilidade": 52
+  },
+  "capricorn-virgo": {
+    "resumo": "Virgem e Capricórnio, dois signos de terra, tendem a formar um casal sério, comprometido e focado em construir uma vida sólida. Há responsabilidade, disciplina e cuidado, mas precisam lembrar que amor também é diversão.",
+    "combina": [
+      "Objetivos parecidos em relação a estabilidade, trabalho e futuro",
+      "Capacidade de se apoiar mutuamente em crises financeiras ou profissionais",
+      "Respeito ao esforço e à dedicação do outro"
+    ],
+    "nao_combina": [
+      "Possível excesso de preocupação, transformando a vida a dois em 'projeto' constante",
+      "Dificuldade em falar de emoções abertamente",
+      "Tendência a negligenciar romance, surpresa e brincadeira"
+    ],
+    "dicas": [
+      "Planejem o futuro, mas também agendem momentos de leveza e conexão sem pauta prática.",
+      "Abram-se mais sobre medos, inseguranças e desejos; vulnerabilidade fortalece a parceria."
+    ],
+    "compatibilidade": 90
+  },
+  "aquarius-virgo": {
+    "resumo": "Virgem busca ordem, previsibilidade e clareza, enquanto Aquário busca inovação, liberdade e ruptura de padrões. A relação é desafiadora, mas pode ser uma grande fonte de expansão mental e prática para ambos.",
+    "combina": [
+      "Aquário traz ideias novas e perspectivas diferentes para Virgem",
+      "Virgem ajuda Aquário a tirar projetos do plano teórico e torná-los concretos",
+      "Os dois podem se unir em causas ou projetos que exigem tanto visão quanto detalhe"
+    ],
+    "nao_combina": [
+      "Virgem pode achar Aquário imprevisível, distante ou incoerente",
+      "Aquário pode ver Virgem como rígido, controlador ou pessimista",
+      "Conflitos sobre rotina, liberdade e quebra de tradições"
+    ],
+    "dicas": [
+      "Respeitem o estilo do outro: um organiza, o outro reinventa.",
+      "Façam acordos flexíveis: algumas áreas da vida podem seguir planilha, outras podem seguir intuição."
+    ],
+    "compatibilidade": 49
+  },
+  "pisces-virgo": {
+    "resumo": "Virgem olha para fatos e detalhes, enquanto Peixes olha para sentimentos e significados. Essa relação une razão e sensibilidade, podendo ser muito curativa se não virar uma dinâmica de salvador e crítico.",
+    "combina": [
+      "Virgem ajuda Peixes a se organizar e lidar melhor com a realidade concreta",
+      "Peixes ensina Virgem sobre empatia, fé e entrega emocional",
+      "Os dois podem se completar em temas de saúde, autocuidado e espiritualidade prática"
+    ],
+    "nao_combina": [
+      "Virgem pode ser duro demais com as confusões de Peixes",
+      "Peixes pode se vitimizar ou fugir de responsabilidades, irritando Virgem",
+      "Conflitos sobre limites, promessas e expectativas emocionais"
+    ],
+    "dicas": [
+      "Virgem: pratique críticas mais gentis e reconheça o esforço emocional de Peixes.",
+      "Peixes: assuma sua parte nas situações e comunique o que sente sem esperar que o outro adivinhe tudo."
+    ],
+    "compatibilidade": 75
+  },
+  "libra-libra": {
+    "resumo": "Dois librianos juntos criam uma relação harmoniosa, sociável e cheia de gentileza, com muita preocupação em agradar e manter o clima leve. Porém, a dificuldade em tomar decisões e enfrentar conflitos pode acumular problemas invisíveis.",
+    "combina": [
+      "Valorizam diálogo, respeito e diplomacia",
+      "Apreciam beleza, cultura, bons ambientes e uma certa estética a dois",
+      "Gostam de parceria e evitam atitudes grosseiras ou brutais"
+    ],
+    "nao_combina": [
+      "Indecisão em dobro, especialmente em questões importantes",
+      "Tendência a evitar conversas difíceis para não gerar desconforto",
+      "Possibilidade de guardar ressentimentos por falta de posicionamento firme"
+    ],
+    "dicas": [
+      "Estabeleçam momentos para falar de temas mais espinhosos com honestidade e carinho.",
+      "Aceitem que discordar não é quebrar a harmonia, e sim fortalecê-la com verdade."
+    ],
+    "compatibilidade": 82
+  },
+  "libra-scorpio": {
+    "resumo": "Libra busca equilíbrio, sociabilidade e suavidade; Escorpião busca intensidade, profundidade e verdade crua. A relação é um encontro entre leveza e profundidade, capaz de transformar ambos, mas também de gerar atrito.",
+    "combina": [
+      "Libra ajuda Escorpião a suavizar e ver nuances nas situações",
+      "Escorpião ajuda Libra a encarar verdades que ele preferiria evitar",
+      "Os dois se interessam por psicologia, amor e relações de forma séria"
+    ],
+    "nao_combina": [
+      "Libra pode sentir Escorpião pesado, ciumento ou controlador",
+      "Escorpião pode achar Libra superficial, indeciso ou pouco comprometido",
+      "Choques entre a necessidade de paz (Libra) e de catarse (Escorpião)"
+    ],
+    "dicas": [
+      "Libra: não minimize os sentimentos intensos de Escorpião com frases do tipo 'não é tudo isso'.",
+      "Escorpião: pratique falar o que sente sem dramatizar ou ameaçar a relação o tempo todo."
+    ],
+    "compatibilidade": 57
+  },
+  "libra-sagittarius": {
+    "resumo": "Libra e Sagitário formam um casal leve, curioso e aberto a novas experiências. Há bom humor, socialização e vontade de aprender juntos, mas é preciso cuidar para que o relacionamento não fique apenas no plano do prazer.",
+    "combina": [
+      "Ambos gostam de conhecer lugares, pessoas e culturas diferentes",
+      "Têm diálogo fluido e geralmente evitam grosserias",
+      "Valorizam liberdade, amizade e um clima de parceria divertida"
+    ],
+    "nao_combina": [
+      "Sagitário pode ser direto demais para a sensibilidade diplomática de Libra",
+      "Libra pode parecer indeciso e depender demais da opinião do outro",
+      "Risco de fugir de conversas mais profundas para não 'pesar o clima'"
+    ],
+    "dicas": [
+      "Equilibrem os momentos de diversão com conversas sobre expectativas e futuro.",
+      "Pratiquem sinceridade gentil: falar a verdade não precisa ferir, mas precisa ser dito."
+    ],
+    "compatibilidade": 80
+  },
+  "capricorn-libra": {
+    "resumo": "Libra se orienta por relações, estética e harmonia; Capricórnio por resultados, estrutura e responsabilidade. A relação pode trazer equilíbrio entre vida social e vida prática, se ninguém desqualificar a prioridade do outro.",
+    "combina": [
+      "Libra ajuda Capricórnio a se conectar mais com pessoas e prazeres da vida",
+      "Capricórnio oferece segurança, estabilidade e confiança a Libra",
+      "Podem formar um casal respeitado, com boa imagem pública e solidez"
+    ],
+    "nao_combina": [
+      "Capricórnio pode achar Libra superficial, indeciso ou preocupado demais com opinião alheia",
+      "Libra pode ver Capricórnio como rígido, frio ou autoritário",
+      "Conflitos sobre tempo: um quer socializar, o outro quer produzir ou descansar"
+    ],
+    "dicas": [
+      "Valorizem o que o outro equilibra em vocês, em vez de tentar transformá-lo em cópia própria.",
+      "Façam acordos sobre agenda social, trabalho e descanso, respeitando limites individuais."
+    ],
+    "compatibilidade": 59
+  },
+  "aquarius-libra": {
+    "resumo": "Libra e Aquário são signos de ar e valorizam diálogo, ideias e conexões sociais. A relação tende a ser leve, mental e companheira, com visão moderna sobre amor, mas precisa incluir espaço para sentimentos mais crus.",
+    "combina": [
+      "Gostam de conversar sobre sociedade, relações e temas abstratos",
+      "Valorizam liberdade, respeito e uma convivência pouco controladora",
+      "Podem construir uma relação baseada em amizade, parceria e visão de futuro"
+    ],
+    "nao_combina": [
+      "Tendência a evitar drama, mesmo quando é necessário encarar feridas",
+      "Dificuldade em lidar com ciúmes, inseguranças e demandas emocionais intensas",
+      "Possibilidade de racionalizar demais questões afetivas"
+    ],
+    "dicas": [
+      "Reservem tempo para falar de medos, dores e vulnerabilidades sem julgamentos.",
+      "Lembrem que carinho, toque e presença também são parte importante da equação, não só conversa."
+    ],
+    "compatibilidade": 86
+  },
+  "libra-pisces": {
+    "resumo": "Libra e Peixes são românticos, idealistas e cheios de empatia, criando uma relação doce e sensível. Porém, a dificuldade de ambos em estabelecer limites e tomar decisões pode complicar a vida prática do casal.",
+    "combina": [
+      "Os dois valorizam gentileza, delicadeza e cuidado com o outro",
+      "Há potencial para muito romantismo, imaginação e conexão emocional",
+      "Tendem a evitar grosserias e prezar por um ambiente tranquilo"
+    ],
+    "nao_combina": [
+      "Indefinição em questões importantes de futuro, dinheiro ou compromisso",
+      "Fuga de conversas difíceis para não magoar o outro",
+      "Possibilidade de se perderem em idealizações e frustrações silenciosas"
+    ],
+    "dicas": [
+      "Façam acordos claros sobre expectativas, mesmo que pareça desconfortável no começo.",
+      "Lembrem que dizer 'não' e se posicionar também é um ato de amor com a relação."
+    ],
+    "compatibilidade": 71
+  },
+  "scorpio-scorpio": {
+    "resumo": "Dois escorpianos juntos criam uma relação intensa, profunda e cheia de magnetismo. Há lealdade, entrega e verdade, mas também grande risco de conflito pesado se a confiança for abalada.",
+    "combina": [
+      "Compromisso emocional sério, sem espaço para superficialidade",
+      "Intuição aguçada, entendendo o outro em camadas muito profundas",
+      "Capacidade de enfrentar crises juntos com muita força"
+    ],
+    "nao_combina": [
+      "Ciúmes, controle e paranoias sobre traição ou abandono",
+      "Dificuldade em perdoar e realmente soltar o passado",
+      "Discussões que podem se tornar destrutivas se virarem guerra de poder"
+    ],
+    "dicas": [
+      "Aprendam a comunicar inseguranças sem atacar ou testar o outro.",
+      "Trabalhem em terapia, espiritualidade ou autoconhecimento para que a relação não carregue todos os pesos individuais."
+    ],
+    "compatibilidade": 84
+  },
+  "sagittarius-scorpio": {
+    "resumo": "Escorpião mergulha nas profundezas emocionais, enquanto Sagitário gosta de enxergar o lado leve e expandir horizontes. A relação é um choque entre densidade e liberdade, mas pode ser extremamente transformadora.",
+    "combina": [
+      "Escorpião aprofunda temas que Sagitário costuma tratar de forma filosófica",
+      "Sagitário traz humor e movimento para os dramas de Escorpião",
+      "Ambos são sinceros e detestam falsidade, cada um à sua maneira"
+    ],
+    "nao_combina": [
+      "Sagitário pode sentir Escorpião controlador, ciumento ou intenso demais",
+      "Escorpião pode ver Sagitário como irresponsável ou pouco comprometido",
+      "Conflitos sobre liberdade, espaço e necessidade de conversa emocional longa"
+    ],
+    "dicas": [
+      "Respeitem a diferença de estilo: um precisa de profundidade, o outro de leveza.",
+      "Façam acordos sobre o que é aceitável em termos de liberdade, contato e transparência com outras pessoas."
+    ],
+    "compatibilidade": 55
+  },
+  "capricorn-scorpio": {
+    "resumo": "Escorpião e Capricórnio formam um casal sério, leal e focado em resultados, tanto emocionais quanto materiais. É uma relação com potencial de ser duradoura, sólida e transformadora, mas pouco leve se não houver espaço para respiro.",
+    "combina": [
+      "Ambos levam compromisso e responsabilidade muito a sério",
+      "Capacidade de enfrentar desafios e crises com muita determinação",
+      "Discrição e respeito à intimidade do relacionamento"
+    ],
+    "nao_combina": [
+      "Pouca espontaneidade e humor em alguns momentos",
+      "Possibilidade de endurecer demais brincadeiras, tornando tudo pesado",
+      "Dificuldade em demonstrar afeto de forma leve e aberta"
+    ],
+    "dicas": [
+      "Criem momentos intencionais de diversão, não só de planejamento e resolução de problemas.",
+      "Pratiquem elogios, carinhos e demonstrações claras de admiração um pelo outro."
+    ],
+    "compatibilidade": 79
+  },
+  "aquarius-scorpio": {
+    "resumo": "Escorpião vive intensidade emocional, Aquário vive intensidade mental. A relação é complexa, interessante e desafiadora, pedindo maturidade de ambos para não virar um campo de guerra entre razão e sentimento.",
+    "combina": [
+      "Podem ter conversas muito profundas sobre vida, morte, psicologia e sociedade",
+      "Ambos têm personalidade forte e não se contentam com superficialidade",
+      "Capacidade de criar vínculos únicos, pouco convencionais e marcantes"
+    ],
+    "nao_combina": [
+      "Aquário pode parecer frio ou distante para a necessidade emocional de Escorpião",
+      "Escorpião pode parecer controlador, dramático ou obcecado para Aquário",
+      "Conflitos quando um quer falar de dores e o outro quer racionalizar tudo"
+    ],
+    "dicas": [
+      "Aquário: valide a emoção de Escorpião, mesmo que você prefira analisá-la.",
+      "Escorpião: tente não interpretar toda necessidade de espaço como rejeição."
+    ],
+    "compatibilidade": 47
+  },
+  "pisces-scorpio": {
+    "resumo": "Escorpião e Peixes, ambos signos de água, criam uma relação intuitiva, profunda e cheia de nuances emocionais. Há muita empatia, romantismo e magnetismo, mas também risco de dramas prolongados se faltarem limites.",
+    "combina": [
+      "Conexão emocional intensa, com sensação de compreensão mútua",
+      "Interesse por temas espirituais, psicológicos ou misteriosos",
+      "Capacidade de apoiar o outro em momentos de crise real"
+    ],
+    "nao_combina": [
+      "Possibilidade de relações codependentes ou muito fechadas ao mundo exterior",
+      "Ciúmes e medos projetados um no outro",
+      "Dificuldade em lidar com frustrações sem dramatizar ou se vitimizar"
+    ],
+    "dicas": [
+      "Tragam clareza para a relação, falando de limites, necessidades e desejos com honestidade.",
+      "Cuidem para não se isolar completamente do resto da vida em nome da intensidade desse vínculo."
+    ],
+    "compatibilidade": 88
+  },
+  "sagittarius-sagittarius": {
+    "resumo": "Dois sagitarianos juntos criam uma relação expansiva, divertida e cheia de histórias, em que a sinceridade costuma vir antes do filtro. Há muita liberdade, mas o desafio é construir profundidade e responsabilidade afetiva.",
+    "combina": [
+      "Amor por viagens, aventuras e experiências novas",
+      "Senso de humor forte, com capacidade de rir de si mesmos",
+      "Valorização de honestidade, mesmo quando ela é meio brutal"
+    ],
+    "nao_combina": [
+      "Falta de paciência com dramas e conversas emocionais longas",
+      "Tendência a prometer mais do que conseguem cumprir",
+      "Possibilidade de evitar responsabilidade em nome da liberdade"
+    ],
+    "dicas": [
+      "Lembrem que compromisso pode ser escolhido, não imposto, e isso não diminui a liberdade.",
+      "Criem alguns combinados mínimos de respeito e presença, para que ninguém se sinta largado."
+    ],
+    "compatibilidade": 87
+  },
+  "capricorn-sagittarius": {
+    "resumo": "Sagitário quer explorar o mundo; Capricórnio quer construir algo duradouro. A relação é uma grande aula de equilíbrio entre sonho e disciplina, otimismo e realismo, se ninguém tentar anular o outro.",
+    "combina": [
+      "Sagitário traz leveza, esperança e visão mais ampla para Capricórnio",
+      "Capricórnio oferece estrutura, foco e segurança para Sagitário",
+      "Podem crescer juntos, ampliando horizontes sem perder o pé no chão"
+    ],
+    "nao_combina": [
+      "Capricórnio pode ver Sagitário como inconsequente ou disperso",
+      "Sagitário pode achar Capricórnio pessimista, controlador ou rígido demais",
+      "Choques sobre dinheiro, carreira, viagens e responsabilidades domésticas"
+    ],
+    "dicas": [
+      "Capricórnio: reconheça o valor da alegria e do improviso na manutenção do vínculo.",
+      "Sagitário: mostrar constância em alguns pontos fortalece a liberdade que você tanto preza."
+    ],
+    "compatibilidade": 58
+  },
+  "aquarius-sagittarius": {
+    "resumo": "Sagitário e Aquário formam uma combinação livre, idealista e mentalmente estimulante. A relação tende a ser de grande amizade, flexibilidade e espírito de aventura, mas pode faltar cuidado com necessidades emocionais mais delicadas.",
+    "combina": [
+      "Ambos valorizam autenticidade, liberdade e experiências fora do óbvio",
+      "Gostam de conversar sobre ideias, futuro, sociedade e crenças",
+      "Pouca tendência a controlar o outro, com respeito ao espaço individual"
+    ],
+    "nao_combina": [
+      "Dificuldade em lidar com ciúmes, inseguranças ou demandas emocionais intensas",
+      "Tendência a minimizar problemas com frases como 'tá tudo bem, segue o baile'",
+      "Possibilidade de se afastar em silêncio quando algo pesa, em vez de conversar"
+    ],
+    "dicas": [
+      "Criem um código de 'agora é assunto sério' para sinalizar quando o tema precisa de mais profundidade.",
+      "Lembrem que acolher o outro não ameaça a liberdade, apenas fortalece a confiança."
+    ],
+    "compatibilidade": 85
+  },
+  "pisces-sagittarius": {
+    "resumo": "Sagitário vê o mundo como uma aventura; Peixes vê o mundo como um grande campo de emoções e significados. A relação é inspiradora, criativa e exagerada, para o bem e para o caos, se não houver alinhamento.",
+    "combina": [
+      "Podem sonhar juntos com viagens, projetos criativos e novas possibilidades de vida",
+      "Sagitário ajuda Peixes a sair da bolha e enxergar mais horizonte",
+      "Peixes ajuda Sagitário a se conectar com a sensibilidade própria e dos outros"
+    ],
+    "nao_combina": [
+      "Sagitário pode ser direto demais para a delicadeza de Peixes",
+      "Peixes pode esperar mais segurança e constância do que Sagitário consegue oferecer",
+      "Ruídos quando um leva algo na brincadeira e o outro sente profundamente"
+    ],
+    "dicas": [
+      "Falem claramente sobre o que é sério e o que é só brincadeira, para ninguém sair ferido à toa.",
+      "Sagitário: pratique empatia; Peixes: pratique limites e clareza no que você aceita ou não."
+    ],
+    "compatibilidade": 63
+  },
+  "capricorn-capricorn": {
+    "resumo": "Dois capricornianos juntos criam uma relação séria, focada e muito comprometida com o futuro. Há responsabilidade e lealdade, mas precisam lembrar que amor não é só trabalho, meta e planejamento.",
+    "combina": [
+      "Ambos valorizam estabilidade, respeito e crescimento a longo prazo",
+      "Compromisso real com a construção de uma vida sólida",
+      "Capacidade de enfrentar crises com disciplina e estratégia"
+    ],
+    "nao_combina": [
+      "Pouca espontaneidade, romance e brincadeira em alguns períodos",
+      "Tendência a reprimir emoções para 'não atrapalhar' a rotina",
+      "Autoexigência forte que pode respingar na relação"
+    ],
+    "dicas": [
+      "Incluam rituais de diversão, mimo e celebração no calendário, não só obrigações.",
+      "Dizer 'eu te amo', elogiar e demonstrar carinho também é produtividade emocional."
+    ],
+    "compatibilidade": 88
+  },
+  "aquarius-capricorn": {
+    "resumo": "Capricórnio valoriza tradição, estrutura e prudência; Aquário valoriza inovação, liberdade e ruptura de padrões. A relação é um encontro entre passado e futuro, que pode ser brilhante se houver respeito mútuo.",
+    "combina": [
+      "Capricórnio traz execução, consistência e responsabilidade",
+      "Aquário traz ideias novas, visão moderna e flexibilidade",
+      "Juntos podem construir algo sólido e ao mesmo tempo inovador"
+    ],
+    "nao_combina": [
+      "Capricórnio pode achar Aquário imprevisível ou rebelde sem causa",
+      "Aquário pode achar Capricórnio conservador ou rígido demais",
+      "Diferenças marotas em relação a regras, horários, família e estilo de vida"
+    ],
+    "dicas": [
+      "Capricórnio: abra espaço para o novo, mesmo que em doses controladas.",
+      "Aquário: mostre que sua liberdade não exclui compromisso e confiabilidade."
+    ],
+    "compatibilidade": 64
+  },
+  "capricorn-pisces": {
+    "resumo": "Capricórnio traz chão; Peixes traz mar. A relação é um convite a equilibrar realidade e sonho, concreto e sensível, podendo ser muito bonita quando ninguém tenta invalidar o mundo do outro.",
+    "combina": [
+      "Capricórnio ajuda Peixes a se organizar, se proteger e realizar projetos",
+      "Peixes inspira Capricórnio a sentir mais, relaxar e acreditar em possibilidades",
+      "Os dois podem formar um casal que une responsabilidade com carinho"
+    ],
+    "nao_combina": [
+      "Capricórnio pode achar Peixes confuso, dramático ou pouco prático",
+      "Peixes pode ver Capricórnio como frio, duro ou pouco receptivo",
+      "Conflitos sobre tempo para trabalho, descanso e romance"
+    ],
+    "dicas": [
+      "Capricórnio: experimente demonstrar afeto de forma mais explícita; isso fortalece muito Peixes.",
+      "Peixes: honre os combinados e cuide para que Capricórnio se sinta apoiado na vida prática também."
+    ],
+    "compatibilidade": 76
+  },
+  "aquarius-aquarius": {
+    "resumo": "Dois aquarianos juntos criam uma relação livre, diferente e baseada em amizade, respeito e espaço individual. É um vínculo mentalmente estimulante, mas que precisa de espaço para sentimentos mais claros.",
+    "combina": [
+      "Respeito à individualidade e às escolhas pessoais",
+      "Interesse por ideias novas, causas sociais ou estilos de vida alternativos",
+      "Pouca tendência a jogos de controle e ciúmes possessivos"
+    ],
+    "nao_combina": [
+      "Dificuldade em falar de emoções de forma aberta e vulnerável",
+      "Possibilidade de afastamentos longos sem explicação",
+      "Risco de priorizar amizade, trabalho ou causas acima da relação, sem alinhar isso"
+    ],
+    "dicas": [
+      "Pratiquem comunicar o que sentem, mesmo que seja estranho no começo.",
+      "Lembrem que proximidade emocional não anula liberdade; ela pode fortalecer o vínculo e a autonomia."
+    ],
+    "compatibilidade": 86
+  },
+  "aquarius-pisces": {
+    "resumo": "Aquário vive no campo das ideias e da visão ampla; Peixes, no campo das emoções e da sensibilidade. A relação pode ser muito espiritual, idealista e artística, mas também confusa se faltarem acordos claros.",
+    "combina": [
+      "Ambos têm interesse em temas humanitários, coletivos ou espirituais",
+      "Peixes traz empatia e intuição para os ideais de Aquário",
+      "Aquário ajuda Peixes a pensar com mais distância e clareza em alguns momentos"
+    ],
+    "nao_combina": [
+      "Aquário pode parecer frio ou distante para a profundidade emocional de Peixes",
+      "Peixes pode parecer confuso ou dramático para o estilo lógico de Aquário",
+      "Comunicação pode oscilar entre racional demais e emotiva demais sem síntese"
+    ],
+    "dicas": [
+      "Traduzam o que sentem e pensam em palavras simples e diretas, evitando suposições.",
+      "Aceitem que cada um processa o mundo de um jeito: um sente primeiro, o outro pensa primeiro."
+    ],
+    "compatibilidade": 62
+  },
+  "pisces-pisces": {
+    "resumo": "Dois piscianos juntos criam uma relação altamente sensível, emocional e imaginativa, quase de conto de fadas. Há muita empatia, romantismo e conexão espiritual, mas é fácil se perder em fantasias e fugir da realidade prática.",
+    "combina": [
+      "Entendem nuances emocionais um do outro como poucas pessoas",
+      "Capacidade de criar um universo próprio cheio de símbolos, músicas e significados",
+      "Apoio mútuo em momentos de dor, com acolhimento autêntico e afetuoso"
+    ],
+    "nao_combina": [
+      "Possibilidade de escapismo mútuo diante de problemas concretos",
+      "Dificuldade em lidar com dinheiro, prazos e responsabilidades sem estresse",
+      "Oscilações emocionais que podem intensificar a instabilidade do relacionamento"
+    ],
+    "dicas": [
+      "Criem rotinas, planos e estruturas que sustentem toda essa sensibilidade sem sufocá-la.",
+      "Busquem pé no chão: conversar sobre finanças, saúde e limites também é um ato de amor."
+    ],
+    "compatibilidade": 80
+  }
+}

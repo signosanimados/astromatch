@@ -9,11 +9,21 @@ interface SignCardProps {
   disabled?: boolean;
 }
 
-const SignCard: React.FC<SignCardProps> = ({ sign, isSelected, onClick, disabled }) => {
+const SignCard: React.FC<SignCardProps> = React.memo(({ sign, isSelected, onClick, disabled }) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <button
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       disabled={disabled}
+      aria-pressed={isSelected}
+      aria-label={`Selecionar signo ${sign.name}`}
       className={`
         relative group flex flex-col items-center justify-between p-4 rounded-xl transition-all duration-500 border aspect-[3/4.2] overflow-hidden
         ${isSelected 
@@ -35,12 +45,15 @@ const SignCard: React.FC<SignCardProps> = ({ sign, isSelected, onClick, disabled
 
       {/* Main Icon (Image) */}
       <div className={`transition-all duration-500 flex items-center justify-center w-full h-full p-2`}>
-        <img 
-          src={sign.icon} 
+        <img
+          src={sign.icon}
           alt={sign.name}
           className={`w-24 h-24 object-cover rounded-full drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] transition-transform duration-500
             ${isSelected ? 'scale-110 drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]' : 'group-hover:scale-110'}
           `}
+          loading="lazy"
+          width="96"
+          height="96"
         />
       </div>
       
@@ -59,6 +72,8 @@ const SignCard: React.FC<SignCardProps> = ({ sign, isSelected, onClick, disabled
       <div className={`absolute inset-0 bg-gradient-to-t ${sign.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none`}></div>
     </button>
   );
-};
+});
+
+SignCard.displayName = 'SignCard';
 
 export default SignCard;
