@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { CompatibilityResult, SignData } from '../types';
 import { APP_LOGO, PORTUGUESE_NAMES, DEFAULT_BACKGROUND, BACKGROUND_URLS } from '../constants';
@@ -9,9 +10,10 @@ interface ResultViewProps {
   signB: SignData;
   mode: 'love' | 'friendship';
   onReset: () => void;
+  userEmail?: string;
 }
 
-const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onReset }) => {
+const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onReset, userEmail }) => {
   const [animatedPercent, setAnimatedPercent] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [bgImage, setBgImage] = useState<string>(DEFAULT_BACKGROUND);
@@ -123,33 +125,32 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
   // Determine if we need to flip the background image
-  // Logic Explanation:
-  // 1. Standard Rule (e.g., Capricorn & Pisces):
-  //    - If selected Alphabetically (A-B): No Flip.
-  //    - If selected Reverse (B-A): Flip.
-  // 2. Exceptions (Aries & Leo, Aquarius & Pisces):
-  //    - If selected Alphabetically (A-B): Flip.
-  //    - If selected Reverse (B-A): No Flip.
+  // Logic:
+  // 1. Standard Rule: The file naming is Alphabetical (A-B).
+  //    - If selection is A->B (Alphabetical), it matches the file. NO FLIP.
+  //    - If selection is B->A (Reverse), it mismatches. FLIP.
+  // 2. Exceptions: Aries/Leo and Aquarius/Pisces.
+  //    - For these, the source image is "inverted" relative to standard logic.
+  //    - So, if selection is Alphabetical (A->B), we FLIP.
+  //    - If selection is Reverse (B->A), we NO FLIP.
+
+  const nameA = PORTUGUESE_NAMES[signA.id]; // First Selected
+  const nameB = PORTUGUESE_NAMES[signB.id]; // Second Selected
   
-  const nameA = PORTUGUESE_NAMES[signA.id]; // First selected
-  const nameB = PORTUGUESE_NAMES[signB.id]; // Second selected
-  
-  // Check if selection is in Alphabetical Order (A comes before B)
-  const isAlphabeticalOrder = nameA.localeCompare(nameB) < 0;
+  // Check if selection is Alphabetical (First < Second)
+  const isAlphabeticalSelection = nameA.localeCompare(nameB) < 0;
+
+  // Standard Rule: Flip if NOT alphabetical
+  let shouldFlip = !isAlphabeticalSelection;
 
   // Identify Exceptions
   const isAquariusPisces = (signA.id === 'aquarius' && signB.id === 'pisces') || (signA.id === 'pisces' && signB.id === 'aquarius');
   const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
   const isExceptionPair = isAquariusPisces || isAriesLeo;
 
-  let shouldFlipBackground = false;
-
+  // Apply Exception Logic (Invert the rule)
   if (isExceptionPair) {
-      // For exceptions: Flip if alphabetical
-      shouldFlipBackground = isAlphabeticalOrder;
-  } else {
-      // For standard: Flip if NOT alphabetical
-      shouldFlipBackground = !isAlphabeticalOrder;
+    shouldFlip = !shouldFlip;
   }
 
   return (
@@ -348,9 +349,9 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                    height: '100%', 
                    objectFit: 'cover',
                    // FLIP HORIZONTALLY logic:
-                   // 1. If alphabetical order is inverted (B then A), flip to match.
-                   // 2. EXCEPTIONS: Aries/Leo and Aquarius/Pisces (Invert logic)
-                   transform: shouldFlipBackground ? 'scaleX(-1)' : 'none'
+                   // Standard: Flip if NOT alphabetical (Reverse order)
+                   // Exception: Flip if IS alphabetical (Standard order)
+                   transform: shouldFlip ? 'scaleX(-1)' : 'none'
                  }}
                  onError={(e) => {
                    // Fallback if specific combo image is missing
