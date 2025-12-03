@@ -1,4 +1,3 @@
-import React from 'react';
 import { SignData, ElementType } from './types';
 
 // Link direto do Imgur (Logo do App)

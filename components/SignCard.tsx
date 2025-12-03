@@ -1,5 +1,5 @@
 import React from 'react';
-import { SignData, ElementType } from '../types';
+import { SignData } from '../types';
 import { ElementIcons } from '../constants';
 
 interface SignCardProps {
