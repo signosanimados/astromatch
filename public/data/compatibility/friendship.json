@@ -1,0 +1,1640 @@
+{
+  "aries-aries": {
+    "resumo": "Dois arianos juntos criam uma amizade intensa, agitada e cheia de histórias mal contadas. Vocês se entendem no impulso e na coragem, mas também podem brigar feio por besteira.",
+    "combina": [
+      "Rolês espontâneos e cheios de adrenalina",
+      "Sinceridade direta, sem rodeios",
+      "Apoio quando é hora de tomar atitude",
+      "Capacidade de recomeçar depois das brigas"
+    ],
+    "nao_combina": [
+      "Competição por quem manda mais no rolê",
+      "Explosões de raiva desnecessárias",
+      "Pouca paciência para conversas profundas",
+      "Tendência a desistir da amizade em momentos de orgulho"
+    ],
+    "dicas": [
+      "Lembrem que vocês estão do mesmo lado, não em lados opostos de uma disputa.",
+      "Respirem antes de responder na raiva; às vezes é só fome ou cansaço.",
+      "Criem um código de paz para saber quando é hora de parar a discussão."
+    ],
+    "compatibilidade": 88
+  },
+  "aries-taurus": {
+    "resumo": "Áries e Touro formam uma amizade de ritmo diferente, mas complementar. Um puxa para a ação, o outro puxa para a calma e o conforto.",
+    "combina": [
+      "Touro segura Áries quando ele quer chutar o balde",
+      "Áries incentiva Touro a sair da zona de conforto",
+      "Bons rolês com comida, risada e histórias",
+      "Lealdade forte quando a amizade se consolida"
+    ],
+    "nao_combina": [
+      "Teimosia dos dois quando ninguém quer ceder",
+      "Áries se irritando com a lentidão de Touro",
+      "Touro achando Áries impulsivo e sem noção",
+      "Discussões sobre dinheiro, horários e planejamento"
+    ],
+    "dicas": [
+      "Áries: respeite o tempo de Touro, nem tudo precisa ser imediato.",
+      "Touro: às vezes vale confiar no impulso do amigo e ir junto.",
+      "Conversem antes de marcar algo importante para alinhar expectativa."
+    ],
+    "compatibilidade": 78
+  },
+  "aries-gemini": {
+    "resumo": "Áries e Gêmeos criam uma amizade elétrica, cheia de piada interna e planos de última hora. Difícil é manter foco em uma coisa só.",
+    "combina": [
+      "Conversas rápidas, engraçadas e sem filtro",
+      "Rolês improvisados e viagens relâmpago",
+      "Capacidade de se animarem em segundos",
+      "Facilidade para fazer as pazes depois de tretas pequenas"
+    ],
+    "nao_combina": [
+      "Planos que nunca se concretizam",
+      "Impulsividade x indecisão",
+      "Promessas feitas no calor do momento e esquecidas depois",
+      "Pouca profundidade em certos assuntos importantes"
+    ],
+    "dicas": [
+      "Criem pelo menos alguns combinados que vocês realmente vão cumprir.",
+      "Quando algo for sério, avisem: ‘agora é papo de verdade’.",
+      "Equilibrem o caos com um mínimo de organização nos planos."
+    ],
+    "compatibilidade": 90
+  },
+  "aries-cancer": {
+    "resumo": "Áries e Câncer formam uma amizade de proteção e contraste: um é armadura, o outro é colo. Se não houver cuidado, o jeito direto de um machuca o jeito sensível do outro.",
+    "combina": [
+      "Áries defende Câncer quando alguém passa do limite",
+      "Câncer oferece ouvido e afeto quando Áries desaba",
+      "Fidelidade forte quando a confiança é criada",
+      "Capacidade de se motivarem em momentos difíceis"
+    ],
+    "nao_combina": [
+      "Palavras duras demais para um coração sensível",
+      "Câncer se fechando e sumindo quando se magoa",
+      "Áries achando drama onde Câncer só está sentindo",
+      "Mal-entendidos por falta de explicação sincera"
+    ],
+    "dicas": [
+      "Áries: seja direto, mas um pouco mais gentil com o amigo de Câncer.",
+      "Câncer: fale quando algo te ferir, não suma esperando que ele adivinhe.",
+      "Transformem a diferença em parceria: um protege por fora, o outro por dentro."
+    ],
+    "compatibilidade": 75
+  },
+  "aries-leo": {
+    "resumo": "Áries e Leão juntos viram aquela dupla barulhenta do grupo, cheia de atitude e presença. A amizade é divertida, mas também é cheia de ego.",
+    "combina": [
+      "Muita energia e disposição para rolês",
+      "Apoio mútuo em conquistas e metas",
+      "Senso de humor parecido, meio exagerado",
+      "Coragem para defender um ao outro"
+    ],
+    "nao_combina": [
+      "Competição constante por atenção",
+      "Brigas quando um sente que o outro não o valorizou",
+      "Pouca vontade de pedir desculpa primeiro",
+      "Orgulho atrapalhando reconciliações simples"
+    ],
+    "dicas": [
+      "Lembrem de elogiar um ao outro com sinceridade, não só disputar palco.",
+      "Nem toda situação é sobre quem está certo, às vezes é só sobre ouvir.",
+      "Criem um pacto de não levar tudo para o lado pessoal."
+    ],
+    "compatibilidade": 92
+  },
+  "aries-virgo": {
+    "resumo": "Áries e Virgem têm jeitos bem diferentes, mas que podem se complementar. Um é impulso, o outro é análise.",
+    "combina": [
+      "Virgem ajuda Áries a não fazer tanta cagada por impulso",
+      "Áries incentiva Virgem a não travar na perfeição",
+      "Boa parceria para executar ideias com ação e método",
+      "Lealdade discreta, mas presente"
+    ],
+    "nao_combina": [
+      "Virgem criticando demais o jeito de Áries",
+      "Áries ignorando conselhos importantes",
+      "Discussões sobre organização, horários e compromissos",
+      "Impaciência de um com o ritmo do outro"
+    ],
+    "dicas": [
+      "Virgem: escolha bem o que realmente precisa criticar.",
+      "Áries: ouvir um pouco mais pode salvar seus planos.",
+      "Usem a combinação ‘ideia + plano + ação’ a favor da amizade."
+    ],
+    "compatibilidade": 70
+  },
+  "aries-libra": {
+    "resumo": "Áries e Libra são opostos complementares na amizade: um vai reto, o outro suaviza. Quando alinhados, formam uma dupla poderosa.",
+    "combina": [
+      "Áries fala o que ninguém quer falar, Libra sabe como falar",
+      "Bons conselhos sobre amor e relacionamentos dos dois lados",
+      "Equilíbrio entre ação e diplomacia",
+      "Proteção ativa quando alguém injustiça o amigo"
+    ],
+    "nao_combina": [
+      "Áries achando Libra indeciso demais",
+      "Libra achando Áries bruto e grosso",
+      "Conflitos na forma de lidar com tretas",
+      "Risco de Libra evitar assuntos que Áries quer resolver logo"
+    ],
+    "dicas": [
+      "Áries: segure um pouco o modo ‘soco na mesa’ em temas delicados.",
+      "Libra: pare de fugir de conflitos importantes com esse amigo.",
+      "Conversem sobre o que cada um espera da amizade, sem rodeios."
+    ],
+    "compatibilidade": 82
+  },
+  "aries-scorpio": {
+    "resumo": "A amizade entre Áries e Escorpião é intensa, leal e às vezes meio tensa. É aquela dupla que ninguém mexe, mas que entre si vive testando limites.",
+    "combina": [
+      "Lealdade forte e proteção mútua",
+      "Capacidade de falar de assuntos sérios sem frescura",
+      "Energia alta quando se juntam para um objetivo",
+      "Respeito pela coragem um do outro"
+    ],
+    "nao_combina": [
+      "Ciúmes de amizade e controle de agenda",
+      "Testes desnecessários para ver se o outro é leal mesmo",
+      "Brigas pesadas quando se sentem traídos",
+      "Dificuldade em admitir vulnerabilidade"
+    ],
+    "dicas": [
+      "Parem de testar o outro o tempo todo, conversem direto.",
+      "Lembrem que vocês são aliados, não inimigos estratégicos.",
+      "Equilibrem intensidade com momentos simples e leves."
+    ],
+    "compatibilidade": 80
+  },
+  "aries-sagittarius": {
+    "resumo": "Áries e Sagitário são amigos perfeitos para aventuras, viagens e ideias malucas. A amizade é honesta, barulhenta e pouco formal.",
+    "combina": [
+      "Rolês intensos e histórias engraçadas",
+      "Pouca frescura para falar o que pensam",
+      "Apoio quando alguém quer arriscar algo novo",
+      "Facilidade em voltar ao normal depois de pequenas tretas"
+    ],
+    "nao_combina": [
+      "Falta de tato em momentos sensíveis",
+      "Promessas furadas feitas na empolgação",
+      "Pouco espaço para conversas profundas quando alguém está mal",
+      "Tendência a sumir e voltar como se nada tivesse acontecido"
+    ],
+    "dicas": [
+      "Separem alguns momentos para serem mais sérios com o outro.",
+      "Lembrem que ouvir também faz parte da amizade, não só brincar.",
+      "Combinem melhor o que é importante cumprir e o que é apenas ‘ver no dia’."
+    ],
+    "compatibilidade": 93
+  },
+  "aries-capricorn": {
+    "resumo": "Áries e Capricórnio formam uma amizade de trabalho em equipe: um é motor, o outro é freio inteligente. Quando se respeitam, realizam muito juntos.",
+    "combina": [
+      "Áries traz coragem, Capricórnio traz estratégia",
+      "Boa dupla para projetos, negócios e objetivos concretos",
+      "Senso de responsabilidade, cada um do seu jeito",
+      "Respeito pela força e persistência do outro"
+    ],
+    "nao_combina": [
+      "Áries achando Capricórnio sério demais",
+      "Capricórnio achando Áries imaturo e imediatista",
+      "Discussões sobre dinheiro, prazo e risco",
+      "Pouca paciência de um com o estilo do outro"
+    ],
+    "dicas": [
+      "Áries: aprenda a valorizar o planejamento do amigo.",
+      "Capricórnio: dê um pouco de espaço para o improviso dele.",
+      "Definam metas juntos: um empurra, o outro organiza."
+    ],
+    "compatibilidade": 72
+  },
+  "aries-aquarius": {
+    "resumo": "Áries e Aquário criam uma amizade diferente, cheia de ideias e posicionamentos fortes. É a dupla que discute, se provoca, mas se admira.",
+    "combina": [
+      "Conversas sinceras e sem tabu",
+      "Apoio em decisões ousadas ou pouco convencionais",
+      "Muito estímulo mental e movimento",
+      "Respeito pela autenticidade de cada um"
+    ],
+    "nao_combina": [
+      "Teimosia dos dois ao defender ponto de vista",
+      "Discussões que viram debate eterno",
+      "Dificuldade em lidar com carências emocionais",
+      "Possibilidade de um sumir quando acha que o outro exagerou"
+    ],
+    "dicas": [
+      "Lembrem que não é sempre sobre quem está certo, e sim sobre manter o vínculo.",
+      "Podem discordar sem cortar a amizade.",
+      "Criem regras básicas para conflitos: sem ataques pessoais, só ideias."
+    ],
+    "compatibilidade": 85
+  },
+  "aries-pisces": {
+    "resumo": "Áries e Peixes constroem uma amizade que mistura força e sensibilidade. Um puxa para o mundo real, o outro puxa para o mundo emocional.",
+    "combina": [
+      "Áries protege Peixes em situações difíceis",
+      "Peixes traz empatia e escuta para Áries",
+      "Boa troca entre ação e intuição",
+      "Capacidade de se inspirarem mutuamente"
+    ],
+    "nao_combina": [
+      "Áries sendo grosso sem perceber",
+      "Peixes se magoando e se afastando em silêncio",
+      "Diferenças sobre o que é ‘exagero’ emocional",
+      "Falta de explicação clara de ambos"
+    ],
+    "dicas": [
+      "Áries: ajuste o tom quando seu amigo estiver fragilizado.",
+      "Peixes: fale quando doer, não suma apenas.",
+      "Transformem a amizade em espaço seguro para força e vulnerabilidade."
+    ],
+    "compatibilidade": 73
+  },
+  "taurus-taurus": {
+    "resumo": "Dois taurinos fazem aquela amizade firme, previsível e cheia de conforto. Quem vê de fora acha parada, mas por dentro é leal e segura.",
+    "combina": [
+      "Rolês com comida boa e lugares confortáveis",
+      "Lealdade e constância no dia a dia",
+      "Ajuda prática em momentos de aperto",
+      "Paciência com o jeito do outro"
+    ],
+    "nao_combina": [
+      "Teimosia em dobro nas divergências",
+      "Dificuldade em perdoar algumas coisas",
+      "Resistência a mudanças de rotina",
+      "Guardar incômodo sem falar nada"
+    ],
+    "dicas": [
+      "Conversem mais sobre o que incomoda, não deixem acumular.",
+      "Testem coisas novas juntos de vez em quando.",
+      "Lembrem que ceder às vezes não ameaça a amizade, fortalece."
+    ],
+    "compatibilidade": 89
+  },
+  "gemini-taurus": {
+    "resumo": "Touro e Gêmeos formam uma amizade que mistura estabilidade com movimento. Um é base, o outro é vento.",
+    "combina": [
+      "Gêmeos traz novidade e informação para Touro",
+      "Touro oferece presença constante e confiável",
+      "Podem equilibrar rotina com diversão",
+      "Troca sinceras quando se conectam"
+    ],
+    "nao_combina": [
+      "Touro achando Gêmeos instável demais",
+      "Gêmeos achando Touro devagar e resistente",
+      "Burburinho por causa de mudanças de planos",
+      "Insegurança quando um some demais"
+    ],
+    "dicas": [
+      "Touro: aceite que alguns planos vão mudar no meio do caminho.",
+      "Gêmeos: honre um pouco mais o que marcar com esse amigo.",
+      "Definam quais coisas são inegociáveis para nenhum se frustrar."
+    ],
+    "compatibilidade": 71
+  },
+  "cancer-taurus": {
+    "resumo": "Touro e Câncer constroem uma amizade acolhedora, caseira e protetora. É a dupla do ‘tá tudo bem, vem aqui’.",
+    "combina": [
+      "Conversas longas em ambientes confortáveis",
+      "Cuidado com detalhes e com o bem-estar do outro",
+      "Ajuda real em momentos de crise emocional ou material",
+      "Vínculo duradouro, mesmo com pouco contato diário"
+    ],
+    "nao_combina": [
+      "Dificuldade em lidar com mudanças nos laços",
+      "Ciúmes de outras amizades ou prioridades",
+      "Guardar tristeza sem comentar",
+      "Teimosia quando há mágoa envolvida"
+    ],
+    "dicas": [
+      "Marquem de se falar de tempos em tempos, mesmo na correria.",
+      "Falarem sobre o que sentem evita distanciamentos estranhos.",
+      "Valorizem o jeitinho cuidadoso que ambos têm."
+    ],
+    "compatibilidade": 94
+  },
+  "leo-taurus": {
+    "resumo": "Touro e Leão constroem uma amizade cheia de presença e teimosia. Quando se dão bem, viram dupla poderosa; quando batem de frente, ninguém cede.",
+    "combina": [
+      "Gostam de conforto, prazer e coisas boas",
+      "Sabem se defender mutuamente",
+      "Podem criar uma imagem forte como dupla",
+      "Lealdade quando escolhem estar próximos"
+    ],
+    "nao_combina": [
+      "Teimosia e orgulho em discussões",
+      "Touro achando Leão exagerado",
+      "Leão achando Touro parado demais",
+      "Disputa por quem decide o rolê"
+    ],
+    "dicas": [
+      "Escolham bem as brigas, nem tudo precisa ser levado ao extremo.",
+      "Reconheçam o esforço um do outro em vez de só apontar defeitos.",
+      "Alternem quem escolhe o plano da vez."
+    ],
+    "compatibilidade": 74
+  },
+  "taurus-virgo": {
+    "resumo": "Touro e Virgem criam uma amizade prática, confiável e leal. Às vezes parece séria demais, mas é extremamente sólida.",
+    "combina": [
+      "Ajuda concreta em problemas reais",
+      "Conselhos objetivos, sem muita enrolação",
+      "Compromisso com o que prometem",
+      "Cuidado com trabalho, saúde e organização"
+    ],
+    "nao_combina": [
+      "Crítica em excesso de ambos os lados",
+      "Pouco espaço para brincadeiras em alguns momentos",
+      "Dificuldade em mudar planos rígidos",
+      "Acúmulo de pequenas irritações"
+    ],
+    "dicas": [
+      "Reservem espaço para dar risada e não só resolver coisa séria.",
+      "Elogiem mais o esforço do outro, não só corrijam.",
+      "Planejem rolês leves, sem pauta de produtividade."
+    ],
+    "compatibilidade": 91
+  },
+  "libra-taurus": {
+    "resumo": "Touro e Libra têm em comum o gosto por conforto e beleza. A amizade pode ser cheia de bons momentos, mas precisa alinhar ritmo e expectativas.",
+    "combina": [
+      "Rolês em lugares agradáveis e bonitos",
+      "Conversas sobre relacionamentos, estilo e vida",
+      "Cuidado em não ser grosseiro com o outro",
+      "Valorização da lealdade e presença"
+    ],
+    "nao_combina": [
+      "Libra indeciso x Touro decidido e teimoso",
+      "Conflitos sobre dinheiro e gastos com prazer",
+      "Evitar conversas difíceis para não estragar o clima",
+      "Ficar insistindo em agradar todo mundo e esquecendo de si"
+    ],
+    "dicas": [
+      "Touro: aceite um pouco da diplomacia de Libra.",
+      "Libra: seja mais claro com o que quer, Touro gosta de certeza.",
+      "Combinar antes o que esperam do rolê evita frustração."
+    ],
+    "compatibilidade": 76
+  },
+  "scorpio-taurus": {
+    "resumo": "Touro e Escorpião formam uma amizade intensa, profunda e às vezes silenciosa. Não é uma amizade leve, mas é muito leal.",
+    "combina": [
+      "Proteção mútua em qualquer situação",
+      "Capacidade de guardar segredos",
+      "Conexão forte mesmo sem falar todo dia",
+      "Suporte em fases difíceis da vida"
+    ],
+    "nao_combina": [
+      "Ciúmes e possessividade na amizade",
+      "Dificuldade em conversar quando algo quebra a confiança",
+      "Teimosia em dobro para ceder",
+      "Ficar remoendo o passado"
+    ],
+    "dicas": [
+      "Se algo pesar, conversem antes de cortar laços.",
+      "Valorizem o vínculo em vez de provar quem tem razão.",
+      "Criem momentos mais leves para quebrar o tom sério da amizade."
+    ],
+    "compatibilidade": 82
+  },
+  "sagittarius-taurus": {
+    "resumo": "Touro e Sagitário têm estilos bem diferentes: um quer conforto, o outro quer estrada. A amizade funciona quando há respeito por isso.",
+    "combina": [
+      "Touro oferece um porto seguro",
+      "Sagitário traz histórias, humor e aventura",
+      "Troca de perspectivas sobre vida e escolhas",
+      "Equilíbrio entre ficar e se jogar"
+    ],
+    "nao_combina": [
+      "Touro achando Sagitário instável e sumido",
+      "Sagitário achando Touro preguiçoso ou controlador",
+      "Discussões sobre compromissos e horários",
+      "Frustração quando um quer sair e o outro quer ficar"
+    ],
+    "dicas": [
+      "Touro: aceite que esse amigo às vezes precisa sumir um pouco.",
+      "Sagitário: avise, nem que seja rapidamente, para não passar a sensação de abandono.",
+      "Alternem entre rolês tranquilos e rolês mais intensos."
+    ],
+    "compatibilidade": 67
+  },
+  "capricorn-taurus": {
+    "resumo": "Touro e Capricórnio constroem uma amizade séria, confiável e focada em crescer na vida. Não é a mais caótica, mas é das mais firmes.",
+    "combina": [
+      "Valores parecidos em relação a trabalho e dinheiro",
+      "Apoio pragmático em decisões difíceis",
+      "Respeito pelos limites e responsabilidades do outro",
+      "Pouca paciência para drama gratuito"
+    ],
+    "nao_combina": [
+      "Falta de espaço para vulnerabilidade emocional",
+      "Possível rigidez nos planos",
+      "Dificuldade em falar de sentimentos diretamente",
+      "Cansaço quando só falam de problema e nunca de coisa boa"
+    ],
+    "dicas": [
+      "Se permitam celebrar e relaxar, não só reclamar de responsabilidades.",
+      "Abrir o jogo sobre emoções fortalece ainda mais a confiança.",
+      "Planejem não só metas, mas também recompensas juntas."
+    ],
+    "compatibilidade": 92
+  },
+  "aquarius-taurus": {
+    "resumo": "Touro e Aquário têm visões bem diferentes de vida. A amizade é aprendizado, choque e boas discussões.",
+    "combina": [
+      "Aquário traz ideias novas e diferentes",
+      "Touro traz estabilidade e base",
+      "Troca honesta de opiniões",
+      "Possibilidade de ver o mundo por outro ângulo"
+    ],
+    "nao_combina": [
+      "Touro achando Aquário distante ou frio",
+      "Aquário achando Touro rígido e fechado",
+      "Conflitos sobre mudanças e novidades",
+      "Falta de paciência com o jeito do outro"
+    ],
+    "dicas": [
+      "Touro: aceite testar pequenas mudanças de vez em quando.",
+      "Aquário: tenha um pouco mais de cuidado com o apego de Touro.",
+      "Tratem as diferenças como material de conversa, não de briga."
+    ],
+    "compatibilidade": 60
+  },
+  "pisces-taurus": {
+    "resumo": "Touro e Peixes constroem uma amizade doce e protetora. Um é chão, o outro é mar.",
+    "combina": [
+      "Touro traz segurança e constância",
+      "Peixes oferece empatia e compreensão",
+      "Bons momentos de conversa profunda",
+      "Cuidado genuíno com o bem-estar do outro"
+    ],
+    "nao_combina": [
+      "Peixes sumindo quando está mal",
+      "Touro sendo duro demais em certas respostas",
+      "Falta de organização em planos importantes",
+      "Dificuldade em lidar com mudanças emocionais"
+    ],
+    "dicas": [
+      "Touro: seja um pouco mais gentil nas palavras.",
+      "Peixes: não espere que o outro adivinhe tudo, fale.",
+      "Mantenham a amizade como espaço seguro para sentir e descansar."
+    ],
+    "compatibilidade": 88
+  },
+  "gemini-gemini": {
+    "resumo": "Dois geminianos formam uma amizade caótica, engraçada e cheia de assunto. Difícil é lembrar de tudo que combinaram.",
+    "combina": [
+      "Conversas infinitas sobre qualquer tema",
+      "Adaptação rápida a qualquer rolê",
+      "Bom humor em quase todas as situações",
+      "Facilidade em fazer novas conexões juntos"
+    ],
+    "nao_combina": [
+      "Planos furados por desorganização",
+      "Mudança de ideia de um minuto para o outro",
+      "Falta de profundidade em alguns assuntos sérios",
+      "Sumiços repentinos sem explicação"
+    ],
+    "dicas": [
+      "Criem lembretes e combinados bem claros.",
+      "Separar ‘brincadeira’ de ‘assunto sério’ ajuda muito.",
+      "Uma mensagem sincera de vez em quando já sustenta a amizade."
+    ],
+    "compatibilidade": 89
+  },
+  "cancer-gemini": {
+    "resumo": "Gêmeos e Câncer têm ritmos emocionais diferentes. Um quer leveza, o outro quer profundidade, mas isso pode se complementar.",
+    "combina": [
+      "Gêmeos ajuda Câncer a rir mais das situações",
+      "Câncer dá senso de pertencimento a Gêmeos",
+      "Boa mistura de conversa e acolhimento",
+      "Capacidade de aprender com o estilo do outro"
+    ],
+    "nao_combina": [
+      "Câncer se sentindo não levado a sério",
+      "Gêmeos se sentindo cobrado demais",
+      "Ruídos por mensagens mal interpretadas",
+      "Um se fecha, o outro tenta ignorar o clima"
+    ],
+    "dicas": [
+      "Gêmeos: leve a sério quando o amigo abrir o coração.",
+      "Câncer: pergunte antes de supor que ele não liga.",
+      "Criem um jeito de sinalizar quando é papo leve x papo sério."
+    ],
+    "compatibilidade": 68
+  },
+  "gemini-leo": {
+    "resumo": "Gêmeos e Leão fazem amizade animada, social e expressiva. É aquela dupla que anima o ambiente.",
+    "combina": [
+      "Muita história, piada e palco",
+      "Facilidade em socializar em grupo",
+      "Troca de elogios e motivação",
+      "Criatividade para inventar rolês"
+    ],
+    "nao_combina": [
+      "Disputa por atenção",
+      "Gêmeos se distraindo demais com outras pessoas",
+      "Leão sentindo falta de lealdade em certos momentos",
+      "Dificuldade em aprofundar conversas delicadas"
+    ],
+    "dicas": [
+      "Reservem momentos só de vocês para conversar sem plateia.",
+      "Gêmeos: cuide um pouco mais do ego do seu amigo de Leão.",
+      "Leão: entenda que Gêmeos varia de foco, não é desamor."
+    ],
+    "compatibilidade": 86
+  },
+  "gemini-virgo": {
+    "resumo": "Gêmeos e Virgem compartilham regente mental, mas pensam diferente: um é multi, o outro é detalhista. A amizade pode ser muito produtiva.",
+    "combina": [
+      "Boa troca de ideias",
+      "Capacidade de analisar situações por ângulos diferentes",
+      "Ajuda em estudos, projetos e decisões",
+      "Curiosidade em comum sobre o mundo"
+    ],
+    "nao_combina": [
+      "Virgem criticando demais a bagunça de Gêmeos",
+      "Gêmeos se irritando com o perfeccionismo de Virgem",
+      "Discussões sobre responsabilidade e prazos",
+      "Sensação de julgamento de ambos os lados"
+    ],
+    "dicas": [
+      "Virgem: pegue mais leve na cobrança pessoal.",
+      "Gêmeos: mostre que também consegue ser confiável.",
+      "Juntem o melhor dos dois: criatividade + organização."
+    ],
+    "compatibilidade": 77
+  },
+  "gemini-libra": {
+    "resumo": "Gêmeos e Libra formam uma amizade leve, social e cheia de conversa boa. Tendem a se entender com facilidade.",
+    "combina": [
+      "Interesse por pessoas, ideias e histórias",
+      "Pouca disposição para briga pesada",
+      "Capacidade de ver vários lados de uma situação",
+      "Rolês em lugares agradáveis e diferentes"
+    ],
+    "nao_combina": [
+      "Indecisão em dobro em alguns momentos",
+      "Falta de firmeza para tratar certos temas",
+      "Tendência a fingir que está tudo bem mesmo incomodando",
+      "Deixar assuntos sérios para depois demais"
+    ],
+    "dicas": [
+      "Escolham momentos para falar do que incomoda de verdade.",
+      "Definam juntos algumas prioridades e limites.",
+      "Lembrem que amizade forte aguenta sinceridade."
+    ],
+    "compatibilidade": 91
+  },
+  "gemini-scorpio": {
+    "resumo": "Gêmeos e Escorpião têm linguagens bem diferentes. Um é leve e múltiplo, o outro é intenso e profundo.",
+    "combina": [
+      "Gêmeos traz ar fresco para o drama de Escorpião",
+      "Escorpião traz profundidade para a visão de Gêmeos",
+      "Conversas interessantes sobre temas sérios",
+      "Curiosidade mútua sobre como o outro funciona"
+    ],
+    "nao_combina": [
+      "Escorpião achando Gêmeos raso ou inconstante",
+      "Gêmeos achando Escorpião pesado demais",
+      "Ciúmes de amizades e contatos",
+      "Mal-entendidos quando um brinca e o outro sente"
+    ],
+    "dicas": [
+      "Gêmeos: respeite quando o amigo estiver sensível.",
+      "Escorpião: nem toda leveza é desinteresse.",
+      "Combinar o que machuca ajuda a evitar desgastes."
+    ],
+    "compatibilidade": 58
+  },
+  "gemini-sagittarius": {
+    "resumo": "Gêmeos e Sagitário formam uma amizade viajante, curiosa e cheia de histórias. É a dupla que está sempre olhando para o próximo capítulo.",
+    "combina": [
+      "Interesse por aprender e explorar",
+      "Humor afiado e sinceridade",
+      "Facilidade em retomar contato como se nada tivesse mudado",
+      "Liberdade mútua sem muito drama"
+    ],
+    "nao_combina": [
+      "Pouca paciência para drama emocional",
+      "Algumas promessas feitas e não cumpridas",
+      "Dificuldade em se fazer presente em fases difíceis",
+      "Sumiços longos de ambos"
+    ],
+    "dicas": [
+      "Criem um mínimo de constância, nem que seja uma mensagem de vez em quando.",
+      "Se um dia o assunto for sério, deixem claro isso desde o início.",
+      "Lembrem que amizade também sustenta momentos pesados."
+    ],
+    "compatibilidade": 92
+  },
+  "capricorn-gemini": {
+    "resumo": "Capricórnio e Gêmeos parecem opostos, mas se ajudam: um organiza, o outro flexibiliza. A amizade funciona quando há respeito pelo ritmo do outro.",
+    "combina": [
+      "Capricórnio oferece pé no chão",
+      "Gêmeos traz leveza e criatividade",
+      "Boa dupla para projetos que precisem de mente e execução",
+      "Troca real de visões de mundo"
+    ],
+    "nao_combina": [
+      "Capricórnio achando Gêmeos irresponsável",
+      "Gêmeos achando Capricórnio duro e chato",
+      "Conflitos sobre compromisso com horários e planos",
+      "Falta de compreensão do estilo do outro"
+    ],
+    "dicas": [
+      "Capricórnio: deixe algum espaço para improviso.",
+      "Gêmeos: honre o básico do combinado.",
+      "Enxerguem a utilidade de cada estilo na amizade."
+    ],
+    "compatibilidade": 69
+  },
+  "aquarius-gemini": {
+    "resumo": "Gêmeos e Aquário constroem uma amizade mentalmente agitada e fora da caixa. É muita ideia, meme e debate.",
+    "combina": [
+      "Conversas sobre tudo, de besteira a temas sérios",
+      "Respeito à liberdade do outro",
+      "Pouca cobrança de presença diária",
+      "Afinidade em humor e visão de mundo"
+    ],
+    "nao_combina": [
+      "Dificuldade em lidar com emoções intensas",
+      "Sumiços sem explicação que podem ser mal interpretados",
+      "Excesso de racionalização em situações sensíveis",
+      "Falta de demonstração clara de afeto"
+    ],
+    "dicas": [
+      "De vez em quando, mandem algo que mostre cuidado real.",
+      "Se algo pegar, falem direto, não só teorizem.",
+      "Lembrem que sentir não atrapalha a amizade, aprofunda."
+    ],
+    "compatibilidade": 94
+  },
+  "gemini-pisces": {
+    "resumo": "Gêmeos e Peixes criam uma amizade cheia de imaginação e confusão. Muito potencial criativo, mas também muitos mal-entendidos.",
+    "combina": [
+      "Idéias criativas, artísticas ou viajadas",
+      "Capacidade de conversar horas sobre temas subjetivos",
+      "Liberdade para ser estranho sem julgamento",
+      "Empatia em momentos certos"
+    ],
+    "nao_combina": [
+      "Peixes se magoando com brincadeiras de Gêmeos",
+      "Gêmeos se irritando com drama ou vitimização",
+      "Comunicação cheia de indiretas ou ruídos",
+      "Falta de clareza sobre o que está acontecendo"
+    ],
+    "dicas": [
+      "Perguntem mais: ‘o que você quis dizer com isso?’.",
+      "Evitem suposição e falem com mais objetividade.",
+      "Separar piada de verdade ajuda a manter a amizade saudável."
+    ],
+    "compatibilidade": 64
+  },
+  "cancer-cancer": {
+    "resumo": "Dois cancerianos constroem uma amizade muito afetiva e leal, mas também muito sensível. É a amizade de se sentir em casa, com risco de dramas.",
+    "combina": [
+      "Apoio emocional poderoso",
+      "Memória afetiva forte dos momentos vividos",
+      "Cuidado real com a vida um do outro",
+      "Conexão profunda mesmo em silêncio"
+    ],
+    "nao_combina": [
+      "Mágoas guardadas sem conversa",
+      "Oscilações de humor pesadas",
+      "Expectativa alta sobre presença e atenção",
+      "Tendência à vitimização quando algo dói"
+    ],
+    "dicas": [
+      "Aprendam a falar do que machuca sem atacar.",
+      "Não esperem que o outro adivinhe tudo sozinho.",
+      "Criem rituais de amizade que façam os dois se sentirem seguros."
+    ],
+    "compatibilidade": 93
+  },
+  "cancer-leo": {
+    "resumo": "Câncer e Leão formam uma amizade calorosa e dramática. Um é carinho, o outro é palco.",
+    "combina": [
+      "Troca de apoio emocional e motivacional",
+      "Gestos grandes de amizade e cuidado",
+      "Presença em momentos importantes",
+      "Proteção mútua com unhas e dentes"
+    ],
+    "nao_combina": [
+      "Câncer se sentindo esquecido quando Leão brilha demais fora",
+      "Leão se irritando com oscilações emocionais",
+      "Ciúmes de outras relações",
+      "Briguinhas por falta de validação"
+    ],
+    "dicas": [
+      "Valorize o jeito do outro demonstrar carinho.",
+      "Conversem sobre expectativas de presença e resposta.",
+      "Lembrem que os dois sentem muito, só expressam de forma diferente."
+    ],
+    "compatibilidade": 79
+  },
+  "cancer-virgo": {
+    "resumo": "Câncer e Virgem criam uma amizade cuidadosa e discreta. Um cuida das emoções, o outro cuida da vida prática.",
+    "combina": [
+      "Apoio prático e emocional equilibrado",
+      "Conselhos sensatos e bem-intencionados",
+      "Presença em momentos difíceis",
+      "Lealdade silenciosa, mas firme"
+    ],
+    "nao_combina": [
+      "Virgem sendo duro demais nas críticas",
+      "Câncer interpretando tudo como rejeição",
+      "Dificuldade em lidar com diferenças de sensibilidade",
+      "Acúmulo de ressentimento"
+    ],
+    "dicas": [
+      "Virgem: suavize o tom sem perder o conteúdo.",
+      "Câncer: pergunte a intenção antes de concluir que foi ataque.",
+      "Usem a amizade como espaço de cura, não de cobrança."
+    ],
+    "compatibilidade": 88
+  },
+  "cancer-libra": {
+    "resumo": "Câncer e Libra constroem uma amizade gentil, mas às vezes confusa. Um quer profundidade, o outro quer equilíbrio.",
+    "combina": [
+      "Boa escuta e vontade de ajudar",
+      "Rolês agradáveis e ambientes harmônicos",
+      "Conselhos amorosos sobre relações",
+      "Empatia real, mesmo com jeitos diferentes"
+    ],
+    "nao_combina": [
+      "Libra evitando conflitos emocionais pesados",
+      "Câncer sentindo falta de profundidade",
+      "Indefinição sobre o que incomoda",
+      "Pequenos incômodos acumulados"
+    ],
+    "dicas": [
+      "Libra: permita conversas um pouco mais pesadas às vezes.",
+      "Câncer: aceite que às vezes o amigo prefere leveza, não é desamor.",
+      "Combinar momentos de papo leve e papo profundo ajuda muito."
+    ],
+    "compatibilidade": 72
+  },
+  "cancer-scorpio": {
+    "resumo": "Câncer e Escorpião formam uma amizade profunda, intensa e poderosa. Quase telepática, mas pesada se não houver limite.",
+    "combina": [
+      "Entendimento emocional raro",
+      "Lealdade quase inabalável",
+      "Ajuda em processos de cura e transformação",
+      "Confiança em conversas profundas"
+    ],
+    "nao_combina": [
+      "Ciúmes de outras relações",
+      "Dramas longos e difíceis de encerrar",
+      "Excesso de lembrança do passado",
+      "Dificuldade em dizer ‘não’ dentro do vínculo"
+    ],
+    "dicas": [
+      "Mantenham limites saudáveis, mesmo na intimidade.",
+      "Falarem de incômodos antes de virarem nó na garganta ajuda.",
+      "Busquem doses de leveza na convivência para não pesar demais."
+    ],
+    "compatibilidade": 95
+  },
+  "cancer-sagittarius": {
+    "resumo": "Câncer e Sagitário parecem opostos em amizade: um quer raiz, o outro quer estrada. Se se respeitam, aprendem muito um com o outro.",
+    "combina": [
+      "Sagitário anima Câncer em fases difíceis",
+      "Câncer oferece porto seguro para o outro voltar",
+      "Visões diferentes de vida que se complementam",
+      "Histórias, viagens e memórias afetivas"
+    ],
+    "nao_combina": [
+      "Câncer se sentindo deixado de lado",
+      "Sagitário se sentindo sufocado por cobrança",
+      "Mensagens não respondidas gerando mágoa",
+      "Ruído sobre o que a amizade significa"
+    ],
+    "dicas": [
+      "Conversem sobre ritmo de contato e expectativa.",
+      "Câncer: aceite um pouco do espírito livre do amigo.",
+      "Sagitário: um ‘tô vivo’ de vez em quando já acalma muito."
+    ],
+    "compatibilidade": 63
+  },
+  "cancer-capricorn": {
+    "resumo": "Câncer e Capricórnio criam uma amizade que mistura cuidado emocional com estrutura. É maturidade com afeto.",
+    "combina": [
+      "Capricórnio ajuda Câncer a se organizar",
+      "Câncer ajuda Capricórnio a sentir mais",
+      "Apoio em questões familiares e profissionais",
+      "Respeito pela história um do outro"
+    ],
+    "nao_combina": [
+      "Capricórnio sendo seco demais às vezes",
+      "Câncer dramatizando ausência como desamor",
+      "Diferença de prioridades no dia a dia",
+      "Falta de comunicação sobre expectativa"
+    ],
+    "dicas": [
+      "Capricórnio: demonstre um pouco mais, mesmo que em gestos simples.",
+      "Câncer: reconheça o cuidado prático que o amigo oferece.",
+      "Criem rotinas leves de contato que não pesem para ninguém."
+    ],
+    "compatibilidade": 86
+  },
+  "aquarius-cancer": {
+    "resumo": "Câncer e Aquário têm linguagens opostas: emoção profunda x racionalidade ampla. A amizade é estranha, mas rica.",
+    "combina": [
+      "Aquário amplia a visão de Câncer",
+      "Câncer traz humanidade às ideias de Aquário",
+      "Conversas sobre pessoas e mundo",
+      "Possibilidade de amizade diferente do padrão"
+    ],
+    "nao_combina": [
+      "Câncer se sentindo invalidado",
+      "Aquário achando tudo dramático demais",
+      "Dificuldade em ajustar intensidade de contato",
+      "Ruídos por falta de explicação clara de ambos"
+    ],
+    "dicas": [
+      "Aquário: valide os sentimentos do amigo.",
+      "Câncer: entenda que o jeito frio não significa falta de carinho.",
+      "Aceitem que essa amizade funciona num formato próprio, fora da regra."
+    ],
+    "compatibilidade": 58
+  },
+  "cancer-pisces": {
+    "resumo": "Câncer e Peixes formam uma amizade muito sensível e empática. É quase terapia mútua, se não virar fuga da realidade.",
+    "combina": [
+      "Escuta profunda e sem julgamento",
+      "Entendimento intuitivo do que o outro sente",
+      "Momentos de imaginação e criatividade",
+      "Consolo real em fases difíceis"
+    ],
+    "nao_combina": [
+      "Ambos fugindo de problemas práticos",
+      "Dramas que se retroalimentam",
+      "Dificuldade em estabelecer limite com outras pessoas",
+      "Oscilações emocionais pesadas"
+    ],
+    "dicas": [
+      "Lembrem de falar também de soluções, não só do problema.",
+      "Tragam prática para os sonhos e dores.",
+      "Usem a sensibilidade para se fortalecer, não só sofrer junto."
+    ],
+    "compatibilidade": 92
+  },
+  "leo-leo": {
+    "resumo": "Dois leoninos criam uma amizade intensa, divertida e cheia de histórias icônicas. Mas o orgulho é grande para os dois lados.",
+    "combina": [
+      "Muitos rolês marcantes",
+      "Apoio forte quando o outro está em baixa",
+      "Elogios sinceros e motivação",
+      "Defesa do amigo em qualquer ambiente"
+    ],
+    "nao_combina": [
+      "Competição por protagonismo",
+      "Conflitos quando um não se sente valorizado",
+      "Dificuldade em dar o braço a torcer",
+      "Brigas que duram mais que o necessário"
+    ],
+    "dicas": [
+      "Aprendam a dizer ‘senti falta disso de você’.",
+      "Elogiem mais do que cobram.",
+      "Lembrem que o brilho de um não apaga o do outro."
+    ],
+    "compatibilidade": 90
+  },
+  "leo-virgo": {
+    "resumo": "Leão e Virgem têm uma amizade que mistura brilho com discrição. Um quer palco, o outro quer eficiência.",
+    "combina": [
+      "Virgem ajuda Leão a organizar a vida",
+      "Leão incentiva Virgem a se expor um pouco mais",
+      "Boa parceria em projetos ou trabalhos",
+      "Troca de conselhos sinceros"
+    ],
+    "nao_combina": [
+      "Virgem criticando demais o drama de Leão",
+      "Leão se ofendendo fácil com comentários",
+      "Diferença de prioridade entre imagem e detalhes",
+      "Pequenas irritações acumuladas"
+    ],
+    "dicas": [
+      "Virgem: selecione críticas realmente importantes.",
+      "Leão: não leve tudo como ataque pessoal.",
+      "Usem o melhor de cada um: visão + execução."
+    ],
+    "compatibilidade": 71
+  },
+  "leo-libra": {
+    "resumo": "Leão e Libra constroem uma amizade charmosa e social. É a dupla que gosta de ambientes bonitos e boas companhias.",
+    "combina": [
+      "Senso estético e social alinhado",
+      "Troca de elogios e apoio",
+      "Bom papo sobre relacionamentos",
+      "Rolês que rendem boas fotos e memórias"
+    ],
+    "nao_combina": [
+      "Libra evitando conversas difíceis",
+      "Leão sentindo que não é prioridade",
+      "Disputa por agradar e ser agradado",
+      "Ficar em cima do muro em temas importantes"
+    ],
+    "dicas": [
+      "Libra: seja mais direto sobre o que sente.",
+      "Leão: pergunte antes de supor descaso.",
+      "Definam juntos o que esperam um do outro na amizade."
+    ],
+    "compatibilidade": 84
+  },
+  "leo-scorpio": {
+    "resumo": "Leão e Escorpião criam uma amizade intensa e séria, com muito respeito e também atrito. Não é uma amizade superficial.",
+    "combina": [
+      "Lealdade muito forte",
+      "Defesa absoluta um do outro",
+      "Capacidade de se admirarem mutuamente",
+      "Conversas profundas quando abrem espaço para isso"
+    ],
+    "nao_combina": [
+      "Disputa de poder dentro da amizade",
+      "Ciúmes e controle velado",
+      "Teimosia em conflitos",
+      "Dificuldade de voltar atrás depois de uma briga grave"
+    ],
+    "dicas": [
+      "Escolham confiança em vez de teste.",
+      "Falarem de incômodos antes de explodirem evita rompimentos.",
+      "Lembrem que vocês são aliados, não rivais."
+    ],
+    "compatibilidade": 78
+  },
+  "leo-sagittarius": {
+    "resumo": "Leão e Sagitário formam uma amizade animada, sincera e cheia de aventura. É a dupla ideal para viagem e festa.",
+    "combina": [
+      "Muito humor e espontaneidade",
+      "Sinceridade direta, às vezes até demais",
+      "Apoio em planos ousados",
+      "Competitividade saudável em alguns contextos"
+    ],
+    "nao_combina": [
+      "Falta de delicadeza em momentos sensíveis",
+      "Esquecimento de datas e detalhes importantes",
+      "Pouca paciência com drama prolongado",
+      "Alguma dificuldade em pedir desculpa"
+    ],
+    "dicas": [
+      "Sejam honestos, mas não cruéis.",
+      "Reservem momentos de conversa mais emocional.",
+      "Lembrem que o amigo também tem dias ruins e inseguranças."
+    ],
+    "compatibilidade": 95
+  },
+  "capricorn-leo": {
+    "resumo": "Leão e Capricórnio criam uma amizade que mistura ambição com orgulho. Podem conquistar muito juntos, se não entrarem em choque o tempo todo.",
+    "combina": [
+      "Apoio em metas e planos de longo prazo",
+      "Respeito pela força de vontade do outro",
+      "Complemento entre otimismo e realismo",
+      "Bom senso para negócios ou projetos"
+    ],
+    "nao_combina": [
+      "Capricórnio achando Leão dramático",
+      "Leão achando Capricórnio frio",
+      "Conflitos sobre dinheiro, risco e status",
+      "Pouca conversa sobre vulnerabilidades"
+    ],
+    "dicas": [
+      "Capricórnio: valide o lado emocional do amigo.",
+      "Leão: valorize o cuidado prático que ele oferece.",
+      "Misturem conquista com amizade, não só cobrança."
+    ],
+    "compatibilidade": 70
+  },
+  "aquarius-leo": {
+    "resumo": "Leão e Aquário formam uma amizade de opostos complementares: individualidade forte x visão coletiva. É intensa, diferente e cheia de debate.",
+    "combina": [
+      "Respeito à autenticidade de cada um",
+      "Troca de ideias fortes e opiniões marcantes",
+      "Apoio em momentos de decisão",
+      "Capacidade de se admirarem mesmo discordando"
+    ],
+    "nao_combina": [
+      "Apego x desapego emocional",
+      "Discussões sobre quem está certo",
+      "Falta de demonstração afetiva clara de Aquário",
+      "Orgulho de Leão em admitir erro"
+    ],
+    "dicas": [
+      "Entendam que amam e demonstram de jeitos diferentes.",
+      "Podem discordar sem romper a amizade.",
+      "Criem espaço para falar de sentimento, não só de ideia."
+    ],
+    "compatibilidade": 82
+  },
+  "leo-pisces": {
+    "resumo": "Leão e Peixes constroem uma amizade sensível e teatral. Um sente muito, o outro manifesta muito.",
+    "combina": [
+      "Capacidade de se apoiar em momentos difíceis",
+      "Criatividade, arte, música ou estética em comum",
+      "Gestos bonitos de carinho entre amigos",
+      "Proteção de Leão e empatia de Peixes"
+    ],
+    "nao_combina": [
+      "Peixes se magoando com brincadeiras de Leão",
+      "Leão não entendendo o silêncio do amigo",
+      "Dramas que ninguém sabe explicar bem",
+      "Dificuldade em alinhar expectativas de contato"
+    ],
+    "dicas": [
+      "Leão: use seu brilho também para iluminar o amigo, não só o momento.",
+      "Peixes: fale do que dói, não engula tudo.",
+      "Os dois podem transformar essa amizade em grande apoio emocional."
+    ],
+    "compatibilidade": 76
+  },
+  "virgo-virgo": {
+    "resumo": "Dois virginianos constroem uma amizade organizada, útil e sincera. Podem pegar pesado nas críticas, mas geralmente é por cuidado.",
+    "combina": [
+      "Ajuda prática constante",
+      "Conselhos realistas e pé no chão",
+      "Responsabilidade com horários e promessas",
+      "Cuidado com saúde, trabalho e rotina"
+    ],
+    "nao_combina": [
+      "Crítica em excesso de ambos os lados",
+      "Autocobrança compartilhada que pesa o clima",
+      "Pouca demonstração verbal de afeto",
+      "Dificuldade em relaxar de verdade"
+    ],
+    "dicas": [
+      "Elogiem mais o esforço um do outro.",
+      "Criem momentos sem pauta de produtividade.",
+      "Aceitem que nem tudo precisa ser perfeito para ser bom."
+    ],
+    "compatibilidade": 90
+  },
+  "libra-virgo": {
+    "resumo": "Virgem e Libra têm uma amizade que busca melhorar tudo: o clima, as pessoas, as situações. Um pelo detalhe, o outro pelo equilíbrio.",
+    "combina": [
+      "Virgem organiza, Libra harmoniza",
+      "Bons conselhos sobre relações e escolhas",
+      "Cuidado em não ser cruel com palavras",
+      "Ajuda real em questões práticas"
+    ],
+    "nao_combina": [
+      "Virgem achando Libra enrolado",
+      "Libra achando Virgem rígido",
+      "Discussões sobre o que é ‘correto’",
+      "Evitar temas tensos para não estragar o clima"
+    ],
+    "dicas": [
+      "Virgem: foque no essencial, não em tudo.",
+      "Libra: assuma posições mais claras quando necessário.",
+      "Juntem racionalidade com diplomacia a favor da amizade."
+    ],
+    "compatibilidade": 73
+  },
+  "scorpio-virgo": {
+    "resumo": "Virgem e Escorpião criam uma amizade séria, analítica e profunda. Não é uma amizade superficial nem barulhenta.",
+    "combina": [
+      "Capacidade de observar o que ninguém vê",
+      "Ajuda mútua em problemas complexos",
+      "Lealdade discreta, mas real",
+      "Conselhos honestos, mesmo que duros"
+    ],
+    "nao_combina": [
+      "Críticas que podem virar ataques",
+      "Virgem sendo racional demais para Escorpião",
+      "Escorpião puxando para intensidade demais",
+      "Dificuldade em soltar mágoas antigas"
+    ],
+    "dicas": [
+      "Equilibrem verdade com cuidado.",
+      "Não usem a inteligência para ferir, e sim para cuidar.",
+      "Criem espaço para leveza às vezes, não só análises."
+    ],
+    "compatibilidade": 80
+  },
+  "sagittarius-virgo": {
+    "resumo": "Virgem e Sagitário têm ritmos opostos: um quer planilha, o outro quer estrada. A amizade funciona se os dois toparem aprender.",
+    "combina": [
+      "Virgem ajuda Sagitário a se organizar",
+      "Sagitário ajuda Virgem a relaxar um pouco",
+      "Troca interessante de visão de mundo",
+      "Planos que podem ser bem executados"
+    ],
+    "nao_combina": [
+      "Virgem achando Sagitário irresponsável",
+      "Sagitário achando Virgem chato",
+      "Brigas por causa de detalhes x liberdade",
+      "Falta de paciência de ambos"
+    ],
+    "dicas": [
+      "Virgem: dê espaço para o improviso.",
+      "Sagitário: mostre que consegue cumprir o básico.",
+      "Tratando a diferença como equilíbrio, a amizade cresce muito."
+    ],
+    "compatibilidade": 62
+  },
+  "capricorn-virgo": {
+    "resumo": "Virgem e Capricórnio fazem uma amizade produtiva e estável. É aquela parceria que rende muito na vida real.",
+    "combina": [
+      "Responsabilidade e foco em crescimento",
+      "Ajuda prática em trabalhos e metas",
+      "Respeito às obrigações de cada um",
+      "Conselhos sérios e aplicáveis"
+    ],
+    "nao_combina": [
+      "Pouca flexibilidade para mudanças",
+      "Falta de conversa emocional profunda",
+      "Tendência a só falar de problema e tarefa",
+      "Cansaço da vibe sempre séria"
+    ],
+    "dicas": [
+      "Incluam momentos de diversão despretensiosa.",
+      "Falem também de sonhos e sentimentos.",
+      "Lembrem que amizade não é só parceria de trabalho."
+    ],
+    "compatibilidade": 92
+  },
+  "aquarius-virgo": {
+    "resumo": "Virgem e Aquário constroem uma amizade mental e prática ao mesmo tempo. Um cuida do detalhe, o outro da visão ampla.",
+    "combina": [
+      "Aquário traz inovação, Virgem traz execução",
+      "Conversas sobre sistemas, ideias e melhorias",
+      "Interesse em resolver problemas reais",
+      "Respeito pela inteligência de ambos"
+    ],
+    "nao_combina": [
+      "Virgem achando Aquário caótico ou distante",
+      "Aquário achando Virgem crítico demais",
+      "Conflitos sobre regras e mudanças repentinas",
+      "Dificuldade em falar de temas emocionais"
+    ],
+    "dicas": [
+      "Virgem: aceite um pouco do caos criativo do amigo.",
+      "Aquário: reconheça a utilidade do cuidado com detalhes.",
+      "Juntem visão e precisão para fortalecer a amizade."
+    ],
+    "compatibilidade": 66
+  },
+  "pisces-virgo": {
+    "resumo": "Virgem e Peixes formam uma amizade de cura mútua: razão e sensibilidade andando lado a lado. Desde que ninguém queira salvar o outro o tempo todo.",
+    "combina": [
+      "Virgem ajuda Peixes a se organizar e se proteger",
+      "Peixes ajuda Virgem a sentir e soltar um pouco",
+      "Conselhos profundos e honestos",
+      "Companhia boa em momentos de vulnerabilidade"
+    ],
+    "nao_combina": [
+      "Virgem pegando pesado na crítica",
+      "Peixes escapando em vez de resolver",
+      "Dinâmica de salvador x vítima",
+      "Cansaço emocional para os dois"
+    ],
+    "dicas": [
+      "Virgem: ofereça estrutura, mas não controle.",
+      "Peixes: receba ajuda, mas faça sua parte.",
+      "Usem a amizade como espaço de equilíbrio, não de peso."
+    ],
+    "compatibilidade": 83
+  },
+  "libra-libra": {
+    "resumo": "Dois librianos criam uma amizade leve, educada e bem-intencionada. O problema é decidir qualquer coisa.",
+    "combina": [
+      "Boa vontade para ouvir o outro",
+      "Preocupação em não ferir ninguém",
+      "Rolês em lugares bonitos e agradáveis",
+      "Conselhos sobre relações com sensibilidade"
+    ],
+    "nao_combina": [
+      "Indecisão em dobro",
+      "Fugir de conversas difíceis",
+      "Guardar incômodo para não criar conflito",
+      "Expectativas não ditas"
+    ],
+    "dicas": [
+      "Escolham alguns temas onde um decide e o outro segue.",
+      "Conversem sobre o que realmente importa, mesmo com medo de brigar.",
+      "Lembrem que honestidade também é harmonia."
+    ],
+    "compatibilidade": 88
+  },
+  "libra-scorpio": {
+    "resumo": "Libra e Escorpião têm uma amizade que mistura leveza com intensidade. Às vezes é delicioso, às vezes é cansativo.",
+    "combina": [
+      "Libra suaviza algumas durezas de Escorpião",
+      "Escorpião traz profundidade à visão de Libra",
+      "Conversas sobre relações e emoções",
+      "Lealdade mútua quando a amizade é sincera"
+    ],
+    "nao_combina": [
+      "Escorpião achando Libra superficial",
+      "Libra achando Escorpião pesado",
+      "Fuga de temas tensos por parte de Libra",
+      "Testes emocionais por parte de Escorpião"
+    ],
+    "dicas": [
+      "Libra: seja mais firme quando algo te incomodar.",
+      "Escorpião: explique mais, ataque menos.",
+      "Aproveitem o que cada um tem de melhor para amadurecer juntos."
+    ],
+    "compatibilidade": 69
+  },
+  "libra-sagittarius": {
+    "resumo": "Libra e Sagitário constroem uma amizade divertida, social e cheia de histórias. É leve, mas pode faltar profundidade em alguns momentos.",
+    "combina": [
+      "Rolês, viagens e boas conversas",
+      "Pouca paciência para briga boba",
+      "Vontade de manter o clima alto astral",
+      "Interesse por pessoas e experiências"
+    ],
+    "nao_combina": [
+      "Empurrar assuntos importantes para depois",
+      "Dificuldade em se comprometer com planos",
+      "Medo de frustrar o outro ao ser sincero",
+      "Fugir quando o clima fica tenso demais"
+    ],
+    "dicas": [
+      "Escolham momentos para falar sério, mesmo que poucos.",
+      "Sejam honestos sobre limites e expectativas.",
+      "Equilibrem os rolês com conversas de verdade de vez em quando."
+    ],
+    "compatibilidade": 87
+  },
+  "capricorn-libra": {
+    "resumo": "Libra e Capricórnio criam uma amizade de troca entre leveza e responsabilidade. Um ajuda o outro a não ir para o extremo.",
+    "combina": [
+      "Capricórnio oferece segurança e constância",
+      "Libra traz socialização e suavidade",
+      "Bons conselhos sobre relações e carreira",
+      "Equilíbrio entre trabalho e prazer"
+    ],
+    "nao_combina": [
+      "Capricórnio achando Libra disperso",
+      "Libra achando Capricórnio rígido",
+      "Conflitos sobre prioridades de tempo",
+      "Diferenças na forma de dizer ‘não’"
+    ],
+    "dicas": [
+      "Capricórnio: valorize o equilíbrio que Libra propõe.",
+      "Libra: seja mais direto com o amigo, ele prefere clareza.",
+      "Juntem responsabilidade com leveza para uma amizade duradoura."
+    ],
+    "compatibilidade": 74
+  },
+  "aquarius-libra": {
+    "resumo": "Libra e Aquário constroem uma amizade mental, social e leve. É aquela dupla que conversa sobre tudo e some um pouco também.",
+    "combina": [
+      "Interesse por temas sociais e relacionais",
+      "Respeito à liberdade do outro",
+      "Pouca tendência a controle e ciúme",
+      "Conversas inteligentes e bem-humoradas"
+    ],
+    "nao_combina": [
+      "Evitar temas emocionais densos",
+      "Racionalização excessiva de sentimentos",
+      "Sumiços que podem ser mal interpretados",
+      "Indefinição sobre o que incomoda"
+    ],
+    "dicas": [
+      "Separar um momento para falar de coisas mais íntimas ajuda.",
+      "Pequenos gestos de cuidado fortalecem o vínculo.",
+      "Se algo pesar, falem — não só pensem sobre."
+    ],
+    "compatibilidade": 92
+  },
+  "libra-pisces": {
+    "resumo": "Libra e Peixes criam uma amizade sensível e idealista. São gentis um com o outro, mas podem se enrolar nos limites.",
+    "combina": [
+      "Empatia e cuidado nas falas",
+      "Imaginação e romantização da vida",
+      "Vontade de evitar brigas pesadas",
+      "Apoio em temas afetivos"
+    ],
+    "nao_combina": [
+      "Falta de decisão sobre o que fazer",
+      "Fuga de conversas duras",
+      "Expectativas silenciosas",
+      "Dificuldade em estabelecer limites com o mundo"
+    ],
+    "dicas": [
+      "Pratiquem dizer ‘não’ juntos, se apoiando.",
+      "Sejam um pouco mais objetivos quando o tema exigir.",
+      "Conversem sobre o que cada um realmente precisa da amizade."
+    ],
+    "compatibilidade": 80
+  },
+  "scorpio-scorpio": {
+    "resumo": "Dois escorpianos criam uma amizade intensíssima, leal e às vezes dramática. Não é leve, mas é profunda.",
+    "combina": [
+      "Segredos guardados a sete chaves",
+      "Suporte real em fases muito difíceis",
+      "Conexão emocional profunda",
+      "Vontade de ver o outro crescer de verdade"
+    ],
+    "nao_combina": [
+      "Ciúmes e controle da vida do outro",
+      "Brigas muito pesadas",
+      "Dificuldade de perdoar traições de confiança",
+      "Excesso de teste e desconfiança"
+    ],
+    "dicas": [
+      "Escolham confiar conscientemente um no outro.",
+      "Não joguem com o medo e a culpa do amigo.",
+      "Criem espaços de leveza, não só intensidade."
+    ],
+    "compatibilidade": 89
+  },
+  "sagittarius-scorpio": {
+    "resumo": "Escorpião e Sagitário têm uma amizade de contraste: profundidade x leveza. Pode ser muito rica ou muito cansativa.",
+    "combina": [
+      "Conversas filosóficas e emocionais",
+      "Humor meio ácido em comum",
+      "Coragem para falar de assuntos tabus",
+      "Apoio quando a coisa fica séria"
+    ],
+    "nao_combina": [
+      "Escorpião achando Sagitário superficial",
+      "Sagitário achando Escorpião pesado demais",
+      "Conflitos sobre liberdade e controle",
+      "Sumir em vez de resolver o problema"
+    ],
+    "dicas": [
+      "Sagitário: respeite a intensidade do amigo.",
+      "Escorpião: não dramatize toda necessidade de espaço.",
+      "Equilibrem profundidade com leveza, sem invalidar o estilo do outro."
+    ],
+    "compatibilidade": 68
+  },
+  "capricorn-scorpio": {
+    "resumo": "Escorpião e Capricórnio criam uma amizade séria, leal e muito comprometida. É pouca fala e muito gesto.",
+    "combina": [
+      "Ajuda concreta em crises reais",
+      "Conselhos duros, porém honestos",
+      "Proteção mútua contra injustiças",
+      "Trabalho em equipe em objetivos importantes"
+    ],
+    "nao_combina": [
+      "Pouca verbalização de afeto",
+      "Pesos emocionais acumulados",
+      "Teimosia em admitir vulnerabilidades",
+      "Risco de vínculo se tornar só problema, pouco prazer"
+    ],
+    "dicas": [
+      "Reservem momentos para simplesmente curtir sem pauta.",
+      "Falem mais dos sentimentos, nem que seja aos poucos.",
+      "Lembrem que amizade também é descanso, não só resistência."
+    ],
+    "compatibilidade": 83
+  },
+  "aquarius-scorpio": {
+    "resumo": "Escorpião e Aquário constroem uma amizade complexa, desafiadora e interessante. Nem sempre é fácil, mas é inesquecível.",
+    "combina": [
+      "Conversas profundas e fora do óbvio",
+      "Interesse em entender a realidade por ângulos diferentes",
+      "Lealdade quando decidem se importar",
+      "Troca intensa de visões de mundo"
+    ],
+    "nao_combina": [
+      "Choque entre razão fria e emoção intensa",
+      "Escorpião achando Aquário indiferente",
+      "Aquário achando Escorpião controlador",
+      "Dificuldade em alinhar expectativas de contato"
+    ],
+    "dicas": [
+      "Aquário: não minimize a dor do amigo.",
+      "Escorpião: entenda que o outro pensa antes de sentir, é o jeito dele.",
+      "Definam juntos qual é o ‘formato saudável’ dessa amizade."
+    ],
+    "compatibilidade": 61
+  },
+  "pisces-scorpio": {
+    "resumo": "Escorpião e Peixes criam uma amizade intuitiva, espiritual e profunda. É uma conexão forte, mas que precisa de limites saudáveis.",
+    "combina": [
+      "Entendimento emocional quase automático",
+      "Apoio em fases sombrias e difíceis",
+      "Interesse por temas psicológicos ou espirituais",
+      "Lealdade e fidelidade no vínculo"
+    ],
+    "nao_combina": [
+      "Ambos absorvendo muita dor do outro",
+      "Ciúmes de outras pessoas",
+      "Dificuldade em dizer ‘não’ dentro da amizade",
+      "Tendência à fusão emocional exagerada"
+    ],
+    "dicas": [
+      "Lembrem de cuidar de si mesmos também.",
+      "Falarem sobre limites fortalece a amizade.",
+      "Busquem leveza consciente, não só profundidade."
+    ],
+    "compatibilidade": 94
+  },
+  "sagittarius-sagittarius": {
+    "resumo": "Dois sagitarianos criam uma amizade livre, barulhenta e cheia de histórias absurdas. Difícil é levar tudo a sério.",
+    "combina": [
+      "Viagens, rolês e aventuras",
+      "Sinceridade direta e sem filtro",
+      "Capacidade de rir de quase tudo",
+      "Pouca cobrança de presença diária"
+    ],
+    "nao_combina": [
+      "Falta de tato em momentos sensíveis",
+      "Promessas não cumpridas",
+      "Sumiços longos sem explicação",
+      "Pouca disposição para conversas profundas"
+    ],
+    "dicas": [
+      "Lembrem que às vezes o outro precisa de apoio mais emocional.",
+      "Uma mensagem sincera de vez em quando sustenta o vínculo.",
+      "Sejam honestos sobre o que conseguem e não conseguem oferecer."
+    ],
+    "compatibilidade": 93
+  },
+  "capricorn-sagittarius": {
+    "resumo": "Sagitário e Capricórnio têm uma amizade didática: um ensina leveza, o outro ensina responsabilidade. Quando se respeitam, formam uma boa dupla.",
+    "combina": [
+      "Capricórnio traz foco e estabilidade",
+      "Sagitário traz humor e entusiasmo",
+      "Boa troca sobre trabalho e sentido de vida",
+      "Crescimento pessoal para os dois"
+    ],
+    "nao_combina": [
+      "Capricórnio achando o outro irresponsável",
+      "Sagitário achando o outro pessimista",
+      "Conflitos sobre compromisso x liberdade",
+      "Falta de paciência com o estilo do outro"
+    ],
+    "dicas": [
+      "Capricórnio: aceite um pouco de improviso.",
+      "Sagitário: mostre que pode ser confiável.",
+      "Enxerguem a amizade como equilíbrio, não como disputa."
+    ],
+    "compatibilidade": 71
+  },
+  "aquarius-sagittarius": {
+    "resumo": "Sagitário e Aquário formam uma amizade idealista, divertida e mentalmente estimulante. É muito ‘vamos mudar o mundo’ e também ‘vamos sumir por uns meses’.",
+    "combina": [
+      "Conversas sobre ideias, futuro e liberdade",
+      "Respeito ao espaço e individualidade",
+      "Rolês diferentes do padrão",
+      "Pouco julgamento de escolhas alheias"
+    ],
+    "nao_combina": [
+      "Dificuldade em lidar com emoções intensas",
+      "Sumiços longos de ambos",
+      "Tendência a racionalizar tudo",
+      "Pouca disposição para lidar com demandas emocionais do outro"
+    ],
+    "dicas": [
+      "Lembrem que um pouco de presença concreta fortalece a amizade.",
+      "Se algo for sério, avisem para o outro entrar no modo ‘escuta’.",
+      "Criem formas simples de mostrar que se importam, mesmo à distância."
+    ],
+    "compatibilidade": 95
+  },
+  "pisces-sagittarius": {
+    "resumo": "Peixes e Sagitário criam uma amizade inspiradora e confusa ao mesmo tempo. Um sente muito, o outro minimiza para seguir em frente.",
+    "combina": [
+      "Sonhos compartilhados e planos viajados",
+      "Histórias engraçadas e emocionantes",
+      "Apoio em momentos de mudança",
+      "Visão ampla de possibilidades"
+    ],
+    "nao_combina": [
+      "Sagitário sendo direto demais",
+      "Peixes levando para o coração e sumindo",
+      "Descompasso sobre o que é sério ou não",
+      "Falta de clareza em algumas conversas"
+    ],
+    "dicas": [
+      "Sagitário: tenha mais tato nas horas certas.",
+      "Peixes: pergunte antes de interpretar tudo como desinteresse.",
+      "Alinhar expectativas evita frustração dos dois lados."
+    ],
+    "compatibilidade": 76
+  },
+  "capricorn-capricorn": {
+    "resumo": "Dois capricornianos constroem uma amizade de respeito, parceria e responsabilidade. Às vezes parece mais sociedade do que amizade, mas funciona.",
+    "combina": [
+      "Ajuda em carreira, finanças e decisões sérias",
+      "Lealdade forte, mesmo sem muito drama",
+      "Compromisso com o que prometem",
+      "Crescimento mútuo ao longo do tempo"
+    ],
+    "nao_combina": [
+      "Pouca fala sobre emoções",
+      "Dificuldade em pedir ajuda emocional",
+      "Ambiente às vezes sério demais",
+      "Competição silenciosa por resultados"
+    ],
+    "dicas": [
+      "Se permitam momentos bobos e leves.",
+      "Falarem de inseguranças também fortalece a amizade.",
+      "Não transformem todo encontro em reunião de pauta."
+    ],
+    "compatibilidade": 92
+  },
+  "aquarius-capricorn": {
+    "resumo": "Capricórnio e Aquário constroem uma amizade de construção e inovação. Um garante estrutura, o outro garante mudança.",
+    "combina": [
+      "Troca forte sobre ideias e projetos",
+      "Respeito pela competência do outro",
+      "Possibilidade de criar coisas grandes juntos",
+      "Conselhos realistas, mesmo diferentes"
+    ],
+    "nao_combina": [
+      "Capricórnio achando o amigo imprevisível",
+      "Aquário achando o outro conservador demais",
+      "Discussões sobre ritmo de mudança",
+      "Pouca conversa sobre sentimentos profundos"
+    ],
+    "dicas": [
+      "Capricórnio: abra espaço para o novo.",
+      "Aquário: reconheça o valor da experiência e estrutura.",
+      "Use a diferença de estilos para equilibrar, não para competir."
+    ],
+    "compatibilidade": 74
+  },
+  "capricorn-pisces": {
+    "resumo": "Capricórnio e Peixes criam uma amizade de apoio prático e emocional. Um segura, o outro acalma.",
+    "combina": [
+      "Capricórnio ajuda a botar a vida de Peixes em ordem",
+      "Peixes oferece escuta e empatia",
+      "Conselhos que equilibram sonho e realidade",
+      "Presença em fases difíceis"
+    ],
+    "nao_combina": [
+      "Capricórnio sendo duro demais às vezes",
+      "Peixes evitando lidar com coisas concretas",
+      "Mal-entendidos sobre o que é cuidado",
+      "Cansaço emocional de ambos"
+    ],
+    "dicas": [
+      "Capricórnio: mostre carinho junto com o conselho.",
+      "Peixes: faça sua parte no que combinarem.",
+      "Transformem a amizade em espaço de maturidade e acolhimento."
+    ],
+    "compatibilidade": 85
+  },
+  "aquarius-aquarius": {
+    "resumo": "Dois aquarianos criam uma amizade livre, cheia de ideias e um pouco desapegada. Ninguém sufoca ninguém, mas alguém pode sentir falta de mais calor.",
+    "combina": [
+      "Respeito total ao espaço do outro",
+      "Conversas inteligentes e fora da caixa",
+      "Interesse por temas sociais ou futuristas",
+      "Pouca cobrança de presença constante"
+    ],
+    "nao_combina": [
+      "Dificuldade em falar de emoções diretamente",
+      "Sumiços longos normalizados demais",
+      "Esfriar sem perceber ao longo do tempo",
+      "Racionalizar dor em vez de acolher"
+    ],
+    "dicas": [
+      "Mandar um ‘pensei em você’ às vezes já muda tudo.",
+      "Se algo machucar, falem com honestidade.",
+      "Lembrem que vulnerabilidade também combina com liberdade."
+    ],
+    "compatibilidade": 93
+  },
+  "aquarius-pisces": {
+    "resumo": "Aquário e Peixes têm uma amizade que mistura idealismo mental e emocional. É bonita, mas às vezes desencontrada.",
+    "combina": [
+      "Interesse em ajudar pessoas ou causas",
+      "Conversas profundas sobre vida e sentido",
+      "Aceitação da diferença do outro",
+      "Liberdade para ser autêntico"
+    ],
+    "nao_combina": [
+      "Aquário sendo lógico demais para Peixes",
+      "Peixes sendo emotivo demais para Aquário",
+      "Mal-entendidos por falta de comunicação clara",
+      "Dúvidas sobre o lugar que a amizade ocupa"
+    ],
+    "dicas": [
+      "Traduzam o que sentem/pensam, não deixem implícito.",
+      "Aceitem que o outro processa tudo de forma diferente.",
+      "Criem um meio-termo entre razão e emoção na amizade."
+    ],
+    "compatibilidade": 72
+  },
+  "pisces-pisces": {
+    "resumo": "Dois piscianos criam uma amizade muito sensível, criativa e intuitiva. É quase um portal para outro mundo, se não esquecerem da vida real.",
+    "combina": [
+      "Escuta amorosa e empática",
+      "Imaginação fértil e criativa",
+      "Apoio em momentos de crise",
+      "Sensação de serem compreendidos sem muitas palavras"
+    ],
+    "nao_combina": [
+      "Fuga conjunta dos problemas concretos",
+      "Dramas que se alimentam mutuamente",
+      "Dificuldade em estabelecer limites",
+      "Instabilidade na comunicação e presença"
+    ],
+    "dicas": [
+      "Criem pequenas rotinas e acordos para trazer pé no chão.",
+      "Falem sobre limites com carinho, não com culpa.",
+      "Usem a sensibilidade de vocês para se fortalecer, não só para sofrer juntos."
+    ],
+    "compatibilidade": 90
+  }
+}

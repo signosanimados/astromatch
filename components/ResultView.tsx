@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { CompatibilityResult, SignData } from '../types';
 import { APP_LOGO, PORTUGUESE_NAMES, DEFAULT_BACKGROUND, BACKGROUND_URLS } from '../constants';
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { logger } from '../lib/logger';
 
 interface ResultViewProps {
   result: CompatibilityResult;
@@ -80,12 +81,12 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const handleDownloadCard = async () => {
     setIsGenerating(true);
     const element = document.getElementById('share-card');
-    
-    // Safety check for library availability
-    const html2canvas = (window as any).html2canvas;
 
-    if (element && html2canvas) {
+    if (element) {
       try {
+        // Lazy load html2canvas only when needed
+        const html2canvas = (await import('html2canvas')).default;
+
         // Wait for fonts and layout to settle
         await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -114,15 +115,14 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
              // Placeholder for analytics
         }
       } catch (error) {
-        console.error("Erro ao gerar card:", error);
+        logger.error("Erro ao gerar card:", error);
         alert("Não foi possível gerar a imagem. Verifique se o bloqueador de pop-ups está ativo.");
       } finally {
         setIsGenerating(false);
       }
     } else {
       setIsGenerating(false);
-      console.error("Biblioteca html2canvas não encontrada.");
-      alert("Erro interno: Biblioteca gráfica não carregada.");
+      alert("Erro: Elemento não encontrado.");
     }
   };
 

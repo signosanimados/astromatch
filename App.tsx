@@ -7,6 +7,7 @@ import ResultView from './components/ResultView';
 import Login from './components/Login';
 import { getCompatibility } from './services/geminiService';
 import { supabase } from './lib/supabaseClient';
+import { logger } from './lib/logger';
 
 // LINK DE PAGAMENTO DO STRIPE REAL (Corrigido com final 9AA00)
 const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/cNi28s8Kb0j00t9fmf9AA00"; 
@@ -61,11 +62,11 @@ const App: React.FC = () => {
       if (data) {
         setCredits(data.credits);
       } else if (error) {
-        console.error('Erro ao buscar créditos:', error);
-        setCredits(0); 
+        logger.error('Erro ao buscar créditos:', error);
+        setCredits(0);
       }
     } catch (e) {
-      console.error("Erro de conexão:", e);
+      logger.error("Erro de conexão:", e);
     } finally {
       setTimeout(() => setRefreshingCredits(false), 500);
     }
@@ -133,7 +134,7 @@ const App: React.FC = () => {
             mode: relationshipMode
       });
 
-      if (dbError) console.error("Erro ao salvar histórico:", dbError);
+      if (dbError) logger.error("Erro ao salvar histórico:", dbError);
 
       const { error: creditError } = await supabase
         .from('profiles')
@@ -141,7 +142,7 @@ const App: React.FC = () => {
         .eq('id', session.user.id);
 
       if (creditError) {
-        console.error("Erro ao deduzir crédito:", creditError);
+        logger.error("Erro ao deduzir crédito:", creditError);
         setCredits(previousCredits);
         alert("Erro de conexão ao debitar crédito. Tente novamente.");
         setResult(null); 
@@ -190,11 +191,13 @@ const App: React.FC = () => {
                rel="noopener noreferrer" 
                className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
              >
-               <img 
+               <img
                   src={APP_LOGO}
-                  alt="AM" 
+                  alt="Signos Combinados Logo"
                   className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
                   crossOrigin="anonymous"
+                  width="40"
+                  height="40"
                />
                <h1 className="text-xl font-bold tracking-[0.2em] uppercase text-slate-300 hidden md:block">
                  Signos Combinados
@@ -222,19 +225,21 @@ const App: React.FC = () => {
                 
                 <div className="flex items-center gap-1">
                     {/* Botão Atualizar Saldo */}
-                    <button 
+                    <button
                       onClick={() => session && fetchCredits(session.user.id)}
                       className={`w-6 h-6 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all ${refreshingCredits ? 'animate-spin text-indigo-400' : ''}`}
                       title="Atualizar saldo"
+                      aria-label="Atualizar saldo de créditos"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                     </button>
 
                     {/* Botão Comprar */}
-                    <button 
-                      onClick={handleBuyCredits} 
+                    <button
+                      onClick={handleBuyCredits}
                       className="w-6 h-6 bg-white text-slate-900 rounded-full flex items-center justify-center hover:bg-indigo-100 transition-colors font-bold text-sm pb-0.5 ml-1"
                       title="Comprar mais créditos"
+                      aria-label="Comprar mais créditos"
                     >
                       +
                     </button>
@@ -282,7 +287,7 @@ const App: React.FC = () => {
                       {signA ? (
                         <>
                           <div className={`absolute inset-0 bg-gradient-to-br ${signA.gradient} opacity-20`}></div>
-                          <img src={signA.icon} alt={signA.name} className="w-20 h-20 object-contain drop-shadow-lg relative z-10" />
+                          <img src={signA.icon} alt={signA.name} className="w-20 h-20 object-contain drop-shadow-lg relative z-10" loading="lazy" width="80" height="80" />
                           <div className="absolute bottom-2 text-[10px] uppercase font-bold text-white tracking-widest">{signA.name}</div>
                         </>
                       ) : (
@@ -294,7 +299,7 @@ const App: React.FC = () => {
                       {signB ? (
                         <>
                           <div className={`absolute inset-0 bg-gradient-to-br ${signB.gradient} opacity-20`}></div>
-                          <img src={signB.icon} alt={signB.name} className="w-20 h-20 object-contain drop-shadow-lg relative z-10" />
+                          <img src={signB.icon} alt={signB.name} className="w-20 h-20 object-contain drop-shadow-lg relative z-10" loading="lazy" width="80" height="80" />
                           <div className="absolute bottom-2 text-[10px] uppercase font-bold text-white tracking-widest">{signB.name}</div>
                         </>
                       ) : (
@@ -366,11 +371,11 @@ const App: React.FC = () => {
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#050510]/95 backdrop-blur-xl border-t border-white/10 z-50 md:hidden flex items-center justify-between gap-4 shadow-[0_-5px_20px_rgba(0,0,0,0.8)]">
            <div className="flex items-center gap-3 pl-2">
               <div onClick={handleDeselectA} className={`w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center cursor-pointer transition-all overflow-hidden ${signA ? 'bg-gradient-to-t ' + signA.gradient + ' border-white/50' : 'bg-slate-900 border-dashed'}`}>
-                 {signA ? <img src={signA.icon} alt={signA.name} className="w-8 h-8 object-contain" /> : <span className="text-slate-600">+</span>}
+                 {signA ? <img src={signA.icon} alt={signA.name} className="w-8 h-8 object-contain" loading="lazy" width="32" height="32" /> : <span className="text-slate-600">+</span>}
               </div>
               <span className="text-slate-600 text-xs">+</span>
               <div onClick={handleDeselectB} className={`w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center cursor-pointer transition-all overflow-hidden ${signB ? 'bg-gradient-to-t ' + signB.gradient + ' border-white/50' : 'bg-slate-900 border-dashed'}`}>
-                 {signB ? <img src={signB.icon} alt={signB.name} className="w-8 h-8 object-contain" /> : <span className="text-slate-600">+</span>}
+                 {signB ? <img src={signB.icon} alt={signB.name} className="w-8 h-8 object-contain" loading="lazy" width="32" height="32" /> : <span className="text-slate-600">+</span>}
               </div>
            </div>
            
