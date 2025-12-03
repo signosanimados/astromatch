@@ -8,8 +8,8 @@ import Login from './components/Login';
 import { getCompatibility } from './services/geminiService';
 import { supabase } from './lib/supabaseClient';
 
-// LINK DE PAGAMENTO DO STRIPE REAL (Fornecido pelo usuário)
-const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/cNi28s8Kb0j00t9fmf"; 
+// LINK DE PAGAMENTO DO STRIPE REAL (Corrigido com final 9AA00)
+const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/cNi28s8Kb0j00t9fmf9AA00"; 
 
 const App: React.FC = () => {
   const [session, setSession] = useState<any>(null);
@@ -184,6 +184,7 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-white/5 pb-4">
           
           <div className="flex items-center gap-3">
+             {/* Cabeçalho Clicável para o TikTok */}
              <a 
                href="https://www.tiktok.com/@signosanimadosoficial?is_from_webapp=1&sender_device=pc" 
                target="_blank" 

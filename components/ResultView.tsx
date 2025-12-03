@@ -109,11 +109,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         link.download = `SignosCombinados-${signA.name}-${signB.name}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
-
-        if (userEmail) {
-             // Placeholder for email logic
-             // alert(`Imagem salva! (Em produção, enviaria para ${userEmail})`);
-        }
       } catch (error) {
         console.error("Erro ao gerar card:", error);
         alert("Não foi possível gerar a imagem. Verifique se o bloqueador de pop-ups está ativo.");
