@@ -8,14 +8,14 @@ import Login from './components/Login';
 import { getCompatibility } from './services/geminiService';
 import { supabase } from './lib/supabaseClient';
 
-// ⚠️ IMPORTANTE: Substitua pelo seu link de pagamento real do Stripe
-// Você pega esse link no Dashboard do Stripe -> Catálogo de Produtos -> Criar Link de Pagamento
-const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/SEU_LINK_DE_PAGAMENTO_AQUI"; 
+// LINK DE PAGAMENTO DO STRIPE REAL (Fornecido pelo usuário)
+const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/cNi28s8Kb0j00t9fmf"; 
 
 const App: React.FC = () => {
   const [session, setSession] = useState<any>(null);
   const [credits, setCredits] = useState<number | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [refreshingCredits, setRefreshingCredits] = useState(false);
 
   const [signA, setSignA] = useState<SignData | null>(null);
   const [signB, setSignB] = useState<SignData | null>(null);
@@ -25,40 +25,49 @@ const App: React.FC = () => {
   
   const [relationshipMode, setRelationshipMode] = useState<'love' | 'friendship'>('love');
 
-  // 1. Verificar Sessão e Buscar Créditos
+  // 1. Inicialização
   useEffect(() => {
-    // Verifica sessão atual
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) fetchCredits(session.user.id);
       setCheckingAuth(false);
     });
 
-    // Escuta mudanças na autenticação (Login/Logout)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (session) fetchCredits(session.user.id);
-      else setCredits(null);
+      if (session) {
+        fetchCredits(session.user.id);
+      } else {
+        setCredits(null);
+      }
       setCheckingAuth(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  // 2. Função para buscar créditos do banco
+  // 2. Busca Créditos
   const fetchCredits = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('credits')
-      .eq('id', userId)
-      .single();
-    
-    if (data) {
-      setCredits(data.credits);
-    } else if (error) {
-      console.error('Erro ao buscar créditos:', error);
+    setRefreshingCredits(true);
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('credits')
+        .eq('id', userId)
+        .single();
+      
+      if (data) {
+        setCredits(data.credits);
+      } else if (error) {
+        console.error('Erro ao buscar créditos:', error);
+        setCredits(0); 
+      }
+    } catch (e) {
+      console.error("Erro de conexão:", e);
+    } finally {
+      setTimeout(() => setRefreshingCredits(false), 500);
     }
   };
 
@@ -77,17 +86,27 @@ const App: React.FC = () => {
     setSignB(null);
     setResult(null);
     setError(null);
-    if (session) fetchCredits(session.user.id); // Atualiza créditos visualmente
+    if (session) fetchCredits(session.user.id); 
+  };
+
+  // Função para abrir o checkout com ID
+  const handleBuyCredits = () => {
+      if (!session?.user?.id) return;
+      const checkoutUrl = `${STRIPE_CHECKOUT_URL}?client_reference_id=${session.user.id}`;
+      window.open(checkoutUrl, '_blank');
   };
 
   const handleCalculate = async () => {
     if (!signA || !signB || !session) return;
 
-    // 3. VERIFICAÇÃO DE CRÉDITOS
-    // Se créditos forem 0 ou menos, bloqueia e manda pro Stripe
+    // 3. Verificação de Créditos
     if (credits !== null && credits <= 0) {
-       if(confirm("Seus créditos gratuitos acabaram! 😱\n\nDeseja adquirir mais créditos para continuar descobrindo as combinações astrais?")) {
-          window.location.href = STRIPE_CHECKOUT_URL;
+       const confirmar = window.confirm(
+         "Seus créditos acabaram! 🌑\n\nPara revelar essa combinação, você precisa de mais energia astral.\n\nClique em OK para adquirir novos créditos."
+       );
+       
+       if (confirmar) {
+          handleBuyCredits();
        }
        return;
     }
@@ -96,18 +115,16 @@ const App: React.FC = () => {
     setError(null);
     
     try {
-      // Delay artificial para dar emoção
+      const previousCredits = credits;
+      const newCredits = (credits || 0) - 1;
+      setCredits(newCredits);
+
       await new Promise(resolve => setTimeout(resolve, 800));
       
-      // Gera compatibilidade (Local)
       const data = await getCompatibility(signA, signB, relationshipMode);
       setResult(data);
 
-      // 4. LÓGICA DE CONSUMO E REGISTRO NO BANCO
-      const newCredits = (credits || 0) - 1;
-      setCredits(newCredits); // Atualiza na tela instantaneamente
-      
-      // Executa operações no Supabase em paralelo
+      // 4. Salvar no Banco
       const { error: dbError } = await supabase.from('combinations').insert({
             user_id: session.user.id,
             sign_a: signA.name,
@@ -118,9 +135,17 @@ const App: React.FC = () => {
 
       if (dbError) console.error("Erro ao salvar histórico:", dbError);
 
-      const { error: creditError } = await supabase.from('profiles').update({ credits: newCredits }).eq('id', session.user.id);
+      const { error: creditError } = await supabase
+        .from('profiles')
+        .update({ credits: newCredits })
+        .eq('id', session.user.id);
 
-      if (creditError) console.error("Erro ao deduzir crédito:", creditError);
+      if (creditError) {
+        console.error("Erro ao deduzir crédito:", creditError);
+        setCredits(previousCredits);
+        alert("Erro de conexão ao debitar crédito. Tente novamente.");
+        setResult(null); 
+      }
 
     } catch (err: any) {
       setError(err.message || 'Ocorreu um erro ao consultar os astros.');
@@ -132,7 +157,6 @@ const App: React.FC = () => {
   const handleDeselectA = () => { setSignA(null); setSignB(null); };
   const handleDeselectB = () => { setSignB(null); };
 
-  // Tela de Carregamento Inicial
   if (checkingAuth) return (
     <div className="min-h-screen bg-[#050510] flex items-center justify-center text-white">
         <div className="animate-pulse flex flex-col items-center gap-4">
@@ -142,7 +166,6 @@ const App: React.FC = () => {
     </div>
   );
 
-  // Se não estiver logado, mostra Login
   if (!session) {
     return <Login />;
   }
@@ -150,7 +173,6 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#050510] text-slate-200 pb-32 md:pb-20 font-sans relative overflow-x-hidden">
       
-      {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-900/10 blur-[120px] rounded-full"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-900/10 blur-[120px] rounded-full"></div>
@@ -158,8 +180,9 @@ const App: React.FC = () => {
 
       <main className="container mx-auto px-4 md:px-8 relative z-10 pt-8">
         
-        {/* Header / Brand & Credits */}
-        <header className="flex justify-between items-center mb-6 pb-4 border-b border-white/5">
+        {/* Header */}
+        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-white/5 pb-4">
+          
           <div className="flex items-center gap-3">
              <a 
                href="https://www.tiktok.com/@signosanimadosoficial?is_from_webapp=1&sender_device=pc" 
@@ -179,16 +202,50 @@ const App: React.FC = () => {
              </a>
           </div>
 
+          {/* Contador de Créditos */}
           <div className="flex items-center gap-4">
-             <div className="bg-slate-900 border border-indigo-500/30 rounded-full px-4 py-1 flex items-center gap-2 shadow-lg">
-                <span className="text-[10px] uppercase tracking-widest text-slate-400">Créditos</span>
-                <span className={`font-bold ${credits === 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-                    {credits ?? '...'}
-                </span>
+             
+             <div 
+                className={`
+                  relative px-4 py-1.5 rounded-full flex items-center gap-3 shadow-lg transition-all border
+                  ${credits !== null && credits > 0 
+                    ? 'bg-slate-900 border-indigo-500/50 shadow-indigo-900/20' 
+                    : 'bg-red-900/20 border-red-500/50 shadow-red-900/20 animate-pulse'}
+                `}
+             >
+                <div className="flex flex-col items-end leading-none py-1">
+                    <span className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-0.5">Seus Créditos</span>
+                    <span className={`text-lg font-mono font-bold ${credits === 0 ? 'text-red-400' : 'text-white'}`}>
+                        {credits ?? '-'}
+                    </span>
+                </div>
+                
+                <div className="flex items-center gap-1">
+                    {/* Botão Atualizar Saldo */}
+                    <button 
+                      onClick={() => session && fetchCredits(session.user.id)}
+                      className={`w-6 h-6 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all ${refreshingCredits ? 'animate-spin text-indigo-400' : ''}`}
+                      title="Atualizar saldo"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                    </button>
+
+                    {/* Botão Comprar */}
+                    <button 
+                      onClick={handleBuyCredits} 
+                      className="w-6 h-6 bg-white text-slate-900 rounded-full flex items-center justify-center hover:bg-indigo-100 transition-colors font-bold text-sm pb-0.5 ml-1"
+                      title="Comprar mais créditos"
+                    >
+                      +
+                    </button>
+                </div>
              </div>
+
+             <div className="h-8 w-[1px] bg-slate-800 hidden md:block"></div>
+
              <button 
                 onClick={() => supabase.auth.signOut()} 
-                className="text-xs text-slate-500 hover:text-white transition-colors border border-slate-800 px-3 py-1 rounded hover:bg-slate-800"
+                className="text-xs text-slate-500 hover:text-white transition-colors border border-slate-800 px-4 py-2 rounded-lg hover:bg-slate-800"
              >
                 Sair
              </button>
@@ -218,7 +275,6 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Active Selection Area */}
             <div className="w-full mb-12 glass rounded-2xl p-6 md:p-10 border border-white/5 relative overflow-hidden hidden md:block">
               <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                  <div className="flex items-center gap-4 md:gap-8 flex-1 justify-center md:justify-start">
@@ -248,24 +304,33 @@ const App: React.FC = () => {
                  </div>
 
                  <div className="flex-1 flex justify-center md:justify-end w-full md:w-auto">
-                    <div className="flex flex-col items-end gap-2">
+                    <div className="flex flex-col items-end gap-3">
                         <button 
                           onClick={handleCalculate}
                           disabled={!signA || !signB || loading}
                           className={`w-full md:w-auto px-10 py-4 font-bold tracking-widest text-xs uppercase rounded-sm transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]
                               ${credits === 0 
-                                ? 'bg-indigo-600 text-white hover:bg-indigo-500' 
+                                ? 'bg-indigo-600 text-white hover:bg-indigo-500 ring-2 ring-indigo-400 ring-offset-2 ring-offset-[#050510]' 
                                 : 'bg-slate-100 text-slate-900 hover:bg-white disabled:opacity-20 disabled:cursor-not-allowed'
                               }
                           `}
                         >
                           {loading 
                             ? 'Calculando...' 
-                            : (credits && credits > 0 ? 'Revelar (-1 Crédito)' : 'Comprar Créditos')
+                            : (credits !== null && credits <= 0 ? 'COMPRAR CRÉDITOS' : 'REVELAR')
                           }
                         </button>
+                        
                         {credits !== null && credits <= 0 && (
-                            <span className="text-[10px] text-red-400 font-bold tracking-wide">Saldo insuficiente</span>
+                            <span className="text-[10px] text-red-400 font-bold tracking-wide flex items-center gap-1 bg-red-900/20 px-2 py-1 rounded cursor-pointer hover:bg-red-900/30 transition-colors" onClick={handleBuyCredits}>
+                              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                              Saldo insuficiente. Clique para recarregar.
+                            </span>
+                        )}
+                        {credits !== null && credits > 0 && (
+                           <span className="text-[10px] text-emerald-400/70 font-mono">
+                             Custo: -1 crédito
+                           </span>
                         )}
                     </div>
                  </div>
@@ -296,8 +361,9 @@ const App: React.FC = () => {
         )}
       </main>
 
+      {/* MOBILE FLOATING BAR */}
       {!result && (
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#050510]/90 backdrop-blur-xl border-t border-white/10 z-50 md:hidden flex items-center justify-between gap-4 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#050510]/95 backdrop-blur-xl border-t border-white/10 z-50 md:hidden flex items-center justify-between gap-4 shadow-[0_-5px_20px_rgba(0,0,0,0.8)]">
            <div className="flex items-center gap-3 pl-2">
               <div onClick={handleDeselectA} className={`w-12 h-12 rounded-full border border-slate-700 flex items-center justify-center cursor-pointer transition-all overflow-hidden ${signA ? 'bg-gradient-to-t ' + signA.gradient + ' border-white/50' : 'bg-slate-900 border-dashed'}`}>
                  {signA ? <img src={signA.icon} alt={signA.name} className="w-8 h-8 object-contain" /> : <span className="text-slate-600">+</span>}
@@ -307,18 +373,19 @@ const App: React.FC = () => {
                  {signB ? <img src={signB.icon} alt={signB.name} className="w-8 h-8 object-contain" /> : <span className="text-slate-600">+</span>}
               </div>
            </div>
+           
            <button 
-              onClick={handleCalculate}
+              onClick={credits === 0 ? handleBuyCredits : handleCalculate}
               disabled={!signA || !signB || loading}
               className={`flex-1 py-3 font-bold uppercase tracking-widest text-xs rounded-full shadow-lg transition-colors active:scale-95 
                   ${credits === 0 
-                    ? 'bg-indigo-600 text-white' 
+                    ? 'bg-indigo-600 text-white animate-pulse' 
                     : 'bg-white text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed'
                   }`}
            >
               {loading 
                  ? '...' 
-                 : (credits && credits > 0 ? 'Revelar' : 'Comprar')
+                 : (credits !== null && credits <= 0 ? 'Comprar (+)' : 'Revelar')
               }
            </button>
         </div>
