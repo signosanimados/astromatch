@@ -49,21 +49,49 @@ const App: React.FC = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // 2. Busca Créditos
+  // 2. Busca Créditos e Cria Perfil se Necessário
   const fetchCredits = async (userId: string) => {
     setRefreshingCredits(true);
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('credits')
+        .select('credits, name, phone')
         .eq('id', userId)
         .single();
-      
+
       if (data) {
+        // Perfil já existe
         setCredits(data.credits);
+        // Limpar dados pendentes se existirem
+        localStorage.removeItem('pendingUserData');
       } else if (error) {
-        logger.error('Erro ao buscar créditos:', error);
-        setCredits(0);
+        // Perfil não existe, criar um novo
+        logger.info('Criando novo perfil para usuário:', userId);
+
+        // Buscar dados do localStorage (salvos durante o login)
+        const pendingDataStr = localStorage.getItem('pendingUserData');
+        const pendingData = pendingDataStr ? JSON.parse(pendingDataStr) : null;
+
+        // Criar perfil com créditos iniciais
+        const { error: insertError } = await supabase
+          .from('profiles')
+          .insert({
+            id: userId,
+            credits: 3, // 3 créditos grátis para novos usuários
+            name: pendingData?.name || '',
+            phone: pendingData?.phone || '',
+            email: pendingData?.email || session?.user?.email || ''
+          });
+
+        if (insertError) {
+          logger.error('Erro ao criar perfil:', insertError);
+          setCredits(0);
+        } else {
+          logger.info('Perfil criado com sucesso!');
+          setCredits(3);
+          // Limpar dados pendentes
+          localStorage.removeItem('pendingUserData');
+        }
       }
     } catch (e) {
       logger.error("Erro de conexão:", e);
