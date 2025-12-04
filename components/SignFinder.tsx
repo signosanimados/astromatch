@@ -166,10 +166,11 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
         </header>
 
         {/* Result Content with Background */}
-        <div className="flex-1 relative">
-          {/* Background Image */}
-          <div className="absolute inset-0 z-0">
-            <div className="absolute inset-4 md:inset-8 rounded-3xl overflow-hidden">
+        <div className="flex-1 relative flex items-center justify-center">
+          {/* Container com tamanho fixo estilo celular */}
+          <div className="relative w-full max-w-[480px] mx-auto aspect-[9/16] max-h-[calc(100vh-80px)]">
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0 m-2 md:m-4 rounded-3xl overflow-hidden">
               <img
                 src={bgImage}
                 alt="Background"
@@ -180,10 +181,9 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
               {/* Overlay para legibilidade */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40" />
             </div>
-          </div>
 
-          {/* Content */}
-          <div className={`relative z-10 flex flex-col items-center justify-center p-6 min-h-full transition-all duration-700 ${showingResult ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            {/* Content */}
+            <div className={`relative z-10 flex flex-col items-center justify-center p-6 h-full transition-all duration-700 ${showingResult ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
             {/* Badge */}
             <div className="mb-6 px-4 py-2 bg-indigo-500/30 backdrop-blur-sm rounded-full border border-indigo-500/30">
@@ -250,6 +250,7 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
                 Refazer Quiz
               </button>
             </div>
+          </div>
           </div>
         </div>
       </div>
