@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CompatibilityResult, SignData } from '../types';
 import { APP_LOGO, PORTUGUESE_NAMES, DEFAULT_BACKGROUND, BACKGROUND_URLS } from '../constants';
 
@@ -21,10 +21,9 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
 
   // Detectar iOS
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   useEffect(() => {
-    // Determine dynamic background image
     const determineBackgroundImage = () => {
       const sortedSigns = [signA, signB].sort((a, b) => {
         const nameA = PORTUGUESE_NAMES[a.id];
@@ -41,7 +40,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
     setBgImage(determineBackgroundImage());
 
-    // Animate percentage
     let start = 0;
     const end = result.compatibilidade;
     const duration = 1500;
@@ -60,7 +58,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
     return () => clearInterval(timer);
   }, [result.compatibilidade, signA, signB]);
 
-  // Determine color based on percentage
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-emerald-400';
     if (score >= 50) return 'text-yellow-400';
@@ -73,9 +70,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
   const extractFileNames = (url: string): [string, string] | null => {
     const match = url.match(/\/([A-Z]+)x([A-Z]+)_/);
-    if (match) {
-      return [match[1], match[2]];
-    }
+    if (match) return [match[1], match[2]];
     return null;
   };
 
@@ -90,21 +85,14 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
   const isExceptionPair = isAquariusPisces || isAriesLeo;
 
-  let shouldFlipBackground;
-  if (isExceptionPair) {
-    shouldFlipBackground = userSelectedInFileOrder;
-  } else {
-    shouldFlipBackground = !userSelectedInFileOrder;
-  }
+  let shouldFlipBackground = isExceptionPair ? userSelectedInFileOrder : !userSelectedInFileOrder;
 
-  // Gerar imagem como canvas
-  const generateImage = async (): Promise<{ canvas: HTMLCanvasElement; blob: Blob } | null> => {
+  // Gerar imagem
+  const generateImage = async (): Promise<string | null> => {
     const element = document.getElementById('share-card');
     const html2canvas = (window as any).html2canvas;
 
-    if (!element || !html2canvas) {
-      return null;
-    }
+    if (!element || !html2canvas) return null;
 
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
@@ -118,127 +106,50 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         height: 1920,
         windowWidth: 1080,
         windowHeight: 1920,
-        x: 0,
-        y: 0,
-        scrollX: 0,
-        scrollY: 0
       });
-
-      return new Promise((resolve) => {
-        canvas.toBlob((blob: Blob | null) => {
-          if (blob) {
-            resolve({ canvas, blob });
-          } else {
-            resolve(null);
-          }
-        }, 'image/png');
-      });
+      return canvas.toDataURL('image/png');
     } catch (error) {
       console.error("Erro ao gerar imagem:", error);
       return null;
     }
   };
 
-  // Download function - com suporte iOS
+  // Download - abre modal no iOS
   const handleDownloadCard = async () => {
     setIsGenerating(true);
-
     try {
-      const result = await generateImage();
-
-      if (!result) {
-        alert("Não foi possível gerar a imagem.");
-        setIsGenerating(false);
-        return;
-      }
-
-      const { canvas, blob } = result;
-
-      if (isIOS) {
-        // No iOS, abre modal com a imagem para o usuário salvar manualmente
-        const imageUrl = canvas.toDataURL('image/png');
-        setGeneratedImageUrl(imageUrl);
-        setShowImageModal(true);
+      const imageUrl = await generateImage();
+      if (imageUrl) {
+        if (isIOS) {
+          setGeneratedImageUrl(imageUrl);
+          setShowImageModal(true);
+        } else {
+          const link = document.createElement('a');
+          link.download = `SignosCombinados-${signA.name}-${signB.name}.png`;
+          link.href = imageUrl;
+          link.click();
+        }
       } else {
-        // No desktop/Android, faz download direto
-        const link = document.createElement('a');
-        link.download = `SignosCombinados-${signA.name}-${signB.name}.png`;
-        link.href = URL.createObjectURL(blob);
-        link.click();
-        URL.revokeObjectURL(link.href);
+        alert("Não foi possível gerar a imagem.");
       }
     } catch (error) {
-      console.error("Erro ao gerar card:", error);
-      alert("Não foi possível gerar a imagem.");
+      alert("Erro ao gerar imagem.");
     } finally {
       setIsGenerating(false);
     }
   };
 
-  // Share functions - com imagem
+  // Share - gera imagem e mostra modal para iOS
   const shareText = `${signA.name} + ${signB.name} = ${result.compatibilidade}% de compatibilidade! 💫 Descubra a sua em signosanimados.com.br`;
   const shareUrl = 'https://signosanimados.com.br';
 
-  const handleNativeShare = async () => {
+  const handleShare = async () => {
     setIsGenerating(true);
-
     try {
-      const result = await generateImage();
-
-      if (result && navigator.canShare) {
-        const { blob } = result;
-        const file = new File([blob], `SignosCombinados-${signA.name}-${signB.name}.png`, { type: 'image/png' });
-
-        // Verificar se pode compartilhar arquivos
-        if (navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            files: [file],
-            title: 'Signos Combinados',
-            text: shareText,
-          });
-          setIsGenerating(false);
-          return;
-        }
-      }
-
-      // Fallback: compartilhar só texto
-      if (navigator.share) {
-        await navigator.share({
-          title: 'Signos Combinados',
-          text: shareText,
-          url: shareUrl,
-        });
-      } else {
-        setShowShareMenu(true);
-      }
-    } catch (err: any) {
-      // Se o usuário cancelou, não mostra erro
-      if (err.name !== 'AbortError') {
-        console.log('Share error:', err);
-        setShowShareMenu(true);
-      }
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const handleWhatsAppShare = async () => {
-    // Para WhatsApp, gerar imagem e mostrar modal para salvar, depois compartilhar texto
-    setIsGenerating(true);
-
-    try {
-      const result = await generateImage();
-      if (result) {
-        const imageUrl = result.canvas.toDataURL('image/png');
+      const imageUrl = await generateImage();
+      if (imageUrl) {
         setGeneratedImageUrl(imageUrl);
         setShowImageModal(true);
-        setShowShareMenu(false);
-
-        // Após um delay, abrir WhatsApp com o texto
-        setTimeout(() => {
-          const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
-          window.open(url, '_blank');
-        }, 500);
       }
     } catch (error) {
       console.error("Erro:", error);
@@ -247,24 +158,51 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
     }
   };
 
+  const handleWhatsAppShare = () => {
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+    window.open(url, '_blank');
+    setShowImageModal(false);
+  };
+
   const handleTwitterShare = () => {
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
     window.open(url, '_blank');
+    setShowImageModal(false);
   };
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareText + ' ' + shareUrl);
-    alert('Texto copiado! Cole onde quiser compartilhar.');
+    alert('Texto copiado!');
   };
 
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
+  // Componente de ícone de signo padronizado (círculo mascarado)
+  const SignIcon: React.FC<{ sign: SignData; size?: 'sm' | 'md' | 'lg' }> = ({ sign, size = 'md' }) => {
+    const sizeClasses = {
+      sm: 'w-16 h-16',
+      md: 'w-20 h-20 md:w-24 md:h-24',
+      lg: 'w-24 h-24 md:w-28 md:h-28'
+    };
+    return (
+      <div className={`${sizeClasses[size]} rounded-full overflow-hidden bg-gradient-to-br ${sign.gradient} p-0.5 shadow-lg`}>
+        <div className="w-full h-full rounded-full overflow-hidden bg-slate-900/50 backdrop-blur-sm">
+          <img
+            src={sign.icon}
+            alt={sign.name}
+            className="w-full h-full object-cover rounded-full"
+            crossOrigin="anonymous"
+          />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full max-w-5xl mx-auto space-y-6 animate-fade-in-up pb-8">
 
-      {/* HERO SECTION - Imagem de Fundo com Resultado */}
+      {/* HERO SECTION */}
       <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl">
-        {/* Background Image - Alinhado ao topo */}
         <div className="absolute inset-0 z-0">
           <img
             src={bgImage}
@@ -277,7 +215,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
         </div>
 
-        {/* Content Over Image */}
         <div className="relative z-10 p-6 md:p-10 min-h-[500px] md:min-h-[600px] flex flex-col justify-between">
 
           {/* Top - TikTok Badge */}
@@ -295,7 +232,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
           {/* Center - Signs and Score */}
           <div className="flex-1 flex flex-col items-center justify-center py-8">
-            {/* Mode Badge */}
             <div className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-widest mb-6 ${
               mode === 'love'
                 ? 'bg-pink-500/30 text-pink-200 border border-pink-400/30'
@@ -304,17 +240,12 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
               {mode === 'love' ? '❤️ Amor' : '🤝 Amizade'}
             </div>
 
-            {/* Signs Row */}
             <div className="flex items-center justify-center gap-4 md:gap-8 mb-6">
-              {/* Sign A */}
               <div className="flex flex-col items-center gap-2">
-                <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/20 p-2 shadow-lg">
-                  <img src={signA.icon} alt={signA.name} className="w-full h-full object-contain drop-shadow-lg" crossOrigin="anonymous" />
-                </div>
+                <SignIcon sign={signA} size="lg" />
                 <span className="text-white font-bold text-sm md:text-lg uppercase tracking-wide drop-shadow-lg">{signA.name}</span>
               </div>
 
-              {/* Score */}
               <div className="flex flex-col items-center">
                 <span className={`text-6xl md:text-8xl font-black font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]`}>
                   {animatedPercent}
@@ -322,16 +253,12 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                 <span className={`text-2xl md:text-3xl font-bold ${getScoreColor(result.compatibilidade)}`}>%</span>
               </div>
 
-              {/* Sign B */}
               <div className="flex flex-col items-center gap-2">
-                <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/20 p-2 shadow-lg">
-                  <img src={signB.icon} alt={signB.name} className="w-full h-full object-contain drop-shadow-lg" crossOrigin="anonymous" />
-                </div>
+                <SignIcon sign={signB} size="lg" />
                 <span className="text-white font-bold text-sm md:text-lg uppercase tracking-wide drop-shadow-lg">{signB.name}</span>
               </div>
             </div>
 
-            {/* Summary */}
             <p className="text-white/90 text-center text-lg md:text-xl font-light italic max-w-2xl px-4 drop-shadow-lg">
               "{result.resumo}"
             </p>
@@ -353,7 +280,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
             </button>
 
             <button
-              onClick={handleNativeShare}
+              onClick={handleShare}
               disabled={isGenerating}
               className="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white font-bold rounded-full hover:bg-indigo-500 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
             >
@@ -368,86 +295,82 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         </div>
       </div>
 
-      {/* Modal para salvar imagem (iOS) */}
+      {/* Modal unificado - Salvar imagem + Compartilhar */}
       {showImageModal && generatedImageUrl && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4" onClick={() => setShowImageModal(false)}>
-          <div className="bg-slate-900 rounded-2xl p-4 w-full max-w-sm border border-slate-700" onClick={e => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-white mb-3 text-center">Salvar Imagem</h3>
+        <div
+          className="fixed z-50 bg-black/95 overflow-y-auto"
+          style={{ top: 0, left: 0, right: 0, bottom: 0, paddingTop: '20px', paddingBottom: '20px' }}
+          onClick={() => setShowImageModal(false)}
+        >
+          <div className="min-h-full flex items-center justify-center px-4">
+            <div className="bg-slate-900 rounded-2xl w-full max-w-sm border border-slate-700" onClick={e => e.stopPropagation()}>
 
-            <p className="text-slate-400 text-xs text-center mb-4">
-              {isIOS ? 'Segure na imagem e selecione "Salvar Imagem"' : 'Clique com botão direito e "Salvar imagem como..."'}
-            </p>
-
-            <div className="rounded-lg overflow-hidden mb-4 bg-black">
-              <img
-                src={generatedImageUrl}
-                alt="Imagem para compartilhar"
-                className="w-full h-auto max-h-[60vh] object-contain"
-              />
+            {/* Header */}
+            <div className="p-4 border-b border-slate-700">
+              <h3 className="text-lg font-bold text-white text-center">Compartilhar Resultado</h3>
             </div>
 
-            <button
-              onClick={() => setShowImageModal(false)}
-              className="w-full py-3 bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-700 transition-colors"
-            >
-              Fechar
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Share Menu Modal */}
-      {showShareMenu && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4" onClick={() => setShowShareMenu(false)}>
-          <div className="bg-slate-900 rounded-2xl p-6 w-full max-w-md border border-slate-700" onClick={e => e.stopPropagation()}>
-            <h3 className="text-xl font-bold text-white mb-4 text-center">Compartilhar</h3>
-
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              {/* WhatsApp */}
-              <button onClick={handleWhatsAppShare} disabled={isGenerating} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors disabled:opacity-50">
-                <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                </div>
-                <span className="text-white text-xs font-medium">WhatsApp</span>
-              </button>
-
-              {/* Twitter/X */}
-              <button onClick={handleTwitterShare} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
-                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center border border-slate-600">
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </div>
-                <span className="text-white text-xs font-medium">Twitter</span>
-              </button>
-
-              {/* Copy Link */}
-              <button onClick={handleCopyLink} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
-                <div className="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
-                </div>
-                <span className="text-white text-xs font-medium">Copiar</span>
-              </button>
+            {/* Imagem */}
+            <div className="p-3">
+              <p className="text-slate-400 text-xs text-center mb-2">
+                {isIOS ? '📱 Segure na imagem → "Adicionar às Fotos"' : '💾 Clique direito → "Salvar imagem"'}
+              </p>
+              <div className="rounded-xl overflow-hidden bg-black border border-slate-700">
+                <img
+                  src={generatedImageUrl}
+                  alt="Imagem para compartilhar"
+                  className="w-full h-auto"
+                  style={{ maxHeight: '35vh', objectFit: 'contain' }}
+                />
+              </div>
             </div>
 
-            <div className="bg-slate-800/50 rounded-lg p-3 mb-4">
-              <p className="text-slate-300 text-xs text-center">
-                📱 <strong>Dica:</strong> Clique em "Baixar Imagem" primeiro, depois compartilhe a imagem salva no Instagram, TikTok ou Stories!
+            {/* Botões de compartilhamento */}
+            <div className="p-3 border-t border-slate-700">
+              <p className="text-slate-500 text-[10px] text-center mb-2 uppercase tracking-wider">Compartilhar texto</p>
+              <div className="flex justify-center gap-4">
+                <button onClick={handleWhatsAppShare} className="flex flex-col items-center gap-1">
+                  <div className="w-11 h-11 rounded-full bg-green-500 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  </div>
+                  <span className="text-white text-[10px]">WhatsApp</span>
+                </button>
+
+                <button onClick={handleTwitterShare} className="flex flex-col items-center gap-1">
+                  <div className="w-11 h-11 rounded-full bg-black flex items-center justify-center border border-slate-600">
+                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  </div>
+                  <span className="text-white text-[10px]">Twitter</span>
+                </button>
+
+                <button onClick={handleCopyLink} className="flex flex-col items-center gap-1">
+                  <div className="w-11 h-11 rounded-full bg-slate-700 flex items-center justify-center">
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                  </div>
+                  <span className="text-white text-[10px]">Copiar</span>
+                </button>
+              </div>
+              <p className="text-indigo-400 text-[10px] text-center mt-2">
+                💡 Salve a imagem acima e poste nas redes!
               </p>
             </div>
 
-            <button
-              onClick={() => setShowShareMenu(false)}
-              className="w-full py-3 bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-700 transition-colors"
-            >
-              Fechar
-            </button>
+            {/* Fechar */}
+            <div className="p-3 pt-1">
+              <button
+                onClick={() => setShowImageModal(false)}
+                className="w-full py-3 bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-700 transition-colors"
+              >
+                Fechar
+              </button>
+            </div>
+            </div>
           </div>
         </div>
       )}
 
       {/* Details Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-        {/* Pros */}
         <div className="glass rounded-2xl p-6 border-l-4 border-l-emerald-500">
           <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <span className="bg-emerald-500/20 text-emerald-400 p-1.5 rounded-lg">
@@ -465,7 +388,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           </ul>
         </div>
 
-        {/* Cons */}
         <div className="glass rounded-2xl p-6 border-l-4 border-l-red-500">
           <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <span className="bg-red-500/20 text-red-400 p-1.5 rounded-lg">
@@ -483,7 +405,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           </ul>
         </div>
 
-        {/* Tips */}
         <div className="glass rounded-2xl p-6 border-l-4 border-l-indigo-500 md:col-span-2">
           <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <span className="bg-indigo-500/20 text-indigo-400 p-1.5 rounded-lg">
@@ -501,7 +422,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         </div>
       </div>
 
-      {/* New Combination Button */}
+      {/* Nova Combinação */}
       <div className="flex justify-center pt-4">
         <button
           onClick={onReset}
@@ -516,7 +437,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
       <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
         <div
           id="share-card"
-          className="flex flex-col items-center p-0 relative"
           style={{
               position: 'absolute',
               top: 0,
@@ -531,7 +451,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
               backgroundColor: '#000'
           }}
         >
-            {/* LAYER 1: Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                <img
                  src={bgImage}
@@ -543,43 +462,31 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                    objectPosition: 'top',
                    transform: shouldFlipBackground ? 'scaleX(-1)' : 'none'
                  }}
-                 onError={(e) => {
-                   e.currentTarget.src = DEFAULT_BACKGROUND;
-                 }}
+                 onError={(e) => { e.currentTarget.src = DEFAULT_BACKGROUND; }}
                />
                <div className="absolute inset-0 bg-black/50" />
             </div>
 
-            {/* LAYER 2: Content */}
             <div className="relative z-10 w-full h-full flex flex-col items-center">
-
-                {/* Header / Logo Section */}
                 <div className="flex flex-col items-center gap-4 mt-20 z-10 drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
-                    <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-4 border-white/20">
-                        <img src={APP_LOGO} crossOrigin="anonymous" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
+                    <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-4 border-white/20 overflow-hidden">
+                        <img src={APP_LOGO} crossOrigin="anonymous" className="w-full h-full object-cover" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='SC'}}/>
                     </div>
                     <h1 className="text-3xl font-bold tracking-[0.1em] text-white font-mono uppercase mt-6 drop-shadow-md">
                         TikTok: @signosanimadosoficial
                     </h1>
                 </div>
 
-                {/* Main Content Container */}
-                <div
-                  className="flex-1 flex flex-col justify-center items-center w-full z-10 mt-10"
-                  style={{ filter: 'drop-shadow(0px 0px 10px rgba(0,0,0,0.5))' }}
-                >
-                    {/* Horizontal Layout: Sign A - Score - Sign B */}
+                <div className="flex-1 flex flex-col justify-center items-center w-full z-10 mt-10" style={{ filter: 'drop-shadow(0px 0px 10px rgba(0,0,0,0.5))' }}>
                     <div className="flex flex-row items-center justify-center gap-2 w-full px-8">
-
-                        {/* Sign A */}
+                        {/* Sign A - círculo mascarado */}
                         <div className="flex flex-col items-center gap-6">
-                            <div className="w-64 h-64 flex items-center justify-center">
-                              <img src={signA.icon} alt={signA.name} className="w-64 h-64 object-cover rounded-full drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] border-4 border-white/10" crossOrigin="anonymous" />
+                            <div className="w-64 h-64 rounded-full overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 p-1 shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+                              <img src={signA.icon} alt={signA.name} className="w-full h-full object-cover rounded-full" crossOrigin="anonymous" />
                             </div>
-                            <span className="text-3xl font-bold text-white uppercase tracking-wide text-center text-shadow-lg whitespace-nowrap">{signA.name}</span>
+                            <span className="text-3xl font-bold text-white uppercase tracking-wide text-center whitespace-nowrap">{signA.name}</span>
                         </div>
 
-                        {/* Center Score Block */}
                         <div className="flex flex-col items-center justify-center mx-2 gap-4">
                             <div className="flex items-baseline">
                                  <span className={`text-[9rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]`}>
@@ -589,30 +496,24 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                             </div>
                         </div>
 
-                        {/* Sign B */}
+                        {/* Sign B - círculo mascarado */}
                         <div className="flex flex-col items-center gap-6">
-                            <div className="w-64 h-64 flex items-center justify-center">
-                              <img src={signB.icon} alt={signB.name} className="w-64 h-64 object-cover rounded-full drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] border-4 border-white/10" crossOrigin="anonymous" />
+                            <div className="w-64 h-64 rounded-full overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 p-1 shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+                              <img src={signB.icon} alt={signB.name} className="w-full h-full object-cover rounded-full" crossOrigin="anonymous" />
                             </div>
-                            <span className="text-3xl font-bold text-white uppercase tracking-wide text-center text-shadow-lg whitespace-nowrap">{signB.name}</span>
+                            <span className="text-3xl font-bold text-white uppercase tracking-wide text-center whitespace-nowrap">{signB.name}</span>
                         </div>
                     </div>
 
-                    {/* Summary Snippet */}
                     <div className="mt-16 px-20 w-full flex flex-col items-center gap-6">
-                       <span className={`text-4xl font-bold uppercase tracking-[0.2em] drop-shadow-md ${
-                              mode === 'love' ? 'text-pink-300' : 'text-cyan-300'
-                            }`}>
+                       <span className={`text-4xl font-bold uppercase tracking-[0.2em] drop-shadow-md ${mode === 'love' ? 'text-pink-300' : 'text-cyan-300'}`}>
                                {mode === 'love' ? 'AMOR' : 'AMIZADE'}
                        </span>
-
                        <p className="text-5xl text-white leading-tight font-light italic text-center drop-shadow-[0_4px_8px_rgba(0,0,0,1)]" style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.8)' }}>
                           "{result.resumo}"
                        </p>
                     </div>
-
                 </div>
-
                 <div className="h-20"></div>
             </div>
         </div>
