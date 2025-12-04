@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { CompatibilityResult, SignData } from '../types';
 import { APP_LOGO, PORTUGUESE_NAMES, DEFAULT_BACKGROUND, BACKGROUND_URLS } from '../constants';
 
@@ -17,6 +17,11 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const [isGenerating, setIsGenerating] = useState(false);
   const [bgImage, setBgImage] = useState<string>(DEFAULT_BACKGROUND);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null);
+
+  // Detectar iOS
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   useEffect(() => {
     // Determine dynamic background image
@@ -62,12 +67,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
     return 'text-red-400';
   };
 
-  const scoreColorHex = (score: number) => {
-    if (score >= 80) return '#34d399';
-    if (score >= 50) return '#facc15';
-    return '#f87171';
-  };
-
   // Flip logic
   const nameA = PORTUGUESE_NAMES[signA.id];
   const nameB = PORTUGUESE_NAMES[signB.id];
@@ -98,70 +97,154 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
     shouldFlipBackground = !userSelectedInFileOrder;
   }
 
-  // Download function
-  const handleDownloadCard = async () => {
-    setIsGenerating(true);
+  // Gerar imagem como canvas
+  const generateImage = async (): Promise<{ canvas: HTMLCanvasElement; blob: Blob } | null> => {
     const element = document.getElementById('share-card');
     const html2canvas = (window as any).html2canvas;
 
-    if (element && html2canvas) {
-      try {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const canvas = await html2canvas(element, {
-          backgroundColor: null,
-          scale: 1,
-          logging: false,
-          useCORS: true,
-          allowTaint: true,
-          width: 1080,
-          height: 1920,
-          windowWidth: 1080,
-          windowHeight: 1920,
-          x: 0,
-          y: 0,
-          scrollX: 0,
-          scrollY: 0
-        });
+    if (!element || !html2canvas) {
+      return null;
+    }
 
-        const link = document.createElement('a');
-        link.download = `SignosCombinados-${signA.name}-${signB.name}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      } catch (error) {
-        console.error("Erro ao gerar card:", error);
-        alert("Não foi possível gerar a imagem.");
-      } finally {
-        setIsGenerating(false);
-      }
-    } else {
-      setIsGenerating(false);
-      alert("Erro interno: Biblioteca gráfica não carregada.");
+    try {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const canvas = await html2canvas(element, {
+        backgroundColor: null,
+        scale: 1,
+        logging: false,
+        useCORS: true,
+        allowTaint: true,
+        width: 1080,
+        height: 1920,
+        windowWidth: 1080,
+        windowHeight: 1920,
+        x: 0,
+        y: 0,
+        scrollX: 0,
+        scrollY: 0
+      });
+
+      return new Promise((resolve) => {
+        canvas.toBlob((blob: Blob | null) => {
+          if (blob) {
+            resolve({ canvas, blob });
+          } else {
+            resolve(null);
+          }
+        }, 'image/png');
+      });
+    } catch (error) {
+      console.error("Erro ao gerar imagem:", error);
+      return null;
     }
   };
 
-  // Share functions
+  // Download function - com suporte iOS
+  const handleDownloadCard = async () => {
+    setIsGenerating(true);
+
+    try {
+      const result = await generateImage();
+
+      if (!result) {
+        alert("Não foi possível gerar a imagem.");
+        setIsGenerating(false);
+        return;
+      }
+
+      const { canvas, blob } = result;
+
+      if (isIOS) {
+        // No iOS, abre modal com a imagem para o usuário salvar manualmente
+        const imageUrl = canvas.toDataURL('image/png');
+        setGeneratedImageUrl(imageUrl);
+        setShowImageModal(true);
+      } else {
+        // No desktop/Android, faz download direto
+        const link = document.createElement('a');
+        link.download = `SignosCombinados-${signA.name}-${signB.name}.png`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }
+    } catch (error) {
+      console.error("Erro ao gerar card:", error);
+      alert("Não foi possível gerar a imagem.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // Share functions - com imagem
   const shareText = `${signA.name} + ${signB.name} = ${result.compatibilidade}% de compatibilidade! 💫 Descubra a sua em signosanimados.com.br`;
   const shareUrl = 'https://signosanimados.com.br';
 
   const handleNativeShare = async () => {
-    if (navigator.share) {
-      try {
+    setIsGenerating(true);
+
+    try {
+      const result = await generateImage();
+
+      if (result && navigator.canShare) {
+        const { blob } = result;
+        const file = new File([blob], `SignosCombinados-${signA.name}-${signB.name}.png`, { type: 'image/png' });
+
+        // Verificar se pode compartilhar arquivos
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'Signos Combinados',
+            text: shareText,
+          });
+          setIsGenerating(false);
+          return;
+        }
+      }
+
+      // Fallback: compartilhar só texto
+      if (navigator.share) {
         await navigator.share({
           title: 'Signos Combinados',
           text: shareText,
           url: shareUrl,
         });
-      } catch (err) {
-        console.log('Share cancelled');
+      } else {
+        setShowShareMenu(true);
       }
-    } else {
-      setShowShareMenu(true);
+    } catch (err: any) {
+      // Se o usuário cancelou, não mostra erro
+      if (err.name !== 'AbortError') {
+        console.log('Share error:', err);
+        setShowShareMenu(true);
+      }
+    } finally {
+      setIsGenerating(false);
     }
   };
 
-  const handleWhatsAppShare = () => {
-    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
-    window.open(url, '_blank');
+  const handleWhatsAppShare = async () => {
+    // Para WhatsApp, gerar imagem e mostrar modal para salvar, depois compartilhar texto
+    setIsGenerating(true);
+
+    try {
+      const result = await generateImage();
+      if (result) {
+        const imageUrl = result.canvas.toDataURL('image/png');
+        setGeneratedImageUrl(imageUrl);
+        setShowImageModal(true);
+        setShowShareMenu(false);
+
+        // Após um delay, abrir WhatsApp com o texto
+        setTimeout(() => {
+          const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+          window.open(url, '_blank');
+        }, 500);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleTwitterShare = () => {
@@ -171,7 +254,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareText + ' ' + shareUrl);
-    alert('Link copiado!');
+    alert('Texto copiado! Cole onde quiser compartilhar.');
   };
 
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
@@ -181,17 +264,17 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
       {/* HERO SECTION - Imagem de Fundo com Resultado */}
       <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl">
-        {/* Background Image */}
+        {/* Background Image - Alinhado ao topo */}
         <div className="absolute inset-0 z-0">
           <img
             src={bgImage}
             alt="Background"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
             style={{ transform: shouldFlipBackground ? 'scaleX(-1)' : 'none' }}
             crossOrigin="anonymous"
             onError={(e) => { e.currentTarget.src = DEFAULT_BACKGROUND; }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
         </div>
 
         {/* Content Over Image */}
@@ -271,14 +354,47 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
             <button
               onClick={handleNativeShare}
-              className="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white font-bold rounded-full hover:bg-indigo-500 transition-all shadow-lg flex items-center justify-center gap-2"
+              disabled={isGenerating}
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white font-bold rounded-full hover:bg-indigo-500 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+              {isGenerating ? (
+                <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+              ) : (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+              )}
               Compartilhar
             </button>
           </div>
         </div>
       </div>
+
+      {/* Modal para salvar imagem (iOS) */}
+      {showImageModal && generatedImageUrl && (
+        <div className="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center p-4" onClick={() => setShowImageModal(false)}>
+          <div className="bg-slate-900 rounded-2xl p-4 w-full max-w-sm border border-slate-700" onClick={e => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-white mb-3 text-center">Salvar Imagem</h3>
+
+            <p className="text-slate-400 text-xs text-center mb-4">
+              {isIOS ? 'Segure na imagem e selecione "Salvar Imagem"' : 'Clique com botão direito e "Salvar imagem como..."'}
+            </p>
+
+            <div className="rounded-lg overflow-hidden mb-4 bg-black">
+              <img
+                src={generatedImageUrl}
+                alt="Imagem para compartilhar"
+                className="w-full h-auto max-h-[60vh] object-contain"
+              />
+            </div>
+
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="w-full py-3 bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-700 transition-colors"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Share Menu Modal */}
       {showShareMenu && (
@@ -288,7 +404,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
             <div className="grid grid-cols-3 gap-4 mb-6">
               {/* WhatsApp */}
-              <button onClick={handleWhatsAppShare} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
+              <button onClick={handleWhatsAppShare} disabled={isGenerating} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors disabled:opacity-50">
                 <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 </div>
@@ -312,9 +428,11 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
               </button>
             </div>
 
-            <p className="text-slate-400 text-xs text-center mb-4">
-              Dica: Baixe a imagem e compartilhe no Instagram ou TikTok!
-            </p>
+            <div className="bg-slate-800/50 rounded-lg p-3 mb-4">
+              <p className="text-slate-300 text-xs text-center">
+                📱 <strong>Dica:</strong> Clique em "Baixar Imagem" primeiro, depois compartilhe a imagem salva no Instagram, TikTok ou Stories!
+              </p>
+            </div>
 
             <button
               onClick={() => setShowShareMenu(false)}
@@ -422,6 +540,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                    width: '100%',
                    height: '100%',
                    objectFit: 'cover',
+                   objectPosition: 'top',
                    transform: shouldFlipBackground ? 'scaleX(-1)' : 'none'
                  }}
                  onError={(e) => {
