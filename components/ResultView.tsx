@@ -129,28 +129,48 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
   // Determine if we need to flip the background image
-  // Name Lookup
-  const nameA = PORTUGUESE_NAMES[signA.id]; // First Selected Sign
-  const nameB = PORTUGUESE_NAMES[signB.id]; // Second Selected Sign
-  
-  // Check if the selection order is Alphabetical (A before B)
-  const isAlphabeticalSelection = nameA.localeCompare(nameB) < 0;
+  // Lógica baseada no nome do arquivo da imagem (não alfabética)
 
-  // Identify Exceptions (Pairs where behavior must be INVERTED)
+  const nameA = PORTUGUESE_NAMES[signA.id]; // Primeiro signo selecionado
+  const nameB = PORTUGUESE_NAMES[signB.id]; // Segundo signo selecionado
+
+  // Extrair o nome do arquivo da URL da imagem
+  // Ex: "https://res.cloudinary.com/.../ARIESxGEMEOS_yp1itq.png" → "ARIESxGEMEOS"
+  const extractFileNames = (url: string): [string, string] | null => {
+    const match = url.match(/\/([A-Z]+)x([A-Z]+)_/);
+    if (match) {
+      return [match[1], match[2]]; // [primeiro signo no arquivo, segundo signo no arquivo]
+    }
+    return null;
+  };
+
+  const fileNames = extractFileNames(bgImage);
+
+  // Verificar se a seleção do usuário está na mesma ordem do arquivo
+  let userSelectedInFileOrder = false;
+  if (fileNames) {
+    const [fileFirst, fileSecond] = fileNames;
+    // Se o usuário selecionou na mesma ordem que aparece no nome do arquivo
+    userSelectedInFileOrder = (nameA === fileFirst && nameB === fileSecond);
+  }
+
+  // Identificar exceções (pares onde o comportamento é INVERTIDO)
   const isAquariusPisces = (signA.id === 'aquarius' && signB.id === 'pisces') || (signA.id === 'pisces' && signB.id === 'aquarius');
   const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
   const isExceptionPair = isAquariusPisces || isAriesLeo;
 
-  // Apply Logic
-  // STANDARD RULE: Flip if selection is NOT alphabetical (Reverse order)
-  // EXCEPTION RULE: Flip if selection IS alphabetical (Invert logic)
-  
+  // Aplicar lógica:
+  // REGRA PADRÃO: Se selecionou na ordem do arquivo → NÃO flip. Se selecionou inverso → FLIP
+  // EXCEÇÕES: Inverte a lógica (se selecionou na ordem do arquivo → FLIP)
+
   let shouldFlipBackground;
 
   if (isExceptionPair) {
-     shouldFlipBackground = isAlphabeticalSelection;
+     // Exceções: flip se selecionou NA ordem do arquivo
+     shouldFlipBackground = userSelectedInFileOrder;
   } else {
-     shouldFlipBackground = !isAlphabeticalSelection;
+     // Padrão: flip se selecionou na ordem INVERSA do arquivo
+     shouldFlipBackground = !userSelectedInFileOrder;
   }
 
   return (
