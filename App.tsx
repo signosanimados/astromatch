@@ -5,11 +5,15 @@ import { SignData, CompatibilityResult } from './types';
 import SignCard from './components/SignCard';
 import ResultView from './components/ResultView';
 import Login from './components/Login';
+import HomeScreen from './components/HomeScreen';
+import SignFinder from './components/SignFinder';
 import { getCompatibility } from './services/geminiService';
 import { supabase } from './lib/supabaseClient';
 
 // LINK DE PAGAMENTO DO STRIPE REAL (Corrigido com final 9AA00)
-const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/cNi28s8Kb0j00t9fmf9AA00"; 
+const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/cNi28s8Kb0j00t9fmf9AA00";
+
+type ScreenType = 'home' | 'combinations' | 'signfinder';
 
 const App: React.FC = () => {
   const [session, setSession] = useState<any>(null);
@@ -17,12 +21,14 @@ const App: React.FC = () => {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [refreshingCredits, setRefreshingCredits] = useState(false);
 
+  const [currentScreen, setCurrentScreen] = useState<ScreenType>('home');
+
   const [signA, setSignA] = useState<SignData | null>(null);
   const [signB, setSignB] = useState<SignData | null>(null);
   const [result, setResult] = useState<CompatibilityResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const [relationshipMode, setRelationshipMode] = useState<'love' | 'friendship'>('love');
 
   // 1. Inicialização
@@ -57,12 +63,12 @@ const App: React.FC = () => {
         .select('credits')
         .eq('id', userId)
         .single();
-      
+
       if (data) {
         setCredits(data.credits);
       } else if (error) {
         console.error('Erro ao buscar créditos:', error);
-        setCredits(0); 
+        setCredits(0);
       }
     } catch (e) {
       console.error("Erro de conexão:", e);
@@ -86,7 +92,7 @@ const App: React.FC = () => {
     setSignB(null);
     setResult(null);
     setError(null);
-    if (session) fetchCredits(session.user.id); 
+    if (session) fetchCredits(session.user.id);
   };
 
   // Função para abrir o checkout com ID
@@ -104,7 +110,7 @@ const App: React.FC = () => {
        const confirmar = window.confirm(
          "Seus créditos acabaram! 🌑\n\nPara revelar essa combinação, você precisa de mais energia astral.\n\nClique em OK para adquirir novos créditos."
        );
-       
+
        if (confirmar) {
           handleBuyCredits();
        }
@@ -113,14 +119,14 @@ const App: React.FC = () => {
 
     setLoading(true);
     setError(null);
-    
+
     try {
       const previousCredits = credits;
       const newCredits = (credits || 0) - 1;
       setCredits(newCredits);
 
       await new Promise(resolve => setTimeout(resolve, 800));
-      
+
       const data = await getCompatibility(signA, signB, relationshipMode);
       setResult(data);
 
@@ -144,7 +150,7 @@ const App: React.FC = () => {
         console.error("Erro ao deduzir crédito:", creditError);
         setCredits(previousCredits);
         alert("Erro de conexão ao debitar crédito. Tente novamente.");
-        setResult(null); 
+        setResult(null);
       }
 
     } catch (err: any) {
@@ -156,6 +162,33 @@ const App: React.FC = () => {
 
   const handleDeselectA = () => { setSignA(null); setSignB(null); };
   const handleDeselectB = () => { setSignB(null); };
+
+  // Navigation handlers
+  const handleGoHome = () => {
+    setCurrentScreen('home');
+    handleReset();
+  };
+
+  const handleGoToCombinations = () => {
+    setCurrentScreen('combinations');
+  };
+
+  const handleGoToSignFinder = () => {
+    setCurrentScreen('signfinder');
+  };
+
+  const handleSignFinderComplete = (sign: SignData) => {
+    // Pre-select the discovered sign and go to combinations
+    setSignA(sign);
+    setSignB(null);
+    setResult(null);
+    setCurrentScreen('combinations');
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setCurrentScreen('home');
+  };
 
   if (checkingAuth) return (
     <div className="min-h-screen bg-[#050510] flex items-center justify-center text-white">
@@ -170,46 +203,68 @@ const App: React.FC = () => {
     return <Login />;
   }
 
+  // Home Screen
+  if (currentScreen === 'home') {
+    return (
+      <HomeScreen
+        onSelectCombinations={handleGoToCombinations}
+        onSelectSignFinder={handleGoToSignFinder}
+        onLogout={handleLogout}
+        userEmail={session?.user?.email}
+        credits={credits}
+      />
+    );
+  }
+
+  // Sign Finder Screen
+  if (currentScreen === 'signfinder') {
+    return (
+      <SignFinder
+        onBack={handleGoHome}
+        onGoToCombinations={handleSignFinderComplete}
+      />
+    );
+  }
+
+  // Combinations Screen (original app)
   return (
     <div className="min-h-screen bg-[#050510] text-slate-200 pb-32 md:pb-20 font-sans relative overflow-x-hidden">
-      
+
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-900/10 blur-[120px] rounded-full"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-900/10 blur-[120px] rounded-full"></div>
       </div>
 
       <main className="container mx-auto px-4 md:px-8 relative z-10 pt-8">
-        
+
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-white/5 pb-4">
-          
+
           <div className="flex items-center gap-3">
-             <a 
-               href="https://www.tiktok.com/@signosanimadosoficial?is_from_webapp=1&sender_device=pc" 
-               target="_blank" 
-               rel="noopener noreferrer" 
+             <button
+               onClick={handleGoHome}
                className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
              >
-               <img 
+               <img
                   src={APP_LOGO}
-                  alt="AM" 
+                  alt="AM"
                   className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
                   crossOrigin="anonymous"
                />
                <h1 className="text-xl font-bold tracking-[0.2em] uppercase text-slate-300 hidden md:block">
                  Signos Combinados
                </h1>
-             </a>
+             </button>
           </div>
 
           {/* Contador de Créditos */}
           <div className="flex items-center gap-4">
-             
-             <div 
+
+             <div
                 className={`
                   relative px-4 py-1.5 rounded-full flex items-center gap-3 shadow-lg transition-all border
-                  ${credits !== null && credits > 0 
-                    ? 'bg-slate-900 border-indigo-500/50 shadow-indigo-900/20' 
+                  ${credits !== null && credits > 0
+                    ? 'bg-slate-900 border-indigo-500/50 shadow-indigo-900/20'
                     : 'bg-red-900/20 border-red-500/50 shadow-red-900/20 animate-pulse'}
                 `}
              >
@@ -219,10 +274,10 @@ const App: React.FC = () => {
                         {credits ?? '-'}
                     </span>
                 </div>
-                
+
                 <div className="flex items-center gap-1">
                     {/* Botão Atualizar Saldo */}
-                    <button 
+                    <button
                       onClick={() => session && fetchCredits(session.user.id)}
                       className={`w-6 h-6 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all ${refreshingCredits ? 'animate-spin text-indigo-400' : ''}`}
                       title="Atualizar saldo"
@@ -231,8 +286,8 @@ const App: React.FC = () => {
                     </button>
 
                     {/* Botão Comprar */}
-                    <button 
-                      onClick={handleBuyCredits} 
+                    <button
+                      onClick={handleBuyCredits}
                       className="w-6 h-6 bg-white text-slate-900 rounded-full flex items-center justify-center hover:bg-indigo-100 transition-colors font-bold text-sm pb-0.5 ml-1"
                       title="Comprar mais créditos"
                     >
@@ -243,30 +298,33 @@ const App: React.FC = () => {
 
              <div className="h-8 w-[1px] bg-slate-800 hidden md:block"></div>
 
-             <button 
-                onClick={() => supabase.auth.signOut()} 
-                className="text-xs text-slate-500 hover:text-white transition-colors border border-slate-800 px-4 py-2 rounded-lg hover:bg-slate-800"
+             <button
+                onClick={handleGoHome}
+                className="text-xs text-slate-500 hover:text-white transition-colors border border-slate-800 px-4 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2"
              >
-                Sair
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                Início
              </button>
           </div>
         </header>
 
         {!result && (
           <div className="animate-fade-in max-w-6xl mx-auto flex flex-col items-center">
-            
+
             <div className="flex flex-col items-center gap-3 mb-8 w-full">
               <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">
                 Tipo de Combinação
               </span>
               <div className="flex p-1 bg-slate-900/80 border border-slate-700/50 rounded-full shadow-lg relative">
-                 <button 
+                 <button
                     onClick={() => setRelationshipMode('love')}
                     className={`relative z-10 px-8 py-2 rounded-full text-sm font-bold tracking-widest transition-all duration-300 flex items-center gap-2 ${relationshipMode === 'love' ? 'bg-gradient-to-r from-pink-600 to-rose-500 text-white shadow-[0_0_15px_rgba(244,63,94,0.4)]' : 'text-slate-400 hover:text-slate-200'}`}
                  >
                     AMOR
                  </button>
-                 <button 
+                 <button
                     onClick={() => setRelationshipMode('friendship')}
                     className={`relative z-10 px-8 py-2 rounded-full text-sm font-bold tracking-widest transition-all duration-300 flex items-center gap-2 ${relationshipMode === 'friendship' ? 'bg-gradient-to-r from-cyan-600 to-blue-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)]' : 'text-slate-400 hover:text-slate-200'}`}
                  >
@@ -305,22 +363,22 @@ const App: React.FC = () => {
 
                  <div className="flex-1 flex justify-center md:justify-end w-full md:w-auto">
                     <div className="flex flex-col items-end gap-3">
-                        <button 
+                        <button
                           onClick={handleCalculate}
                           disabled={!signA || !signB || loading}
                           className={`w-full md:w-auto px-10 py-4 font-bold tracking-widest text-xs uppercase rounded-sm transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]
-                              ${credits === 0 
-                                ? 'bg-indigo-600 text-white hover:bg-indigo-500 ring-2 ring-indigo-400 ring-offset-2 ring-offset-[#050510]' 
+                              ${credits === 0
+                                ? 'bg-indigo-600 text-white hover:bg-indigo-500 ring-2 ring-indigo-400 ring-offset-2 ring-offset-[#050510]'
                                 : 'bg-slate-100 text-slate-900 hover:bg-white disabled:opacity-20 disabled:cursor-not-allowed'
                               }
                           `}
                         >
-                          {loading 
-                            ? 'Calculando...' 
+                          {loading
+                            ? 'Calculando...'
                             : (credits !== null && credits <= 0 ? 'COMPRAR CRÉDITOS' : 'REVELAR')
                           }
                         </button>
-                        
+
                         {credits !== null && credits <= 0 && (
                             <span className="text-[10px] text-red-400 font-bold tracking-wide flex items-center gap-1 bg-red-900/20 px-2 py-1 rounded cursor-pointer hover:bg-red-900/30 transition-colors" onClick={handleBuyCredits}>
                               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -350,10 +408,10 @@ const App: React.FC = () => {
         )}
 
         {result && signA && signB && (
-          <ResultView 
-            result={result} 
-            signA={signA} 
-            signB={signB} 
+          <ResultView
+            result={result}
+            signA={signA}
+            signB={signB}
             mode={relationshipMode}
             onReset={handleReset}
             userEmail={session?.user?.email}
@@ -373,18 +431,18 @@ const App: React.FC = () => {
                  {signB ? <img src={signB.icon} alt={signB.name} className="w-8 h-8 object-contain" /> : <span className="text-slate-600">+</span>}
               </div>
            </div>
-           
-           <button 
+
+           <button
               onClick={credits === 0 ? handleBuyCredits : handleCalculate}
               disabled={!signA || !signB || loading}
-              className={`flex-1 py-3 font-bold uppercase tracking-widest text-xs rounded-full shadow-lg transition-colors active:scale-95 
-                  ${credits === 0 
-                    ? 'bg-indigo-600 text-white animate-pulse' 
+              className={`flex-1 py-3 font-bold uppercase tracking-widest text-xs rounded-full shadow-lg transition-colors active:scale-95
+                  ${credits === 0
+                    ? 'bg-indigo-600 text-white animate-pulse'
                     : 'bg-white text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed'
                   }`}
            >
-              {loading 
-                 ? '...' 
+              {loading
+                 ? '...'
                  : (credits !== null && credits <= 0 ? 'Comprar (+)' : 'Revelar')
               }
            </button>
