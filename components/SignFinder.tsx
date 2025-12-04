@@ -3,9 +3,10 @@ import { SIGN_FINDER_QUESTIONS, SIGN_NAMES, SIGN_DESCRIPTIONS, QuestionOption } 
 import { SIGNS } from '../constants';
 import { SignData, ElementType } from '../types';
 
-// Backgrounds por signo
+// Backgrounds por signo (imagens)
 const SIGN_BACKGROUNDS: Record<string, string> = {
-  aries: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/ARIES_ciimnd.jpg',
+  aries: '', // Áries usa vídeo
+
   taurus: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/TOURO_es4byb.jpg',
   gemini: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/GEMEOS_qe5zpn.jpg',
   cancer: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/CANCER_iz01fk.jpg',
@@ -17,6 +18,11 @@ const SIGN_BACKGROUNDS: Record<string, string> = {
   capricorn: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/CAPRICORNIO_xlzrzw.jpg',
   aquarius: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880916/AQUARIO_weceya.jpg',
   pisces: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/PEIXES_f8m3f9.jpg',
+};
+
+// Backgrounds em vídeo (para signos específicos)
+const SIGN_VIDEO_BACKGROUNDS: Record<string, string> = {
+  aries: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764885996/ARIES_dxmhmw.mp4',
 };
 
 interface SignFinderProps {
@@ -149,6 +155,7 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
   if (gameFinished && resultSign) {
     const portugueseId = getPortugueseSignId(resultSign.id);
     const bgImage = SIGN_BACKGROUNDS[resultSign.id] || '';
+    const bgVideo = SIGN_VIDEO_BACKGROUNDS[resultSign.id] || '';
 
     return (
       <div className="min-h-screen bg-[#050510] text-white flex flex-col">
@@ -169,29 +176,33 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
         <div className="flex-1 relative flex items-center justify-center">
           {/* Container com tamanho fixo estilo celular */}
           <div className="relative w-full max-w-[480px] mx-auto aspect-[9/16] max-h-[calc(100vh-80px)]">
-            {/* Background Image */}
+            {/* Background Image or Video */}
             <div className="absolute inset-0 z-0 m-2 md:m-4 rounded-3xl overflow-hidden">
-              <img
-                src={bgImage}
-                alt="Background"
-                className="w-full h-full object-cover"
-                style={{ objectPosition: 'center 20%' }}
-                crossOrigin="anonymous"
-              />
+              {bgVideo ? (
+                <video
+                  src={bgVideo}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: 'center 20%' }}
+                />
+              ) : (
+                <img
+                  src={bgImage}
+                  alt="Background"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: 'center 20%' }}
+                  crossOrigin="anonymous"
+                />
+              )}
               {/* Overlay para legibilidade */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40" />
             </div>
 
-            {/* Content */}
-            <div className={`relative z-10 flex flex-col items-center justify-center p-6 h-full transition-all duration-700 ${showingResult ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-
-            {/* Badge */}
-            <div className="mb-6 px-4 py-2 bg-indigo-500/30 backdrop-blur-sm rounded-full border border-indigo-500/30">
-              <span className="text-indigo-200 text-sm font-bold uppercase tracking-widest">Seu Signo</span>
-            </div>
-
-            {/* Sign Icon - círculo mascarado */}
-            <div className={`relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br ${resultSign.gradient} p-1 shadow-2xl mb-6`}>
+            {/* Sign Icon - canto superior esquerdo */}
+            <div className={`absolute top-6 left-6 z-20 w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br ${resultSign.gradient} p-0.5 shadow-xl transition-all duration-700 ${showingResult ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
               <div className="w-full h-full rounded-full overflow-hidden bg-slate-900/50 backdrop-blur-sm">
                 <img
                   src={resultSign.icon}
@@ -201,6 +212,9 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
                 />
               </div>
             </div>
+
+            {/* Content */}
+            <div className={`relative z-10 flex flex-col items-center justify-center p-6 h-full transition-all duration-700 ${showingResult ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
             {/* Sign Name */}
             <h1 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-wide drop-shadow-lg">
