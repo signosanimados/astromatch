@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SIGN_FINDER_QUESTIONS, SIGN_NAMES, SIGN_DESCRIPTIONS, QuestionOption } from '../data/signFinderQuestions';
 import { SIGNS } from '../constants';
-import { SignData } from '../types';
+import { SignData, ElementType } from '../types';
 
 interface SignFinderProps {
   onBack: () => void;
@@ -189,14 +189,12 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
           <div className="flex items-center gap-2 mb-8">
             <span className="text-slate-500 text-sm">Elemento:</span>
             <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-              resultSign.element === 'fire' ? 'bg-red-500/20 text-red-300' :
-              resultSign.element === 'earth' ? 'bg-green-500/20 text-green-300' :
-              resultSign.element === 'air' ? 'bg-sky-500/20 text-sky-300' :
+              resultSign.element === ElementType.FIRE ? 'bg-red-500/20 text-red-300' :
+              resultSign.element === ElementType.EARTH ? 'bg-green-500/20 text-green-300' :
+              resultSign.element === ElementType.AIR ? 'bg-sky-500/20 text-sky-300' :
               'bg-blue-500/20 text-blue-300'
             }`}>
-              {resultSign.element === 'fire' ? 'Fogo' :
-               resultSign.element === 'earth' ? 'Terra' :
-               resultSign.element === 'air' ? 'Ar' : 'Água'}
+              {resultSign.element}
             </span>
           </div>
 
