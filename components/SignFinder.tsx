@@ -3,6 +3,22 @@ import { SIGN_FINDER_QUESTIONS, SIGN_NAMES, SIGN_DESCRIPTIONS, QuestionOption } 
 import { SIGNS } from '../constants';
 import { SignData, ElementType } from '../types';
 
+// Backgrounds por signo
+const SIGN_BACKGROUNDS: Record<string, string> = {
+  aries: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/ARIES_ciimnd.jpg',
+  taurus: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/TOURO_es4byb.jpg',
+  gemini: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/GEMEOS_qe5zpn.jpg',
+  cancer: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/CANCER_iz01fk.jpg',
+  leo: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/LEAO_gv3pyd.jpg',
+  virgo: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/VIRGEM_ipb9cf.jpg',
+  libra: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/LIBRA_k4bo7q.jpg',
+  scorpio: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/ESCORPIAO_txexaw.jpg',
+  sagittarius: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/SAGIT%C3%81RIO_aybsvn.jpg',
+  capricorn: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/CAPRICORNIO_xlzrzw.jpg',
+  aquarius: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880916/AQUARIO_weceya.jpg',
+  pisces: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/PEIXES_f8m3f9.jpg',
+};
+
 interface SignFinderProps {
   onBack: () => void;
   onGoToCombinations: (sign: SignData) => void;
@@ -132,14 +148,15 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
   // Tela de Resultado
   if (gameFinished && resultSign) {
     const portugueseId = getPortugueseSignId(resultSign.id);
+    const bgImage = SIGN_BACKGROUNDS[resultSign.id] || '';
 
     return (
       <div className="min-h-screen bg-[#050510] text-white flex flex-col">
         {/* Header */}
-        <header className="p-4 border-b border-white/10">
+        <header className="relative z-20 p-4 border-b border-white/10 bg-black/30 backdrop-blur-sm">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -148,77 +165,91 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
           </button>
         </header>
 
-        {/* Result Content */}
-        <div className={`flex-1 flex flex-col items-center justify-center p-6 transition-all duration-700 ${showingResult ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-
-          {/* Glow Effect */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className={`w-[400px] h-[400px] rounded-full bg-gradient-to-r ${resultSign.gradient} opacity-20 blur-[100px]`}></div>
-          </div>
-
-          {/* Badge */}
-          <div className="mb-6 px-4 py-2 bg-indigo-500/20 rounded-full border border-indigo-500/30">
-            <span className="text-indigo-300 text-sm font-bold uppercase tracking-widest">Seu Signo</span>
-          </div>
-
-          {/* Sign Icon */}
-          <div className={`relative w-40 h-40 md:w-48 md:h-48 rounded-full bg-gradient-to-br ${resultSign.gradient} p-1 shadow-2xl mb-6 animate-pulse`}>
-            <div className="w-full h-full rounded-full overflow-hidden bg-slate-900/50 backdrop-blur-sm flex items-center justify-center">
+        {/* Result Content with Background */}
+        <div className="flex-1 relative">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-4 md:inset-8 rounded-3xl overflow-hidden">
               <img
-                src={resultSign.icon}
-                alt={resultSign.name}
-                className="w-32 h-32 md:w-40 md:h-40 object-contain"
+                src={bgImage}
+                alt="Background"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: 'center 20%' }}
+                crossOrigin="anonymous"
               />
+              {/* Overlay para legibilidade */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40" />
             </div>
           </div>
 
-          {/* Sign Name */}
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-wide">
-            {resultSign.name}
-          </h1>
-          <p className="text-slate-400 text-sm mb-6">{resultSign.date}</p>
+          {/* Content */}
+          <div className={`relative z-10 flex flex-col items-center justify-center p-6 min-h-full transition-all duration-700 ${showingResult ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
-          {/* Description */}
-          <div className="max-w-lg text-center mb-8 px-4">
-            <p className="text-slate-300 text-lg leading-relaxed">
-              {SIGN_DESCRIPTIONS[portugueseId]}
-            </p>
-          </div>
+            {/* Badge */}
+            <div className="mb-6 px-4 py-2 bg-indigo-500/30 backdrop-blur-sm rounded-full border border-indigo-500/30">
+              <span className="text-indigo-200 text-sm font-bold uppercase tracking-widest">Seu Signo</span>
+            </div>
 
-          {/* Element Badge */}
-          <div className="flex items-center gap-2 mb-8">
-            <span className="text-slate-500 text-sm">Elemento:</span>
-            <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-              resultSign.element === ElementType.FIRE ? 'bg-red-500/20 text-red-300' :
-              resultSign.element === ElementType.EARTH ? 'bg-green-500/20 text-green-300' :
-              resultSign.element === ElementType.AIR ? 'bg-sky-500/20 text-sky-300' :
-              'bg-blue-500/20 text-blue-300'
-            }`}>
-              {resultSign.element}
-            </span>
-          </div>
+            {/* Sign Icon - círculo mascarado */}
+            <div className={`relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br ${resultSign.gradient} p-1 shadow-2xl mb-6`}>
+              <div className="w-full h-full rounded-full overflow-hidden bg-slate-900/50 backdrop-blur-sm">
+                <img
+                  src={resultSign.icon}
+                  alt={resultSign.name}
+                  className="w-full h-full object-cover rounded-full"
+                  crossOrigin="anonymous"
+                />
+              </div>
+            </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md px-4">
-            <button
-              onClick={() => onGoToCombinations(resultSign)}
-              className={`flex-1 py-4 px-6 bg-gradient-to-r ${resultSign.gradient} text-white font-bold rounded-full shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2`}
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-              Ver Combinações
-            </button>
+            {/* Sign Name */}
+            <h1 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-wide drop-shadow-lg">
+              {resultSign.name}
+            </h1>
+            <p className="text-slate-300 text-sm mb-6 drop-shadow-md">{resultSign.date}</p>
 
-            <button
-              onClick={handleRestart}
-              className="flex-1 py-4 px-6 bg-slate-800 text-white font-bold rounded-full border border-slate-700 hover:bg-slate-700 transition-all flex items-center justify-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              Refazer Quiz
-            </button>
+            {/* Element Badge */}
+            <div className="flex items-center gap-2 mb-6">
+              <span className="text-slate-400 text-sm">Elemento:</span>
+              <span className={`px-3 py-1 rounded-full text-sm font-bold backdrop-blur-sm ${
+                resultSign.element === ElementType.FIRE ? 'bg-red-500/30 text-red-200' :
+                resultSign.element === ElementType.EARTH ? 'bg-green-500/30 text-green-200' :
+                resultSign.element === ElementType.AIR ? 'bg-sky-500/30 text-sky-200' :
+                'bg-blue-500/30 text-blue-200'
+              }`}>
+                {resultSign.element}
+              </span>
+            </div>
+
+            {/* Description */}
+            <div className="max-w-lg text-center mb-8 px-4">
+              <p className="text-white/90 text-base md:text-lg leading-relaxed drop-shadow-md">
+                "{SIGN_DESCRIPTIONS[portugueseId]}"
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md px-4">
+              <button
+                onClick={() => onGoToCombinations(resultSign)}
+                className="flex-1 py-4 px-6 bg-white text-slate-900 font-bold rounded-full shadow-lg hover:bg-slate-100 transition-all flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                Ver Combinações
+              </button>
+
+              <button
+                onClick={handleRestart}
+                className="flex-1 py-4 px-6 bg-slate-800/80 backdrop-blur-sm text-white font-bold rounded-full border border-slate-600 hover:bg-slate-700/80 transition-all flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Refazer Quiz
+              </button>
+            </div>
           </div>
         </div>
       </div>
