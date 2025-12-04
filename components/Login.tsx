@@ -29,6 +29,31 @@ const Login: React.FC = () => {
     }
   };
 
+  // Criar perfil do usuário com créditos iniciais
+  const createUserProfile = async (userId: string) => {
+    try {
+      // Verifica se o perfil já existe
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', userId)
+        .single();
+
+      if (!existingProfile) {
+        // Cria perfil com 3 créditos iniciais
+        const { error } = await supabase
+          .from('profiles')
+          .insert({ id: userId, credits: 3 });
+
+        if (error) {
+          console.error('Erro ao criar perfil:', error);
+        }
+      }
+    } catch (e) {
+      console.error('Erro ao verificar/criar perfil:', e);
+    }
+  };
+
   // Login/Cadastro com Email e Senha
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,24 +62,83 @@ const Login: React.FC = () => {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
+        // CADASTRO
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            // Desabilita confirmação de email para login imediato
+            emailRedirectTo: window.location.origin,
+          }
         });
+
         if (error) throw error;
-        setMessage({ text: 'Conta criada com sucesso! Você já pode usar o app.', type: 'success' });
+
+        // Verifica se o usuário foi criado
+        if (data.user) {
+          // Cria o perfil do usuário
+          await createUserProfile(data.user.id);
+
+          // Tenta fazer login automaticamente
+          const { error: signInError } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+          if (signInError) {
+            // Se não conseguiu logar, pode ser que precisa confirmar email
+            if (signInError.message.includes('Email not confirmed')) {
+              setMessage({
+                text: 'Conta criada! Verifique seu email para confirmar, ou tente fazer login.',
+                type: 'success'
+              });
+            } else {
+              // Conta criada mas falhou o auto-login - mostra mensagem de sucesso
+              setMessage({
+                text: 'Conta criada com sucesso! Agora faça login com seu email e senha.',
+                type: 'success'
+              });
+              setIsSignUp(false); // Muda para tela de login
+            }
+          }
+          // Se o login automático funcionar, o App.tsx vai detectar a sessão
+        } else {
+          setMessage({
+            text: 'Conta criada! Verifique seu email para confirmar.',
+            type: 'success'
+          });
+        }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
+        // LOGIN
+        const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
+
         if (error) throw error;
+
+        // Se logou com sucesso, garante que o perfil existe
+        if (data.user) {
+          await createUserProfile(data.user.id);
+        }
       }
     } catch (error: any) {
       let errorMessage = error.message || 'Ocorreu um erro.';
+
+      // Traduz mensagens de erro comuns
       if (errorMessage.includes('Invalid login credentials')) {
-        errorMessage = 'Email ou senha incorretos.';
+        errorMessage = 'Email ou senha incorretos. Verifique seus dados ou crie uma conta.';
+      } else if (errorMessage.includes('Email not confirmed')) {
+        errorMessage = 'Email não confirmado. Verifique sua caixa de entrada.';
+      } else if (errorMessage.includes('User already registered')) {
+        errorMessage = 'Este email já está cadastrado. Tente fazer login.';
+        setIsSignUp(false);
+      } else if (errorMessage.includes('Password should be')) {
+        errorMessage = 'A senha deve ter no mínimo 6 caracteres.';
+      } else if (errorMessage.includes('Unable to validate email')) {
+        errorMessage = 'Email inválido. Verifique o formato.';
       }
+
       setMessage({ text: errorMessage, type: 'error' });
     } finally {
       setLoading(false);

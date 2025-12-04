@@ -43,16 +43,6 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
   },
   {
     id: 4,
-    pergunta: "Seu nível de organização é:",
-    opcoes: [
-      { id: "A", texto: "Zero organizado, mas funciono no caos.", signos: ["gemeos", "sagitario", "peixes"] },
-      { id: "B", texto: "Extremamente organizado.", signos: ["virgem", "capricornio", "touro"] },
-      { id: "C", texto: "Organizo só o necessário.", signos: ["libra", "cancer", "aquario"] },
-      { id: "D", texto: "Depende da fase.", signos: ["leao", "escorpiao", "aries"] }
-    ]
-  },
-  {
-    id: 5,
     pergunta: "Na vida social, você:",
     opcoes: [
       { id: "A", texto: "Ama gente nova e interações.", signos: ["gemeos", "leao", "libra"] },
@@ -62,7 +52,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 6,
+    id: 5,
     pergunta: "Decisões importantes são tomadas com base em:",
     opcoes: [
       { id: "A", texto: "Impulso.", signos: ["aries", "leao", "peixes"] },
@@ -72,7 +62,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 7,
+    id: 6,
     pergunta: "Em conflitos, você geralmente:",
     opcoes: [
       { id: "A", texto: "Bate de frente.", signos: ["aries", "leao", "escorpiao"] },
@@ -82,7 +72,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 8,
+    id: 7,
     pergunta: "Rotina para você é:",
     opcoes: [
       { id: "A", texto: "Chata, prefiro liberdade.", signos: ["sagitario", "aries", "aquario"] },
@@ -92,7 +82,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 9,
+    id: 8,
     pergunta: "Seu estilo de humor é:",
     opcoes: [
       { id: "A", texto: "Caótico e rápido.", signos: ["gemeos", "sagitario", "aries"] },
@@ -102,7 +92,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 10,
+    id: 9,
     pergunta: "Seu estilo de se envolver em relacionamentos:",
     opcoes: [
       { id: "A", texto: "Rápido, intenso e direto.", signos: ["escorpiao", "aries", "leao"] },
@@ -112,17 +102,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 11,
-    pergunta: "Quando você compra algo, geralmente é por:",
-    opcoes: [
-      { id: "A", texto: "Impulso.", signos: ["aries", "sagitario", "peixes"] },
-      { id: "B", texto: "Utilidade.", signos: ["touro", "virgem", "capricornio"] },
-      { id: "C", texto: "Estética ou estilo.", signos: ["libra", "leao", "gemeos"] },
-      { id: "D", texto: "Apego emocional.", signos: ["cancer", "escorpiao", "aquario"] }
-    ]
-  },
-  {
-    id: 12,
+    id: 10,
     pergunta: "Como você lida com mudanças?",
     opcoes: [
       { id: "A", texto: "Mudo tudo de uma vez.", signos: ["aries", "sagitario", "escorpiao"] },
@@ -132,7 +112,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 13,
+    id: 11,
     pergunta: "No trabalho, você é:",
     opcoes: [
       { id: "A", texto: "Líder natural.", signos: ["leao", "capricornio", "aries"] },
@@ -142,27 +122,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 14,
-    pergunta: "Quando está entediado, você:",
-    opcoes: [
-      { id: "A", texto: "Cria confusão só para sentir algo.", signos: ["aries", "leao", "escorpiao"] },
-      { id: "B", texto: "Come ou dorme.", signos: ["touro", "cancer", "peixes"] },
-      { id: "C", texto: "Procura atividades mentais.", signos: ["gemeos", "aquario", "virgem"] },
-      { id: "D", texto: "Sai, viaja ou faz algo impulsivo.", signos: ["sagitario", "capricornio", "libra"] }
-    ]
-  },
-  {
-    id: 15,
-    pergunta: "Seu estilo de comunicação é:",
-    opcoes: [
-      { id: "A", texto: "Rápido e intenso.", signos: ["gemeos", "sagitario", "aries"] },
-      { id: "B", texto: "Direto e preciso.", signos: ["capricornio", "touro", "virgem"] },
-      { id: "C", texto: "Charmoso e expressivo.", signos: ["leao", "libra", "peixes"] },
-      { id: "D", texto: "Profundo e emocional.", signos: ["escorpiao", "cancer", "aquario"] }
-    ]
-  },
-  {
-    id: 16,
+    id: 12,
     pergunta: "O que você mais confia?",
     opcoes: [
       { id: "A", texto: "Intuição.", signos: ["peixes", "cancer", "escorpiao"] },
@@ -172,7 +132,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 17,
+    id: 13,
     pergunta: "Em grupos grandes, você:",
     opcoes: [
       { id: "A", texto: "Vira o centro das atenções.", signos: ["leao", "sagitario", "aries"] },
@@ -182,17 +142,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 18,
-    pergunta: "Quando precisa resolver um problema difícil, você prefere:",
-    opcoes: [
-      { id: "A", texto: "Força e iniciativa.", signos: ["aries", "leao", "capricornio"] },
-      { id: "B", texto: "Paciência e persistência.", signos: ["touro", "virgem", "cancer"] },
-      { id: "C", texto: "Diálogo e estratégia.", signos: ["libra", "aquario", "gemeos"] },
-      { id: "D", texto: "Sensibilidade e criatividade emocional.", signos: ["peixes", "escorpiao", "sagitario"] }
-    ]
-  },
-  {
-    id: 19,
+    id: 14,
     pergunta: "Você se enxerga como alguém:",
     opcoes: [
       { id: "A", texto: "Intenso e marcante.", signos: ["escorpiao", "leao", "aries"] },
@@ -202,7 +152,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     ]
   },
   {
-    id: 20,
+    id: 15,
     pergunta: "Qual frase combina mais com você?",
     opcoes: [
       { id: "A", texto: "A vida é agora.", signos: ["aries", "leao", "sagitario"] },

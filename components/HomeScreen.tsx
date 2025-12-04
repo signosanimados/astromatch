@@ -140,7 +140,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
 
             <div className="relative mt-4 flex items-center gap-2">
-              <span className="text-[10px] text-indigo-400/70 uppercase tracking-wider">20 Perguntas</span>
+              <span className="text-[10px] text-indigo-400/70 uppercase tracking-wider">15 Perguntas</span>
               <span className="text-slate-600">•</span>
               <span className="text-[10px] text-emerald-400/70">Gratuito</span>
             </div>
