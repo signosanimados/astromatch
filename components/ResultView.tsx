@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { CompatibilityResult, SignData } from '../types';
 import { APP_LOGO, PORTUGUESE_NAMES, DEFAULT_BACKGROUND, BACKGROUND_URLS } from '../constants';
-import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 interface ResultViewProps {
   result: CompatibilityResult;
@@ -17,11 +16,11 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   const [animatedPercent, setAnimatedPercent] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [bgImage, setBgImage] = useState<string>(DEFAULT_BACKGROUND);
+  const [showShareMenu, setShowShareMenu] = useState(false);
 
   useEffect(() => {
     // Determine dynamic background image
     const determineBackgroundImage = () => {
-      // 1. Sort signs alphabetically by the MAPPED NAME to ensure consistency 
       const sortedSigns = [signA, signB].sort((a, b) => {
         const nameA = PORTUGUESE_NAMES[a.id];
         const nameB = PORTUGUESE_NAMES[b.id];
@@ -30,11 +29,8 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
       const name1 = PORTUGUESE_NAMES[sortedSigns[0].id];
       const name2 = PORTUGUESE_NAMES[sortedSigns[1].id];
-
-      // Key format: ARIESxTOURO
       const key = `${name1}x${name2}`;
-      
-      // Look up URL in map, fallback to default if not found
+
       return BACKGROUND_URLS[key] || DEFAULT_BACKGROUND;
     };
 
@@ -44,7 +40,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
     let start = 0;
     const end = result.compatibilidade;
     const duration = 1500;
-    const increment = end / (duration / 16); // 60fps
+    const increment = end / (duration / 16);
 
     const timer = setInterval(() => {
       start += increment;
@@ -59,226 +55,283 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
     return () => clearInterval(timer);
   }, [result.compatibilidade, signA, signB]);
 
-  const chartData = [
-    { name: 'Match', value: animatedPercent },
-    { name: 'Gap', value: 100 - animatedPercent }
-  ];
-
   // Determine color based on percentage
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-emerald-400';
     if (score >= 50) return 'text-yellow-400';
     return 'text-red-400';
   };
-  
+
   const scoreColorHex = (score: number) => {
-    if (score >= 80) return '#34d399'; // Emerald 400
-    if (score >= 50) return '#facc15'; // Yellow 400
-    return '#f87171'; // Red 400
+    if (score >= 80) return '#34d399';
+    if (score >= 50) return '#facc15';
+    return '#f87171';
   };
 
+  // Flip logic
+  const nameA = PORTUGUESE_NAMES[signA.id];
+  const nameB = PORTUGUESE_NAMES[signB.id];
+
+  const extractFileNames = (url: string): [string, string] | null => {
+    const match = url.match(/\/([A-Z]+)x([A-Z]+)_/);
+    if (match) {
+      return [match[1], match[2]];
+    }
+    return null;
+  };
+
+  const fileNames = extractFileNames(bgImage);
+  let userSelectedInFileOrder = false;
+  if (fileNames) {
+    const [fileFirst, fileSecond] = fileNames;
+    userSelectedInFileOrder = (nameA === fileFirst && nameB === fileSecond);
+  }
+
+  const isAquariusPisces = (signA.id === 'aquarius' && signB.id === 'pisces') || (signA.id === 'pisces' && signB.id === 'aquarius');
+  const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
+  const isExceptionPair = isAquariusPisces || isAriesLeo;
+
+  let shouldFlipBackground;
+  if (isExceptionPair) {
+    shouldFlipBackground = userSelectedInFileOrder;
+  } else {
+    shouldFlipBackground = !userSelectedInFileOrder;
+  }
+
+  // Download function
   const handleDownloadCard = async () => {
     setIsGenerating(true);
     const element = document.getElementById('share-card');
-    
-    // Safety check for library availability
     const html2canvas = (window as any).html2canvas;
 
     if (element && html2canvas) {
       try {
-        // Wait for fonts and layout to settle
         await new Promise(resolve => setTimeout(resolve, 500));
-
         const canvas = await html2canvas(element, {
-          backgroundColor: null, // Transparent to let background image show
-          scale: 1, // 1080x1920 is already high res
+          backgroundColor: null,
+          scale: 1,
           logging: false,
-          useCORS: true, // Crucial for loading local images and Drive/Imgur images
+          useCORS: true,
           allowTaint: true,
           width: 1080,
           height: 1920,
-          windowWidth: 1080, // FORCE WIDTH to 1080px
+          windowWidth: 1080,
           windowHeight: 1920,
           x: 0,
           y: 0,
           scrollX: 0,
           scrollY: 0
         });
-        
+
         const link = document.createElement('a');
         link.download = `SignosCombinados-${signA.name}-${signB.name}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
-
-        if (userEmail) {
-             // Placeholder for analytics
-        }
       } catch (error) {
         console.error("Erro ao gerar card:", error);
-        alert("Não foi possível gerar a imagem. Verifique se o bloqueador de pop-ups está ativo.");
+        alert("Não foi possível gerar a imagem.");
       } finally {
         setIsGenerating(false);
       }
     } else {
       setIsGenerating(false);
-      console.error("Biblioteca html2canvas não encontrada.");
       alert("Erro interno: Biblioteca gráfica não carregada.");
     }
   };
 
-  const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
+  // Share functions
+  const shareText = `${signA.name} + ${signB.name} = ${result.compatibilidade}% de compatibilidade! 💫 Descubra a sua em signosanimados.com.br`;
+  const shareUrl = 'https://signosanimados.com.br';
 
-  // Determine if we need to flip the background image
-  // Lógica baseada no nome do arquivo da imagem (não alfabética)
-
-  const nameA = PORTUGUESE_NAMES[signA.id]; // Primeiro signo selecionado
-  const nameB = PORTUGUESE_NAMES[signB.id]; // Segundo signo selecionado
-
-  // Extrair o nome do arquivo da URL da imagem
-  // Ex: "https://res.cloudinary.com/.../ARIESxGEMEOS_yp1itq.png" → "ARIESxGEMEOS"
-  const extractFileNames = (url: string): [string, string] | null => {
-    const match = url.match(/\/([A-Z]+)x([A-Z]+)_/);
-    if (match) {
-      return [match[1], match[2]]; // [primeiro signo no arquivo, segundo signo no arquivo]
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Signos Combinados',
+          text: shareText,
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.log('Share cancelled');
+      }
+    } else {
+      setShowShareMenu(true);
     }
-    return null;
   };
 
-  const fileNames = extractFileNames(bgImage);
+  const handleWhatsAppShare = () => {
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+    window.open(url, '_blank');
+  };
 
-  // Verificar se a seleção do usuário está na mesma ordem do arquivo
-  let userSelectedInFileOrder = false;
-  if (fileNames) {
-    const [fileFirst, fileSecond] = fileNames;
-    // Se o usuário selecionou na mesma ordem que aparece no nome do arquivo
-    userSelectedInFileOrder = (nameA === fileFirst && nameB === fileSecond);
-  }
+  const handleTwitterShare = () => {
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+    window.open(url, '_blank');
+  };
 
-  // Identificar exceções (pares onde o comportamento é INVERTIDO)
-  const isAquariusPisces = (signA.id === 'aquarius' && signB.id === 'pisces') || (signA.id === 'pisces' && signB.id === 'aquarius');
-  const isAriesLeo = (signA.id === 'aries' && signB.id === 'leo') || (signA.id === 'leo' && signB.id === 'aries');
-  const isExceptionPair = isAquariusPisces || isAriesLeo;
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareText + ' ' + shareUrl);
+    alert('Link copiado!');
+  };
 
-  // Aplicar lógica:
-  // REGRA PADRÃO: Se selecionou na ordem do arquivo → NÃO flip. Se selecionou inverso → FLIP
-  // EXCEÇÕES: Inverte a lógica (se selecionou na ordem do arquivo → FLIP)
-
-  let shouldFlipBackground;
-
-  if (isExceptionPair) {
-     // Exceções: flip se selecionou NA ordem do arquivo
-     shouldFlipBackground = userSelectedInFileOrder;
-  } else {
-     // Padrão: flip se selecionou na ordem INVERSA do arquivo
-     shouldFlipBackground = !userSelectedInFileOrder;
-  }
+  const tipsTitle = mode === 'love' ? 'Dicas para o Casal' : 'Dicas para a Amizade';
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-8 animate-fade-in-up">
-      
-      {/* Top Branding (Web View) & Download Button */}
-      <div className="flex flex-col items-center gap-4">
-        <a 
-          href="https://www.tiktok.com/@signosanimadosoficial?is_from_webapp=1&sender_device=pc"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase opacity-70 hover:opacity-100 transition-opacity cursor-pointer"
-        >
-           <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-           TikTok: @signosanimadosoficial
-        </a>
+    <div className="w-full max-w-5xl mx-auto space-y-6 animate-fade-in-up pb-8">
 
-        <button 
-          onClick={handleDownloadCard}
-          disabled={isGenerating}
-          className="px-6 py-2 bg-indigo-600 text-white text-xs font-bold rounded-full hover:bg-indigo-500 transition-colors shadow-lg hover:shadow-xl flex items-center gap-2 disabled:opacity-50"
-        >
-          {isGenerating ? (
-            <span className="animate-spin h-3 w-3 border-2 border-white border-t-transparent rounded-full"></span>
-          ) : (
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-          )}
-          {isGenerating ? 'Gerando...' : 'Baixar Imagem'}
-        </button>
-      </div>
-
-      {/* Header Result Section (Web View) */}
-      <div className="glass rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
-        {/* Decorative background glow */}
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 z-0" />
-        
-        {/* Chart */}
-        <div className="relative z-10 flex-shrink-0 w-48 h-48">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={chartData}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                startAngle={90}
-                endAngle={-270}
-                dataKey="value"
-                stroke="none"
-              >
-                <Cell fill={scoreColorHex(result.compatibilidade)} />
-                <Cell fill="#334155" /> 
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className={`text-4xl font-bold font-mono ${getScoreColor(result.compatibilidade)}`}>
-              {animatedPercent}%
-            </span>
-            <span className="text-xs text-slate-400 uppercase tracking-widest mt-1">Match</span>
-          </div>
+      {/* HERO SECTION - Imagem de Fundo com Resultado */}
+      <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={bgImage}
+            alt="Background"
+            className="w-full h-full object-cover"
+            style={{ transform: shouldFlipBackground ? 'scaleX(-1)' : 'none' }}
+            crossOrigin="anonymous"
+            onError={(e) => { e.currentTarget.src = DEFAULT_BACKGROUND; }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
         </div>
 
-        {/* Summary Text (Web View) */}
-        <div className="z-10 flex-1 text-center md:text-left flex flex-col items-center md:items-start">
-          
-          {/* Mode Indicator Badge */}
-          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 border ${
-            mode === 'love' 
-              ? 'bg-pink-500/10 border-pink-500/30 text-pink-300' 
-              : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300'
-          }`}>
-            {mode === 'love' ? (
-              <>
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                <span>Compatibilidade Amorosa</span>
-              </>
-            ) : (
-              <>
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                <span>Compatibilidade de Amizade</span>
-              </>
-            )}
+        {/* Content Over Image */}
+        <div className="relative z-10 p-6 md:p-10 min-h-[500px] md:min-h-[600px] flex flex-col justify-between">
+
+          {/* Top - TikTok Badge */}
+          <div className="flex justify-center">
+            <a
+              href="https://www.tiktok.com/@signosanimadosoficial"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 bg-black/40 backdrop-blur-sm rounded-full text-white/80 text-xs font-medium hover:bg-black/60 transition-all"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+              @signosanimadosoficial
+            </a>
           </div>
 
-          <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
-             <div className={`text-sm font-bold px-3 py-1 rounded-full bg-slate-800 border border-slate-700 ${signA.color}`}>
-               {signA.name}
-             </div>
-             <span className="text-slate-500">+</span>
-             <div className={`text-sm font-bold px-3 py-1 rounded-full bg-slate-800 border border-slate-700 ${signB.color}`}>
-               {signB.name}
-             </div>
+          {/* Center - Signs and Score */}
+          <div className="flex-1 flex flex-col items-center justify-center py-8">
+            {/* Mode Badge */}
+            <div className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold uppercase tracking-widest mb-6 ${
+              mode === 'love'
+                ? 'bg-pink-500/30 text-pink-200 border border-pink-400/30'
+                : 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/30'
+            }`}>
+              {mode === 'love' ? '❤️ Amor' : '🤝 Amizade'}
+            </div>
+
+            {/* Signs Row */}
+            <div className="flex items-center justify-center gap-4 md:gap-8 mb-6">
+              {/* Sign A */}
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/20 p-2 shadow-lg">
+                  <img src={signA.icon} alt={signA.name} className="w-full h-full object-contain drop-shadow-lg" crossOrigin="anonymous" />
+                </div>
+                <span className="text-white font-bold text-sm md:text-lg uppercase tracking-wide drop-shadow-lg">{signA.name}</span>
+              </div>
+
+              {/* Score */}
+              <div className="flex flex-col items-center">
+                <span className={`text-6xl md:text-8xl font-black font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]`}>
+                  {animatedPercent}
+                </span>
+                <span className={`text-2xl md:text-3xl font-bold ${getScoreColor(result.compatibilidade)}`}>%</span>
+              </div>
+
+              {/* Sign B */}
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/20 p-2 shadow-lg">
+                  <img src={signB.icon} alt={signB.name} className="w-full h-full object-contain drop-shadow-lg" crossOrigin="anonymous" />
+                </div>
+                <span className="text-white font-bold text-sm md:text-lg uppercase tracking-wide drop-shadow-lg">{signB.name}</span>
+              </div>
+            </div>
+
+            {/* Summary */}
+            <p className="text-white/90 text-center text-lg md:text-xl font-light italic max-w-2xl px-4 drop-shadow-lg">
+              "{result.resumo}"
+            </p>
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Resumo Astral</h2>
-          <p className="text-slate-300 leading-relaxed text-lg">
-            {result.resumo}
-          </p>
+
+          {/* Bottom - Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              onClick={handleDownloadCard}
+              disabled={isGenerating}
+              className="w-full sm:w-auto px-6 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-slate-100 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {isGenerating ? (
+                <span className="animate-spin h-4 w-4 border-2 border-slate-900 border-t-transparent rounded-full"></span>
+              ) : (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+              )}
+              {isGenerating ? 'Gerando...' : 'Baixar Imagem'}
+            </button>
+
+            <button
+              onClick={handleNativeShare}
+              className="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white font-bold rounded-full hover:bg-indigo-500 transition-all shadow-lg flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+              Compartilhar
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Details Grid (Web View) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
+      {/* Share Menu Modal */}
+      {showShareMenu && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4" onClick={() => setShowShareMenu(false)}>
+          <div className="bg-slate-900 rounded-2xl p-6 w-full max-w-md border border-slate-700" onClick={e => e.stopPropagation()}>
+            <h3 className="text-xl font-bold text-white mb-4 text-center">Compartilhar</h3>
+
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              {/* WhatsApp */}
+              <button onClick={handleWhatsAppShare} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
+                <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </div>
+                <span className="text-white text-xs font-medium">WhatsApp</span>
+              </button>
+
+              {/* Twitter/X */}
+              <button onClick={handleTwitterShare} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
+                <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center border border-slate-600">
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </div>
+                <span className="text-white text-xs font-medium">Twitter</span>
+              </button>
+
+              {/* Copy Link */}
+              <button onClick={handleCopyLink} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">
+                <div className="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
+                </div>
+                <span className="text-white text-xs font-medium">Copiar</span>
+              </button>
+            </div>
+
+            <p className="text-slate-400 text-xs text-center mb-4">
+              Dica: Baixe a imagem e compartilhe no Instagram ou TikTok!
+            </p>
+
+            <button
+              onClick={() => setShowShareMenu(false)}
+              className="w-full py-3 bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-700 transition-colors"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Details Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
         {/* Pros */}
         <div className="glass rounded-2xl p-6 border-l-4 border-l-emerald-500">
-          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <span className="bg-emerald-500/20 text-emerald-400 p-1.5 rounded-lg">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
             </span>
@@ -296,7 +349,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
         {/* Cons */}
         <div className="glass rounded-2xl p-6 border-l-4 border-l-red-500">
-          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <span className="bg-red-500/20 text-red-400 p-1.5 rounded-lg">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </span>
@@ -314,14 +367,14 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
         {/* Tips */}
         <div className="glass rounded-2xl p-6 border-l-4 border-l-indigo-500 md:col-span-2">
-          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
             <span className="bg-indigo-500/20 text-indigo-400 p-1.5 rounded-lg">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v-1h9l-7-8h7z" /></svg>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
             </span>
             {tipsTitle}
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-             {result.dicas.map((item, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {result.dicas.map((item, i) => (
               <div key={i} className="bg-slate-800/50 rounded-lg p-4 text-slate-300 text-sm border border-slate-700/50">
                 "{item}"
               </div>
@@ -330,10 +383,11 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-8 pb-4">
-        <button 
+      {/* New Combination Button */}
+      <div className="flex justify-center pt-4">
+        <button
           onClick={onReset}
-          className="px-8 py-3 bg-white text-slate-900 font-bold rounded-full hover:bg-slate-200 transition-colors shadow-lg hover:shadow-xl flex items-center gap-2"
+          className="px-8 py-3 bg-slate-800 text-white font-bold rounded-full hover:bg-slate-700 transition-colors shadow-lg border border-slate-700 flex items-center gap-2"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
           Nova Combinação
@@ -342,8 +396,8 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
 
       {/* HIDDEN SHARE CARD (1080x1920) */}
       <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
-        <div 
-          id="share-card" 
+        <div
+          id="share-card"
           className="flex flex-col items-center p-0 relative"
           style={{
               position: 'absolute',
@@ -361,51 +415,43 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
         >
             {/* LAYER 1: Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
-               <img 
-                 src={bgImage} 
-                 crossOrigin="anonymous" 
-                 style={{ 
-                   width: '100%', 
-                   height: '100%', 
+               <img
+                 src={bgImage}
+                 crossOrigin="anonymous"
+                 style={{
+                   width: '100%',
+                   height: '100%',
                    objectFit: 'cover',
-                   // Apply Flip Logic:
-                   // Default: Flip if selection is reverse alphabetical
-                   // Exceptions: Invert that logic (Flip if selection is alphabetical)
                    transform: shouldFlipBackground ? 'scaleX(-1)' : 'none'
                  }}
                  onError={(e) => {
-                   // Fallback if specific combo image is missing
                    e.currentTarget.src = DEFAULT_BACKGROUND;
                  }}
                />
                <div className="absolute inset-0 bg-black/50" />
             </div>
 
-            {/* LAYER 2: Content (Sits on top of Layer 1) */}
+            {/* LAYER 2: Content */}
             <div className="relative z-10 w-full h-full flex flex-col items-center">
 
                 {/* Header / Logo Section */}
                 <div className="flex flex-col items-center gap-4 mt-20 z-10 drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
-                    {/* Increased Logo Size */}
                     <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold shadow-[0_0_50px_rgba(99,102,241,0.5)] border-4 border-white/20">
                         <img src={APP_LOGO} crossOrigin="anonymous" className="w-full h-full object-cover rounded-full" onError={(e) => {e.currentTarget.style.display='none'; e.currentTarget.parentElement!.innerText='AM'}}/>
                     </div>
-                    {/* Cleaned up TikTok Text (No Box) */}
                     <h1 className="text-3xl font-bold tracking-[0.1em] text-white font-mono uppercase mt-6 drop-shadow-md">
                         TikTok: @signosanimadosoficial
                     </h1>
                 </div>
 
-                {/* Main Content Container (Pushed down) */}
-                <div 
+                {/* Main Content Container */}
+                <div
                   className="flex-1 flex flex-col justify-center items-center w-full z-10 mt-10"
-                  style={{
-                    filter: 'drop-shadow(0px 0px 10px rgba(0,0,0,0.5))'
-                  }}
+                  style={{ filter: 'drop-shadow(0px 0px 10px rgba(0,0,0,0.5))' }}
                 >
                     {/* Horizontal Layout: Sign A - Score - Sign B */}
                     <div className="flex flex-row items-center justify-center gap-2 w-full px-8">
-                        
+
                         {/* Sign A */}
                         <div className="flex flex-col items-center gap-6">
                             <div className="w-64 h-64 flex items-center justify-center">
@@ -414,9 +460,8 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                             <span className="text-3xl font-bold text-white uppercase tracking-wide text-center text-shadow-lg whitespace-nowrap">{signA.name}</span>
                         </div>
 
-                        {/* Center Score Block (Just Percentage now) */}
+                        {/* Center Score Block */}
                         <div className="flex flex-col items-center justify-center mx-2 gap-4">
-                            {/* Percentage Number - HUGE */}
                             <div className="flex items-baseline">
                                  <span className={`text-[9rem] leading-none font-bold font-mono ${getScoreColor(result.compatibilidade)} drop-shadow-[0_0_30px_rgba(0,0,0,0.8)]`}>
                                     {result.compatibilidade}
@@ -434,14 +479,10 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                         </div>
                     </div>
 
-                    {/* Summary Snippet with Mode Title Above */}
+                    {/* Summary Snippet */}
                     <div className="mt-16 px-20 w-full flex flex-col items-center gap-6">
-                       
-                       {/* Mode Label - Text Only, No Box */}
                        <span className={`text-4xl font-bold uppercase tracking-[0.2em] drop-shadow-md ${
-                              mode === 'love' 
-                                ? 'text-pink-300' 
-                                : 'text-cyan-300'
+                              mode === 'love' ? 'text-pink-300' : 'text-cyan-300'
                             }`}>
                                {mode === 'love' ? 'AMOR' : 'AMIZADE'}
                        </span>
@@ -452,8 +493,7 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
                     </div>
 
                 </div>
-                
-                {/* Bottom Spacer */}
+
                 <div className="h-20"></div>
             </div>
         </div>
