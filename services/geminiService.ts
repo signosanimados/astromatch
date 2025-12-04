@@ -3366,8 +3366,25 @@ export const UNIQUE_FRIENDSHIP: Record<string, CompatibilityResult> = {
 };
 
 /**
+ * Calculates a deterministic offset for friendship mode based on sign combination.
+ * Returns a value between -8 and +8 that will be different for each pair.
+ */
+const calculateFriendshipOffset = (signA: SignData, signB: SignData): number => {
+  const comboId = signA.id + signB.id + 'friendship';
+  let hash = 0;
+  for (let i = 0; i < comboId.length; i++) {
+    hash = comboId.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  // Generate offset between -8 and +8 (excluding 0 to ensure difference)
+  let offset = (Math.abs(hash) % 15) - 7;
+  if (offset === 0) offset = (hash > 0) ? 3 : -3;
+  return offset;
+};
+
+/**
  * Calculates compatibility between two signs based on mode (love or friendship).
  * Returns the static data if available, or calculates a deterministic fallback.
+ * For friendship mode, applies a small offset to make percentage different from love.
  */
 export const getCompatibility = async (
   signA: SignData,
@@ -3378,17 +3395,32 @@ export const getCompatibility = async (
   // The keys in the data maps are generally 'sign1-sign2' where sign1 comes before sign2 alphabetically
   const [s1, s2] = [signA, signB].sort((a, b) => a.id.localeCompare(b.id));
   const key = `${s1.id}-${s2.id}`;
-  
+
   const dataMap = mode === 'love' ? UNIQUE_LOVE : UNIQUE_FRIENDSHIP;
   let result = dataMap[key];
 
   if (result) {
+    // For friendship mode, apply offset to make percentage different from love
+    if (mode === 'friendship') {
+      const offset = calculateFriendshipOffset(signA, signB);
+      const adjustedScore = Math.min(Math.max(result.compatibilidade + offset, 15), 99);
+      return {
+        ...result,
+        compatibilidade: adjustedScore
+      };
+    }
     return result;
   }
 
   // Fallback calculation
-  const score = calculateDeterministicScore(signA, signB);
-  
+  let score = calculateDeterministicScore(signA, signB);
+
+  // For friendship fallback, also apply offset
+  if (mode === 'friendship') {
+    const offset = calculateFriendshipOffset(signA, signB);
+    score = Math.min(Math.max(score + offset, 15), 99);
+  }
+
   return {
     resumo: `A combinação entre ${signA.name} e ${signB.name} é interessante, unindo as energias de ${signA.element} e ${signB.element}.`,
     combina: ["Aprendizado mútuo", "Troca de experiências"],

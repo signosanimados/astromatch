@@ -140,8 +140,8 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
   };
 
   // Share - gera imagem e mostra modal para iOS
-  const shareText = `${signA.name} + ${signB.name} = ${result.compatibilidade}% de compatibilidade! 💫 Descubra a sua em signosanimados.com.br`;
-  const shareUrl = 'https://signosanimados.com.br';
+  const shareText = `${signA.name} + ${signB.name} = ${result.compatibilidade}% de compatibilidade! 💫 Descubra a sua em signoscombinados.com`;
+  const shareUrl = 'https://signoscombinados.com';
 
   const handleShare = async () => {
     setIsGenerating(true);
@@ -207,8 +207,11 @@ const ResultView: React.FC<ResultViewProps> = ({ result, signA, signB, mode, onR
           <img
             src={bgImage}
             alt="Background"
-            className="w-full h-full object-cover object-top"
-            style={{ transform: shouldFlipBackground ? 'scaleX(-1)' : 'none' }}
+            className="w-full h-full object-cover"
+            style={{
+              transform: shouldFlipBackground ? 'scaleX(-1)' : 'none',
+              objectPosition: 'center 20%'
+            }}
             crossOrigin="anonymous"
             onError={(e) => { e.currentTarget.src = DEFAULT_BACKGROUND; }}
           />
