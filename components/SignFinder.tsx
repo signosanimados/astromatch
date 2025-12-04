@@ -3,26 +3,20 @@ import { SIGN_FINDER_QUESTIONS, SIGN_NAMES, SIGN_DESCRIPTIONS, QuestionOption } 
 import { SIGNS } from '../constants';
 import { SignData, ElementType } from '../types';
 
-// Backgrounds por signo (imagens)
-const SIGN_BACKGROUNDS: Record<string, string> = {
-  aries: '', // Áries usa vídeo
-
-  taurus: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/TOURO_es4byb.jpg',
-  gemini: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/GEMEOS_qe5zpn.jpg',
-  cancer: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/CANCER_iz01fk.jpg',
-  leo: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/LEAO_gv3pyd.jpg',
-  virgo: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/VIRGEM_ipb9cf.jpg',
-  libra: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/LIBRA_k4bo7q.jpg',
-  scorpio: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/ESCORPIAO_txexaw.jpg',
-  sagittarius: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880918/SAGIT%C3%81RIO_aybsvn.jpg',
-  capricorn: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/CAPRICORNIO_xlzrzw.jpg',
-  aquarius: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880916/AQUARIO_weceya.jpg',
-  pisces: 'https://res.cloudinary.com/dwhau3ipe/image/upload/v1764880917/PEIXES_f8m3f9.jpg',
-};
-
-// Backgrounds em vídeo (para signos específicos)
+// Backgrounds em vídeo para todos os signos
 const SIGN_VIDEO_BACKGROUNDS: Record<string, string> = {
-  aries: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764885996/ARIES_dxmhmw.mp4',
+  aries: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888879/ARIES_zqcbju.mp4',
+  taurus: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888878/TOURO_ix1fqi.mp4',
+  gemini: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888878/GEMEOS_lvpm6n.mp4',
+  cancer: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888880/CANCER_vy3pto.mp4',
+  leo: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888879/LEAO_psnxm2.mp4',
+  virgo: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888879/VIRGEM_edzffy.mp4',
+  libra: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888877/LIBRA_edsyhq.mp4',
+  scorpio: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888877/ESCORPIAO_l2hxvd.mp4',
+  sagittarius: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888881/SAGITARIO_myv8rx.mp4',
+  capricorn: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888880/CAPRICORNIO_p37wex.mp4',
+  aquarius: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888879/AQUARIO_m5vp9k.mp4',
+  pisces: 'https://res.cloudinary.com/dwhau3ipe/video/upload/v1764888881/PEIXES_kugnhf.mp4',
 };
 
 interface SignFinderProps {
@@ -154,7 +148,6 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
   // Tela de Resultado
   if (gameFinished && resultSign) {
     const portugueseId = getPortugueseSignId(resultSign.id);
-    const bgImage = SIGN_BACKGROUNDS[resultSign.id] || '';
     const bgVideo = SIGN_VIDEO_BACKGROUNDS[resultSign.id] || '';
 
     return (
@@ -176,29 +169,19 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
         <div className="flex-1 relative flex items-center justify-center">
           {/* Container com tamanho fixo estilo celular */}
           <div className="relative w-full max-w-[480px] mx-auto aspect-[9/16] max-h-[calc(100vh-80px)]">
-            {/* Background Image or Video */}
+            {/* Background Video */}
             <div className="absolute inset-0 z-0 m-2 md:m-4 rounded-3xl overflow-hidden">
-              {bgVideo ? (
-                <video
-                  src={bgVideo}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: 'center 20%' }}
-                />
-              ) : (
-                <img
-                  src={bgImage}
-                  alt="Background"
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: 'center 20%' }}
-                  crossOrigin="anonymous"
-                />
-              )}
-              {/* Overlay para legibilidade */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40" />
+              <video
+                src={bgVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+                style={{ objectPosition: 'center 20%' }}
+              />
+              {/* Overlay para legibilidade - mais suave em cima, mais forte embaixo */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
             </div>
 
             {/* Sign Icon - canto superior esquerdo */}
@@ -213,8 +196,8 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
               </div>
             </div>
 
-            {/* Content */}
-            <div className={`relative z-10 flex flex-col items-center justify-center p-6 h-full transition-all duration-700 ${showingResult ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            {/* Content - posicionado na parte inferior */}
+            <div className={`relative z-10 flex flex-col items-center justify-end p-6 pb-8 h-full transition-all duration-700 ${showingResult ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
             {/* Sign Name */}
             <h1 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-wide drop-shadow-lg">
