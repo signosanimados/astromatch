@@ -27,7 +27,7 @@ export const SIGN_FINDER_QUESTIONS: Question[] = [
     opcoes: [
       { id: "A", texto: "Adrenalina e novidade.", signos: ["aries", "sagitario", "gemeos"] },
       { id: "B", texto: "Segurança, rotina e estabilidade.", signos: ["touro", "cancer", "capricornio"] },
-      { id: "C", texto: "Criatividade e curiosidade.", signos: ["leao", "aquario", "gemeos"] },
+      { id: "C", texto: "Criatividade e curiosidade.", signos: ["leao", "aquario", "virgem"] },
       { id: "D", texto: "Emoção, conexão e significado profundo.", signos: ["peixes", "escorpiao", "libra"] }
     ]
   },

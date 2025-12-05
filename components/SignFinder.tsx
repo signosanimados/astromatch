@@ -50,11 +50,11 @@ const SignFinder: React.FC<SignFinderProps> = ({ onBack, onGoToCombinations }) =
 
     setSelectedOption(option.id);
 
-    // Atualiza scores
+    // Atualiza scores - peso igual para todos os signos da opção
     const newScores = { ...scores };
-    option.signos.forEach((signo, index) => {
-      // Primeiro signo ganha 3 pontos, segundo 2, terceiro 1
-      newScores[signo] = (newScores[signo] || 0) + (3 - index);
+    option.signos.forEach((signo) => {
+      // Cada signo ganha 1 ponto (sem viés posicional)
+      newScores[signo] = (newScores[signo] || 0) + 1;
     });
     setScores(newScores);
 
