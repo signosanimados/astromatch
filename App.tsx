@@ -54,7 +54,32 @@ const App: React.FC = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // 2. Busca Créditos
+  // 2. Auto-refresh de créditos quando a aba volta ao foco (após pagamento)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && session?.user?.id) {
+        console.log('🔄 Aba ativa - atualizando créditos...');
+        fetchCredits(session.user.id);
+      }
+    };
+
+    const handleFocus = () => {
+      if (session?.user?.id) {
+        console.log('🔄 Janela em foco - atualizando créditos...');
+        fetchCredits(session.user.id);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [session]);
+
+  // 3. Busca Créditos (e cria perfil se não existir - ex: login Google OAuth)
   const fetchCredits = async (userId: string) => {
     setRefreshingCredits(true);
     try {
@@ -67,8 +92,32 @@ const App: React.FC = () => {
       if (data) {
         setCredits(data.credits);
       } else if (error) {
-        console.error('Erro ao buscar créditos:', error);
-        setCredits(0);
+        // Perfil não existe - criar com créditos iniciais (usuário novo via OAuth)
+        console.log('Perfil não encontrado, criando...');
+        const { data: newProfile, error: createError } = await supabase
+          .from('profiles')
+          .insert({ id: userId, credits: 3 })
+          .select('credits')
+          .single();
+
+        if (newProfile) {
+          setCredits(newProfile.credits);
+          console.log('✅ Perfil criado com 3 créditos iniciais');
+        } else if (createError) {
+          // Pode ser que outro processo já criou, tenta buscar novamente
+          const { data: retryData } = await supabase
+            .from('profiles')
+            .select('credits')
+            .eq('id', userId)
+            .single();
+
+          if (retryData) {
+            setCredits(retryData.credits);
+          } else {
+            console.error('Erro ao criar/buscar perfil:', createError);
+            setCredits(0);
+          }
+        }
       }
     } catch (e) {
       console.error("Erro de conexão:", e);
@@ -100,6 +149,9 @@ const App: React.FC = () => {
       if (!session?.user?.id) return;
       const checkoutUrl = `${STRIPE_CHECKOUT_URL}?client_reference_id=${session.user.id}`;
       window.open(checkoutUrl, '_blank');
+
+      // Feedback para o usuário
+      alert('💫 Após concluir o pagamento, volte aqui que seus créditos serão atualizados automaticamente!');
   };
 
   const handleCalculate = async () => {
