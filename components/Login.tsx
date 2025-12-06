@@ -137,6 +137,8 @@ const Login: React.FC = () => {
         errorMessage = 'A senha deve ter no mínimo 6 caracteres.';
       } else if (errorMessage.includes('Unable to validate email')) {
         errorMessage = 'Email inválido. Verifique o formato.';
+      } else if (errorMessage.includes('Error sending confirmation email') || errorMessage.includes('error sending')) {
+        errorMessage = 'Erro ao enviar email de confirmação. Use o login com Google ou tente novamente mais tarde.';
       }
 
       setMessage({ text: errorMessage, type: 'error' });
@@ -159,7 +161,7 @@ const Login: React.FC = () => {
             </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-white mb-2 tracking-wide font-mono">Signos Combinados</h1>
+        <h1 className="text-2xl font-bold text-white mb-2 tracking-wide font-mono">Signos Animados</h1>
         <p className="text-slate-400 mb-8 text-sm">Entre para descobrir suas combinações astrais</p>
 
         {/* MENSAGENS DE ERRO/SUCESSO */}
