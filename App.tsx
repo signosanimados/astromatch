@@ -10,8 +10,8 @@ import SignFinder from './components/SignFinder';
 import { getCompatibility } from './services/geminiService';
 import { supabase } from './lib/supabaseClient';
 
-// LINK DE PAGAMENTO DO STRIPE REAL (Corrigido com final 9AA00)
-const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/cNi28s8Kb0j00t9fmf9AA00";
+// LINK DE PAGAMENTO DO STRIPE
+const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/00w4gA3pR0j0cbRgqj9AA01";
 
 type ScreenType = 'home' | 'combinations' | 'signfinder';
 
