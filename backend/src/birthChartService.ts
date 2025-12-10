@@ -118,11 +118,11 @@ function calculatePlanetPosition(
   const planetId = PLANET_IDS[planetName];
   const flags = swisseph.SEFLG_SWIEPH | swisseph.SEFLG_SPEED;
 
-  const result = swisseph.swe_calc(jd, planetId, flags);
+  const result = swisseph.swe_calc(jd, planetId, flags) as any;
 
   // Na API 0.5.x, o resultado é um objeto com propriedades diretas
-  const longitude = result.longitude; // Posição eclíptica
-  const speedLon = result.longitudeSpeed; // Velocidade em longitude
+  const longitude = result.longitude as number; // Posição eclíptica
+  const speedLon = result.longitudeSpeed as number; // Velocidade em longitude
 
   const { sign, degree } = longitudeToSignAndDegree(longitude);
   const house = determineHouse(longitude, cusps);
@@ -145,17 +145,17 @@ function calculateHouses(jd: number, latitude: number, longitude: number) {
   // Sistema de casas Placidus ('P')
   const houseSystem = 'P';
 
-  const result = swisseph.swe_houses(jd, latitude, longitude, houseSystem);
+  const result = swisseph.swe_houses(jd, latitude, longitude, houseSystem) as any;
 
   // Cúspides das casas (índices 1-12)
   const cusps: number[] = [];
   for (let i = 1; i <= 12; i++) {
-    cusps.push(result.house[i]);
+    cusps.push(result.house[i] as number);
   }
 
   // Ascendente e MC
-  const ascendantLon = result.ascendant;
-  const mcLon = result.mc;
+  const ascendantLon = result.ascendant as number;
+  const mcLon = result.mc as number;
 
   return {
     cusps,
