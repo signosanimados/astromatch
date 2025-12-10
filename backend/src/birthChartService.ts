@@ -120,10 +120,7 @@ function calculatePlanetPosition(
 
   const result = swisseph.swe_calc(jd, planetId, flags);
 
-  if (result.error) {
-    throw new Error(`Erro ao calcular ${planetName}: ${result.error}`);
-  }
-
+  // Na API 0.5.x, o resultado é um objeto com propriedades diretas
   const longitude = result.longitude; // Posição eclíptica
   const speedLon = result.longitudeSpeed; // Velocidade em longitude
 
@@ -149,10 +146,6 @@ function calculateHouses(jd: number, latitude: number, longitude: number) {
   const houseSystem = 'P';
 
   const result = swisseph.swe_houses(jd, latitude, longitude, houseSystem);
-
-  if (!result || !result.house || !result.ascendant) {
-    throw new Error('Erro ao calcular casas astrológicas');
-  }
 
   // Cúspides das casas (índices 1-12)
   const cusps: number[] = [];

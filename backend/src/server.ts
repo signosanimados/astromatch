@@ -22,7 +22,7 @@ app.use(express.json()); // Parse JSON no body
 /**
  * Health check endpoint
  */
-app.get('/health', (req: Request, res: Response) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', message: 'Birth Chart API is running' });
 });
 
