@@ -18,7 +18,7 @@ import {
   Elements,
   Modalities,
   PLANET_NAMES
-} from '../../shared/birthChartTypes';
+} from './types/birthChartTypes';
 import {
   longitudeToSignAndDegree,
   getSignElement,

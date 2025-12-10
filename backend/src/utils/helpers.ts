@@ -2,7 +2,7 @@
  * Funções auxiliares para cálculos astrológicos
  */
 
-import { ZODIAC_SIGNS, type ZodiacSign } from '../../../shared/birthChartTypes';
+import { ZODIAC_SIGNS, type ZodiacSign } from '../types/birthChartTypes';
 
 /**
  * Converte longitude eclíptica absoluta (0-360°) para signo e grau

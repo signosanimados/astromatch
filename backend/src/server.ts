@@ -9,7 +9,7 @@
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { BirthChartData, BirthChartResult } from '../../shared/birthChartTypes';
+import { BirthChartData, BirthChartResult } from './types/birthChartTypes';
 import { calculateBirthChartPrecise, closeSwissEph } from './birthChartService';
 
 const app = express();

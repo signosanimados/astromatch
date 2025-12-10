@@ -30,4 +30,4 @@ for file in "${FILES[@]}"; do
 done
 
 echo "🚀 Iniciando servidor..."
-node ./dist/src/server.js
+node ./dist/server.js
