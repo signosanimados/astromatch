@@ -1,4 +1,5 @@
 import { CompatibilityResult, SignData, ElementType } from '../types';
+import { BirthChartResult } from './birthChartService';
 
 /**
  * Calculates a fixed, deterministic score for any pair of signs.
@@ -3429,3 +3430,198 @@ export const getCompatibility = async (
     compatibilidade: score
   };
 };
+
+// ============================================================
+// BIRTH CHART INTERPRETATION (AI POWERED)
+// ============================================================
+
+/**
+ * Generates a personalized birth chart interpretation using AI.
+ * This function creates a detailed analysis based on the planetary positions.
+ */
+export const generateBirthChartInterpretation = async (
+  chart: BirthChartResult,
+  userName?: string
+): Promise<string> => {
+  // Extract key information
+  const sunSign = chart.planets.find(p => p.name === 'Sol')?.sign || 'desconhecido';
+  const moonSign = chart.planets.find(p => p.name === 'Lua')?.sign || 'desconhecido';
+  const ascSign = chart.ascendant.sign;
+  const mercurySign = chart.planets.find(p => p.name === 'Mercúrio')?.sign || 'desconhecido';
+  const venusSign = chart.planets.find(p => p.name === 'Vênus')?.sign || 'desconhecido';
+  const marsSign = chart.planets.find(p => p.name === 'Marte')?.sign || 'desconhecido';
+
+  // Determine dominant element
+  const { elements } = chart;
+  const dominantElement = Object.entries(elements).reduce((a, b) =>
+    b[1] > a[1] ? b : a
+  )[0];
+
+  // Determine dominant modality
+  const { modalities } = chart;
+  const dominantModality = Object.entries(modalities).reduce((a, b) =>
+    b[1] > a[1] ? b : a
+  )[0];
+
+  // Count harmonious vs challenging aspects
+  const harmoniousAspects = chart.aspects.filter(a => a.nature === 'harmonic').length;
+  const challengingAspects = chart.aspects.filter(a => a.nature === 'challenging').length;
+
+  // Build the interpretation using predefined templates
+  const interpretation = buildInterpretation({
+    userName,
+    sunSign,
+    moonSign,
+    ascSign,
+    mercurySign,
+    venusSign,
+    marsSign,
+    dominantElement,
+    dominantModality,
+    harmoniousAspects,
+    challengingAspects,
+    planets: chart.planets,
+    aspects: chart.aspects,
+  });
+
+  return interpretation;
+};
+
+// Interpretations data
+const SUN_SIGN_INTERPRETATIONS: Record<string, string> = {
+  'Áries': 'Você nasceu com o Sol em Áries, o signo da iniciativa e da coragem. Sua essência é marcada pela vontade de começar coisas novas, pela energia pioneira e pelo espírito competitivo. Você tende a ser direto, impulsivo e não tem medo de enfrentar desafios de frente.',
+  'Touro': 'Com o Sol em Touro, sua essência é marcada pela busca de estabilidade, conforto e segurança. Você aprecia as coisas boas da vida, tem paciência e persistência para alcançar seus objetivos. Sua natureza é prática, sensorial e profundamente conectada ao mundo material.',
+  'Gêmeos': 'O Sol em Gêmeos revela uma essência curiosa, comunicativa e versátil. Você tem facilidade com palavras, adora aprender coisas novas e se adapta rapidamente a diferentes situações. Sua mente é inquieta e você busca constantemente estímulos intelectuais.',
+  'Câncer': 'Com o Sol em Câncer, sua essência é profundamente emocional e protetora. Você valoriza a família, as memórias e os vínculos afetivos. Sua sensibilidade é grande e você tem uma intuição natural para perceber as emoções das pessoas ao seu redor.',
+  'Leão': 'O Sol em Leão, seu regente natural, brilha com toda força em você. Sua essência é magnética, criativa e generosa. Você nasceu para se destacar, liderar e expressar sua individualidade de forma autêntica. O reconhecimento e a admiração são importantes para você.',
+  'Virgem': 'Com o Sol em Virgem, sua essência é analítica, prática e perfeccionista. Você tem um olhar atento aos detalhes, busca a melhoria constante e tem prazer em ser útil. Sua mente é organizada e você valoriza a eficiência e o trabalho bem feito.',
+  'Libra': 'O Sol em Libra revela uma essência diplomática, harmoniosa e estética. Você busca equilíbrio em tudo, valoriza relacionamentos e tem um senso natural de justiça e beleza. A cooperação e a parceria são fundamentais para seu bem-estar.',
+  'Escorpião': 'Com o Sol em Escorpião, sua essência é intensa, profunda e transformadora. Você não tem medo de explorar as profundezas da vida, das emoções e dos mistérios. Sua força de vontade é impressionante e você passa por constantes processos de renascimento.',
+  'Sagitário': 'O Sol em Sagitário ilumina sua essência aventureira, otimista e filosófica. Você busca significado, expansão e liberdade. Viajar, estudar e explorar diferentes culturas e ideias são partes essenciais de quem você é.',
+  'Capricórnio': 'Com o Sol em Capricórnio, sua essência é ambiciosa, responsável e disciplinada. Você tem metas claras, trabalha duro para alcançá-las e valoriza conquistas concretas. A maturidade e a sabedoria vêm naturalmente para você.',
+  'Aquário': 'O Sol em Aquário revela uma essência inovadora, humanitária e independente. Você pensa fora da caixa, valoriza a liberdade e tem ideias originais. Causas sociais e o bem-estar coletivo são importantes para você.',
+  'Peixes': 'Com o Sol em Peixes, sua essência é sensível, intuitiva e artística. Você tem uma conexão natural com o mundo dos sonhos, da espiritualidade e da criatividade. Sua compaixão pelos outros é grande e você muitas vezes absorve as emoções ao seu redor.',
+};
+
+const MOON_SIGN_INTERPRETATIONS: Record<string, string> = {
+  'Áries': 'A Lua em Áries indica que você processa emoções de forma rápida e intensa. Você precisa de ação e movimento para se sentir emocionalmente bem. Pode ser impaciente com sentimentos complicados e prefere resolver as coisas de forma direta.',
+  'Touro': 'Com a Lua em Touro, suas emoções são estáveis e você busca segurança afetiva. Você precisa de conforto, rotina e estabilidade para se sentir em paz. Mudanças bruscas podem desestabilizá-lo emocionalmente.',
+  'Gêmeos': 'A Lua em Gêmeos revela que você processa emoções através da comunicação e do pensamento. Conversar sobre seus sentimentos ajuda você a entendê-los. Pode haver uma tendência a racionalizar demais as emoções.',
+  'Câncer': 'Com a Lua em Câncer, seu domicílio natural, suas emoções são profundas e você é extremamente sensível ao ambiente familiar. Memórias e o passado têm grande peso em seu mundo emocional.',
+  'Leão': 'A Lua em Leão indica necessidade de reconhecimento emocional e de expressar seus sentimentos de forma dramática. Você precisa se sentir especial e apreciado para estar emocionalmente equilibrado.',
+  'Virgem': 'Com a Lua em Virgem, você tende a analisar suas emoções e pode ser crítico consigo mesmo. Ser útil e produtivo traz conforto emocional. Pode haver ansiedade quando as coisas estão fora de ordem.',
+  'Libra': 'A Lua em Libra revela necessidade de harmonia nos relacionamentos para equilíbrio emocional. Conflitos perturbam você profundamente e você busca constantemente a paz e a beleza.',
+  'Escorpião': 'Com a Lua em Escorpião, suas emoções são intensas, profundas e transformadoras. Você sente tudo com muita força e tem dificuldade em deixar as coisas irem. Lealdade emocional é fundamental.',
+  'Sagitário': 'A Lua em Sagitário indica necessidade de liberdade emocional e otimismo. Você se sente melhor quando pode explorar, aprender e manter uma visão positiva da vida. Restrições emocionais são sufocantes.',
+  'Capricórnio': 'Com a Lua em Capricórnio, você pode reprimir ou controlar suas emoções. Há necessidade de estrutura e conquistas para segurança emocional. Pode demorar para demonstrar vulnerabilidade.',
+  'Aquário': 'A Lua em Aquário revela que você processa emoções de forma racional e precisa de espaço emocional. Você valoriza amizades e causas maiores, mas pode parecer emocionalmente distante às vezes.',
+  'Peixes': 'Com a Lua em Peixes, suas emoções são extremamente sensíveis e permeáveis. Você absorve as emoções do ambiente e tem forte intuição. A arte, a música e a espiritualidade são importantes escapes emocionais.',
+};
+
+const ASC_INTERPRETATIONS: Record<string, string> = {
+  'Áries': 'Com Ascendente em Áries, você projeta uma imagem de coragem, iniciativa e energia. As pessoas te veem como alguém dinâmico, direto e às vezes impulsivo. Você enfrenta a vida de forma competitiva.',
+  'Touro': 'O Ascendente em Touro faz você parecer calmo, estável e confiável. Sua presença transmite segurança e praticidade. Você aborda a vida com paciência e determinação.',
+  'Gêmeos': 'Com Ascendente em Gêmeos, você é visto como comunicativo, curioso e versátil. Sua abordagem da vida é mental e você se adapta facilmente a diferentes situações e pessoas.',
+  'Câncer': 'O Ascendente em Câncer faz você parecer acolhedor, protetor e sensível. As pessoas sentem que podem confiar em você. Você aborda a vida de forma emocional e intuitiva.',
+  'Leão': 'Com Ascendente em Leão, você projeta confiança, carisma e presença magnética. As pessoas te notam quando você entra em um ambiente. Você aborda a vida com criatividade e orgulho.',
+  'Virgem': 'O Ascendente em Virgem faz você parecer organizado, analítico e prestativo. Sua presença transmite competência e atenção aos detalhes. Você aborda a vida de forma prática e eficiente.',
+  'Libra': 'Com Ascendente em Libra, você é visto como charmoso, diplomático e elegante. Sua abordagem da vida busca equilíbrio, harmonia e justiça. Você valoriza muito os relacionamentos.',
+  'Escorpião': 'O Ascendente em Escorpião faz você parecer intenso, misterioso e magnético. Sua presença é marcante e as pessoas sentem sua profundidade. Você aborda a vida de forma investigativa.',
+  'Sagitário': 'Com Ascendente em Sagitário, você projeta otimismo, entusiasmo e senso de aventura. As pessoas te veem como alguém alegre e filosófico. Você aborda a vida buscando significado e expansão.',
+  'Capricórnio': 'O Ascendente em Capricórnio faz você parecer sério, responsável e ambicioso. Sua presença transmite maturidade e competência. Você aborda a vida de forma estratégica e determinada.',
+  'Aquário': 'Com Ascendente em Aquário, você é visto como original, independente e um pouco excêntrico. Sua abordagem da vida é inovadora e você valoriza sua individualidade acima de tudo.',
+  'Peixes': 'O Ascendente em Peixes faz você parecer sonhador, sensível e compassivo. Sua presença tem algo de etéreo e artístico. Você aborda a vida de forma intuitiva e empática.',
+};
+
+const ELEMENT_INTERPRETATIONS: Record<string, string> = {
+  'fire': 'Com predominância do elemento Fogo em seu mapa, você é naturalmente entusiasmado, criativo e cheio de energia. Você precisa de ação, inspiração e liberdade para se expressar. Cuidado com a impulsividade e a tendência a se esgotar.',
+  'earth': 'A predominância do elemento Terra indica que você é prático, realista e focado em resultados concretos. Você valoriza estabilidade, segurança material e trabalho consistente. Pode precisar desenvolver mais flexibilidade.',
+  'air': 'Com predominância do elemento Ar, sua natureza é intelectual, comunicativa e social. Você processa a vida através de ideias, conversas e conexões mentais. Pode precisar se conectar mais com suas emoções e corpo.',
+  'water': 'A predominância do elemento Água revela uma natureza profundamente emocional, intuitiva e empática. Você sente o mundo intensamente e tem grande sensibilidade. Pode precisar desenvolver mais objetividade e limites emocionais.',
+};
+
+const MODALITY_INTERPRETATIONS: Record<string, string> = {
+  'cardinal': 'A predominância de signos Cardinais mostra que você é um iniciador natural. Você gosta de começar projetos, liderar e tomar a frente. Pode precisar trabalhar a paciência para ver as coisas até o fim.',
+  'fixed': 'Com predominância de signos Fixos, você tem grande determinação, persistência e resistência. Uma vez que decide algo, dificilmente muda de ideia. Pode precisar desenvolver mais flexibilidade e abertura a mudanças.',
+  'mutable': 'A predominância de signos Mutáveis indica grande adaptabilidade, flexibilidade e versatilidade. Você se ajusta bem a mudanças, mas pode ter dificuldade em manter o foco e finalizar projetos.',
+};
+
+interface InterpretationParams {
+  userName?: string;
+  sunSign: string;
+  moonSign: string;
+  ascSign: string;
+  mercurySign: string;
+  venusSign: string;
+  marsSign: string;
+  dominantElement: string;
+  dominantModality: string;
+  harmoniousAspects: number;
+  challengingAspects: number;
+  planets: { name: string; sign: string; house: number; retrograde: boolean }[];
+  aspects: { planet1: string; planet2: string; type: string; nature: string }[];
+}
+
+function buildInterpretation(params: InterpretationParams): string {
+  const {
+    userName,
+    sunSign,
+    moonSign,
+    ascSign,
+    mercurySign,
+    venusSign,
+    marsSign,
+    dominantElement,
+    dominantModality,
+    harmoniousAspects,
+    challengingAspects,
+  } = params;
+
+  const greeting = userName
+    ? `✨ ${userName}, aqui está a interpretação do seu Mapa Astral:\n\n`
+    : '✨ Aqui está a interpretação do seu Mapa Astral:\n\n';
+
+  // Big Three
+  const bigThree = `🌟 OS TRÊS GRANDES (Sol, Lua e Ascendente)\n\n` +
+    `☉ SOL EM ${sunSign.toUpperCase()}\n${SUN_SIGN_INTERPRETATIONS[sunSign] || 'Interpretação não disponível.'}\n\n` +
+    `☽ LUA EM ${moonSign.toUpperCase()}\n${MOON_SIGN_INTERPRETATIONS[moonSign] || 'Interpretação não disponível.'}\n\n` +
+    `↑ ASCENDENTE EM ${ascSign.toUpperCase()}\n${ASC_INTERPRETATIONS[ascSign] || 'Interpretação não disponível.'}\n\n`;
+
+  // Personal Planets
+  const personalPlanets = `💫 PLANETAS PESSOAIS\n\n` +
+    `☿ Mercúrio em ${mercurySign}: Sua mente e comunicação funcionam através da energia de ${mercurySign}. ` +
+    `Isso influencia como você pensa, aprende e se expressa verbalmente.\n\n` +
+    `♀ Vênus em ${venusSign}: Seus valores, estética e forma de amar são coloridos por ${venusSign}. ` +
+    `Isso mostra o que você atrai e como você demonstra afeto.\n\n` +
+    `♂ Marte em ${marsSign}: Sua energia de ação, coragem e desejo se manifesta através de ${marsSign}. ` +
+    `Isso indica como você luta pelo que quer e expressa sua vontade.\n\n`;
+
+  // Elements and Modalities
+  const elementText = ELEMENT_INTERPRETATIONS[dominantElement] || '';
+  const modalityText = MODALITY_INTERPRETATIONS[dominantModality] || '';
+
+  const balance = `⚖️ EQUILÍBRIO ENERGÉTICO\n\n` +
+    `Elemento dominante: ${dominantElement === 'fire' ? 'Fogo 🔥' : dominantElement === 'earth' ? 'Terra 🌍' : dominantElement === 'air' ? 'Ar 💨' : 'Água 💧'}\n` +
+    `${elementText}\n\n` +
+    `Modalidade dominante: ${dominantModality === 'cardinal' ? 'Cardinal' : dominantModality === 'fixed' ? 'Fixa' : 'Mutável'}\n` +
+    `${modalityText}\n\n`;
+
+  // Aspects Summary
+  const aspectsAnalysis = `🔮 DINÂMICA DOS ASPECTOS\n\n` +
+    `Seu mapa possui ${harmoniousAspects} aspectos harmônicos e ${challengingAspects} aspectos desafiadores.\n\n` +
+    (harmoniousAspects > challengingAspects
+      ? 'A predominância de aspectos harmônicos indica um fluxo natural de energia em sua vida. Você tem facilidade em integrar diferentes partes de si mesmo e tende a encontrar caminhos mais suaves para seus objetivos.'
+      : harmoniousAspects < challengingAspects
+        ? 'A predominância de aspectos desafiadores indica uma vida de crescimento através de desafios. Você é fortalecido pelas dificuldades e desenvolve grande resiliência. Esses aspectos também trazem motivação e dinamismo.'
+        : 'O equilíbrio entre aspectos harmônicos e desafiadores indica uma vida com oportunidades de crescimento e também momentos de fluidez. Você sabe quando lutar e quando deixar as coisas fluírem.'
+    ) + '\n\n';
+
+  // Final message
+  const conclusion = `🌌 MENSAGEM FINAL\n\n` +
+    `Seu mapa astral é único, assim como você. Lembre-se que os astros inclinam, mas não obrigam. ` +
+    `Use essas informações como ferramentas de autoconhecimento, não como limitações. ` +
+    `O livre-arbítrio sempre será seu maior poder.\n\n` +
+    `Continue brilhando, ${userName || 'estrela'}! ⭐`;
+
+  return greeting + bigThree + personalPlanets + balance + aspectsAnalysis + conclusion;
+}

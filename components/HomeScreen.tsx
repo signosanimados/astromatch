@@ -4,6 +4,7 @@ import { APP_LOGO } from '../constants';
 interface HomeScreenProps {
   onSelectCombinations: () => void;
   onSelectSignFinder: () => void;
+  onSelectBirthChart: () => void;
   onLogout: () => void;
   userEmail?: string;
   credits: number | null;
@@ -12,6 +13,7 @@ interface HomeScreenProps {
 const HomeScreen: React.FC<HomeScreenProps> = ({
   onSelectCombinations,
   onSelectSignFinder,
+  onSelectBirthChart,
   onLogout,
   userEmail,
   credits
@@ -143,6 +145,37 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
               <span className="text-[10px] text-indigo-400/70 uppercase tracking-wider">15 Perguntas</span>
               <span className="text-slate-600">•</span>
               <span className="text-[10px] text-emerald-400/70">Gratuito</span>
+            </div>
+          </button>
+
+          {/* Option 3: Birth Chart */}
+          <button
+            onClick={onSelectBirthChart}
+            className="w-full group relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-600/20 to-orange-600/20 border border-amber-500/30 p-6 text-left transition-all hover:scale-[1.02] hover:border-amber-500/50 active:scale-[0.98]"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-600/0 to-orange-600/0 group-hover:from-amber-600/10 group-hover:to-orange-600/10 transition-all"></div>
+
+            <div className="relative flex items-center gap-4">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+              </div>
+
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-white mb-1">Mapa Astral</h3>
+                <p className="text-slate-400 text-sm">Gere seu mapa astral completo com interpretação profissional</p>
+              </div>
+
+              <svg className="w-6 h-6 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+
+            <div className="relative mt-4 flex items-center gap-2">
+              <span className="text-[10px] text-emerald-400/70 uppercase tracking-wider">Simples: Gratuito</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-[10px] text-amber-400/70">Completo: 5 créditos</span>
             </div>
           </button>
         </div>

@@ -7,13 +7,14 @@ import ResultView from './components/ResultView';
 import Login from './components/Login';
 import HomeScreen from './components/HomeScreen';
 import SignFinder from './components/SignFinder';
+import BirthChart from './components/BirthChart';
 import { getCompatibility } from './services/geminiService';
 import { supabase } from './lib/supabaseClient';
 
 // LINK DE PAGAMENTO DO STRIPE
 const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/00w4gA3pR0j0cbRgqj9AA01";
 
-type ScreenType = 'home' | 'combinations' | 'signfinder';
+type ScreenType = 'home' | 'combinations' | 'signfinder' | 'birthchart';
 
 const App: React.FC = () => {
   const [session, setSession] = useState<any>(null);
@@ -229,6 +230,36 @@ const App: React.FC = () => {
     setCurrentScreen('signfinder');
   };
 
+  const handleGoToBirthChart = () => {
+    setCurrentScreen('birthchart');
+  };
+
+  // Deduct credits for paid features (like birth chart)
+  const handleDeductCredits = async (amount: number): Promise<boolean> => {
+    if (!session?.user?.id) return false;
+    if (credits === null || credits < amount) return false;
+
+    try {
+      const newCredits = credits - amount;
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({ credits: newCredits })
+        .eq('id', session.user.id);
+
+      if (error) {
+        console.error('Erro ao deduzir créditos:', error);
+        return false;
+      }
+
+      setCredits(newCredits);
+      return true;
+    } catch (err) {
+      console.error('Erro ao deduzir créditos:', err);
+      return false;
+    }
+  };
+
   const handleSignFinderComplete = (sign: SignData) => {
     // Pre-select the discovered sign and go to combinations
     setSignA(sign);
@@ -261,9 +292,21 @@ const App: React.FC = () => {
       <HomeScreen
         onSelectCombinations={handleGoToCombinations}
         onSelectSignFinder={handleGoToSignFinder}
+        onSelectBirthChart={handleGoToBirthChart}
         onLogout={handleLogout}
         userEmail={session?.user?.email}
         credits={credits}
+      />
+    );
+  }
+
+  // Birth Chart Screen
+  if (currentScreen === 'birthchart') {
+    return (
+      <BirthChart
+        onBack={handleGoHome}
+        credits={credits}
+        onDeductCredits={handleDeductCredits}
       />
     );
   }
