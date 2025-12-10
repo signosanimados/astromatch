@@ -1,8 +1,15 @@
 import { CompatibilityResult, SignData, ElementType } from '../types';
-import { GoogleGenAI } from "@google/genai";
+// import { GoogleGenAI } from "@google/genai";
 
 // Initialize Gemini Client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+// TEMPORÁRIO: Mock do cliente AI para evitar erros de build
+const ai: any = {
+  models: {
+    generateContent: async () => ({ text: "Funcionalidade temporariamente indisponível. Configure a API do Gemini." })
+  }
+};
 
 /**
  * Calculates a fixed, deterministic score for any pair of signs.
