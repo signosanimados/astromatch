@@ -1,15 +1,11 @@
 import { CompatibilityResult, SignData, ElementType } from '../types';
-// import { GoogleGenAI } from "@google/genai";
+import OpenAI from 'openai';
 
-// Initialize Gemini Client
-// const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
-// TEMPORÁRIO: Mock do cliente AI para evitar erros de build
-const ai: any = {
-  models: {
-    generateContent: async () => ({ text: "Funcionalidade temporariamente indisponível. Configure a API do Gemini." })
-  }
-};
+// Initialize OpenAI Client
+const openai = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY || '',
+  dangerouslyAllowBrowser: true // Necessário para usar no browser
+});
 
 /**
  * Calculates a fixed, deterministic score for any pair of signs.
@@ -82,33 +78,38 @@ import { UNIQUE_LOVE, UNIQUE_FRIENDSHIP } from './geminiData';
 
 export const generateBirthChart = async (data: { name: string; date: string; time: string; city: string }): Promise<string> => {
   try {
-    const prompt = `
-      Atue como um astrólogo profissional e experiente.
-      Gere uma leitura de Mapa Astral resumida, inspiradora e direta para:
-      Nome: ${data.name}
-      Data: ${data.date}
-      Hora: ${data.time}
-      Cidade: ${data.city}
+    const prompt = `Atue como um astrólogo profissional e experiente.
+Gere uma leitura de Mapa Astral resumida, inspiradora e direta para:
+Nome: ${data.name}
+Data: ${data.date}
+Hora: ${data.time}
+Cidade: ${data.city}
 
-      Estrutura da resposta:
-      1. Introdução breve sobre a energia principal da pessoa.
-      2. **Sol** (Essência): Signo e o que isso significa para a identidade dela.
-      3. **Lua** (Emoções): Signo (calcule aproximado pela data/hora) e como ela lida com sentimentos.
-      4. **Ascendente** (Aparência/Máscara): Signo (calcule aproximado pela hora/cidade) e como os outros a veem.
-      5. Uma frase final de conselho ou mantra.
+Estrutura da resposta:
+1. Introdução breve sobre a energia principal da pessoa.
+2. **Sol** (Essência): Signo e o que isso significa para a identidade dela.
+3. **Lua** (Emoções): Signo (calcule aproximado pela data/hora) e como ela lida com sentimentos.
+4. **Ascendente** (Aparência/Máscara): Signo (calcule aproximado pela hora/cidade) e como os outros a veem.
+5. Uma frase final de conselho ou mantra.
 
-      Use tom acolhedor, místico mas moderno. Use formatação Markdown (negrito para destaques).
-      Não mencione graus exatos se não tiver certeza absoluta, foque na interpretação arquetípica.
-    `;
+Use tom acolhedor, místico mas moderno. Use formatação Markdown (negrito para destaques).
+Não mencione graus exatos se não tiver certeza absoluta, foque na interpretação arquetípica.`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 1000
     });
 
-    return response.text || "Os astros estão nebulosos hoje. Tente novamente mais tarde.";
+    return response.choices[0]?.message?.content || "Os astros estão nebulosos hoje. Tente novamente mais tarde.";
   } catch (error) {
-    console.error("Gemini API Error:", error);
+    console.error("OpenAI API Error:", error);
     throw new Error("Erro ao consultar os astros.");
   }
 };
