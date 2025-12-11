@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { calculateBirthChartApi, geocodeCity, checkApiHealth } from '../services/birthChartApiService';
 import { generateBirthChartAnalysis, generatePDF } from '../services/birthChartAnalysisService';
 import type { BirthChartResult } from '../shared/birthChartTypes';
+import { PLANET_MEANINGS, ASCENDANT_MEANING, MIDHEAVEN_MEANING } from '../data/planetMeanings';
 
 interface BirthChartProfessionalProps {
   onBack: () => void;
@@ -36,6 +37,8 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
   const [result, setResult] = useState<BirthChartResult | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null);
+  const [tooltipType, setTooltipType] = useState<'planet' | 'ascendant' | 'midheaven' | null>(null);
 
   // Verificar API ao montar (não bloqueia o uso)
   useEffect(() => {
@@ -199,8 +202,27 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
     'Plutão': '♇',
   };
 
+  // Mapeamento de signos para ícones e cores
+  const signData: Record<string, { icon: string; gradient: string; element: string }> = {
+    'Áries': { icon: 'https://i.imgur.com/1jfkg85.png', gradient: 'from-red-500/20 to-orange-500/80', element: '🔥' },
+    'Touro': { icon: 'https://i.imgur.com/Je2j4uC.png', gradient: 'from-green-600/20 to-emerald-600/80', element: '🌍' },
+    'Gêmeos': { icon: 'https://i.imgur.com/6F9Gu1T.png', gradient: 'from-yellow-400/10 to-amber-400/60', element: '💨' },
+    'Câncer': { icon: 'https://i.imgur.com/Jev0I5P.png', gradient: 'from-blue-400/20 to-cyan-500/80', element: '💧' },
+    'Leão': { icon: 'https://i.imgur.com/iXWGgB5.png', gradient: 'from-red-500/20 to-orange-500/80', element: '🔥' },
+    'Virgem': { icon: 'https://i.imgur.com/p2w1syF.png', gradient: 'from-green-600/20 to-emerald-600/80', element: '🌍' },
+    'Libra': { icon: 'https://i.imgur.com/8yyWG6m.png', gradient: 'from-yellow-400/10 to-amber-400/60', element: '💨' },
+    'Escorpião': { icon: 'https://i.imgur.com/XMz6rP6.png', gradient: 'from-blue-400/20 to-cyan-500/80', element: '💧' },
+    'Sagitário': { icon: 'https://i.imgur.com/ar07j7y.png', gradient: 'from-red-500/20 to-orange-500/80', element: '🔥' },
+    'Capricórnio': { icon: 'https://i.imgur.com/iD9niIf.png', gradient: 'from-green-600/20 to-emerald-600/80', element: '🌍' },
+    'Aquário': { icon: 'https://i.imgur.com/b7dHYgk.png', gradient: 'from-yellow-400/10 to-amber-400/60', element: '💨' },
+    'Peixes': { icon: 'https://i.imgur.com/IDVKxlq.png', gradient: 'from-blue-400/20 to-cyan-500/80', element: '💧' },
+  };
+
   // Tela de resultados
   if (result) {
+    const sunSign = result.planets[0]?.sign; // Sol é o primeiro planeta
+    const sunData = sunSign ? signData[sunSign] : null;
+
     return (
       <div className="min-h-screen bg-[#050510] text-white p-4 md:p-6 relative overflow-hidden">
         {/* Background */}
@@ -240,18 +262,55 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
             </p>
           </div>
 
+          {/* Signo Solar (Destaque Principal) */}
+          {sunSign && sunData && (
+            <div className="mb-8 flex justify-center">
+              <div className={`glass p-8 rounded-3xl border border-white/10 bg-gradient-to-br ${sunData.gradient} max-w-sm w-full`}>
+                <div className="text-center">
+                  <p className="text-xs uppercase text-slate-400 mb-3 tracking-widest">Seu Signo Solar</p>
+                  <img
+                    src={sunData.icon}
+                    alt={sunSign}
+                    className="w-32 h-32 mx-auto mb-4 drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]"
+                  />
+                  <h2 className="text-4xl font-bold mb-2">{sunSign}</h2>
+                  <p className="text-sm text-slate-300 mb-1">{result.planets[0].degree.toFixed(1)}° • Casa {result.planets[0].house}</p>
+                  <p className="text-xs text-slate-500">Elemento {sunData.element}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Ascendente e MC */}
           <div className="grid md:grid-cols-2 gap-4 mb-6">
-            <div className="glass p-6 rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-900/20 to-transparent">
-              <h3 className="text-xs uppercase text-slate-500 mb-2 tracking-wider">Ascendente</h3>
+            <button
+              onClick={() => {
+                setTooltipType('ascendant');
+                setSelectedPlanet(null);
+              }}
+              className="glass p-6 rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-900/20 to-transparent hover:border-purple-500/40 transition-all cursor-pointer text-left group"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xs uppercase text-slate-500 tracking-wider">Ascendente</h3>
+                <span className="text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">ℹ️ Clique para saber mais</span>
+              </div>
               <p className="text-3xl font-bold text-purple-400">{result.ascendant.sign}</p>
               <p className="text-sm text-slate-400 font-mono">{result.ascendant.degree.toFixed(2)}°</p>
-            </div>
-            <div className="glass p-6 rounded-2xl border border-pink-500/20 bg-gradient-to-br from-pink-900/20 to-transparent">
-              <h3 className="text-xs uppercase text-slate-500 mb-2 tracking-wider">Meio do Céu (MC)</h3>
+            </button>
+            <button
+              onClick={() => {
+                setTooltipType('midheaven');
+                setSelectedPlanet(null);
+              }}
+              className="glass p-6 rounded-2xl border border-pink-500/20 bg-gradient-to-br from-pink-900/20 to-transparent hover:border-pink-500/40 transition-all cursor-pointer text-left group"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xs uppercase text-slate-500 tracking-wider">Meio do Céu (MC)</h3>
+                <span className="text-xs text-pink-400 opacity-0 group-hover:opacity-100 transition-opacity">ℹ️ Clique para saber mais</span>
+              </div>
               <p className="text-3xl font-bold text-pink-400">{result.midheaven.sign}</p>
               <p className="text-sm text-slate-400 font-mono">{result.midheaven.degree.toFixed(2)}°</p>
-            </div>
+            </button>
           </div>
 
           {/* Planetas */}
@@ -259,16 +318,21 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
             <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
               <span className="text-3xl">🪐</span>
               Planetas
+              <span className="text-xs text-slate-500 font-normal ml-auto">Clique para saber mais</span>
             </h2>
-            <div className="grid gap-3">
+            <div className="grid md:grid-cols-2 gap-3">
               {result.planets.map((planet, idx) => (
-                <div
+                <button
                   key={idx}
-                  className="flex items-center justify-between p-4 rounded-xl bg-slate-900/40 hover:bg-slate-900/60 transition-all border border-white/5"
+                  onClick={() => {
+                    setSelectedPlanet(planet.name);
+                    setTooltipType('planet');
+                  }}
+                  className="flex items-center justify-between p-4 rounded-xl bg-slate-900/40 hover:bg-slate-900/70 hover:border-purple-500/30 transition-all border border-white/5 cursor-pointer group"
                 >
                   <div className="flex items-center gap-4">
-                    <span className="text-3xl">{planetSymbols[planet.name] || '•'}</span>
-                    <div>
+                    <span className="text-3xl group-hover:scale-110 transition-transform">{planetSymbols[planet.name] || '•'}</span>
+                    <div className="text-left">
                       <p className="font-bold">{planet.name}</p>
                       <p className="text-xs text-slate-500">Casa {planet.house}</p>
                     </div>
@@ -279,7 +343,7 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
                       {planet.retrograde && <span className="text-red-400 ml-2">℞</span>}
                     </p>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -409,6 +473,82 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
           {error && (
             <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-xl text-sm text-red-200 mb-6">
               {error}
+            </div>
+          )}
+
+          {/* Tooltip Modal */}
+          {(selectedPlanet || tooltipType === 'ascendant' || tooltipType === 'midheaven') && (
+            <div
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={() => {
+                setSelectedPlanet(null);
+                setTooltipType(null);
+              }}
+            >
+              <div
+                className="glass max-w-md w-full p-8 rounded-2xl border border-purple-500/30 bg-slate-900/95"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {tooltipType === 'planet' && selectedPlanet && PLANET_MEANINGS[selectedPlanet] && (
+                  <>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-5xl">{planetSymbols[selectedPlanet]}</span>
+                      <div>
+                        <h3 className="text-2xl font-bold">{selectedPlanet}</h3>
+                        <p className="text-sm text-purple-400">{PLANET_MEANINGS[selectedPlanet].short}</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 leading-relaxed mb-6">
+                      {PLANET_MEANINGS[selectedPlanet].description}
+                    </p>
+                  </>
+                )}
+                {tooltipType === 'ascendant' && (
+                  <>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-5xl">🌅</span>
+                      <div>
+                        <h3 className="text-2xl font-bold">Ascendente</h3>
+                        <p className="text-sm text-purple-400">{ASCENDANT_MEANING.short}</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 leading-relaxed mb-6">
+                      {ASCENDANT_MEANING.description}
+                    </p>
+                    <div className="p-4 bg-purple-900/20 rounded-xl border border-purple-500/20">
+                      <p className="text-sm font-bold mb-1">Seu Ascendente:</p>
+                      <p className="text-xl text-purple-400">{result.ascendant.sign} {result.ascendant.degree.toFixed(2)}°</p>
+                    </div>
+                  </>
+                )}
+                {tooltipType === 'midheaven' && (
+                  <>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-5xl">⭐</span>
+                      <div>
+                        <h3 className="text-2xl font-bold">Meio do Céu (MC)</h3>
+                        <p className="text-sm text-pink-400">{MIDHEAVEN_MEANING.short}</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 leading-relaxed mb-6">
+                      {MIDHEAVEN_MEANING.description}
+                    </p>
+                    <div className="p-4 bg-pink-900/20 rounded-xl border border-pink-500/20">
+                      <p className="text-sm font-bold mb-1">Seu Meio do Céu:</p>
+                      <p className="text-xl text-pink-400">{result.midheaven.sign} {result.midheaven.degree.toFixed(2)}°</p>
+                    </div>
+                  </>
+                )}
+                <button
+                  onClick={() => {
+                    setSelectedPlanet(null);
+                    setTooltipType(null);
+                  }}
+                  className="mt-6 w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:from-purple-500 hover:to-pink-500 transition-all"
+                >
+                  Fechar
+                </button>
+              </div>
             </div>
           )}
         </div>
