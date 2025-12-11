@@ -577,7 +577,7 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
 
           <button
             type="submit"
-            disabled={loading || apiAvailable === false || credits < CREDIT_COST}
+            disabled={loading || credits < CREDIT_COST}
             className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:from-purple-500 hover:to-pink-500 transition-all shadow-lg shadow-purple-900/20 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-3 text-base uppercase tracking-wide"
           >
             {loading ? (
@@ -597,10 +597,6 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
               </>
             )}
           </button>
-
-          <p className="text-center text-xs text-slate-600 pt-2">
-            Análise completa do seu mapa astral com interpretação por IA
-          </p>
         </form>
       </div>
     </div>
