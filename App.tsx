@@ -7,13 +7,14 @@ import ResultView from './components/ResultView';
 import Login from './components/Login';
 import HomeScreen from './components/HomeScreen';
 import SignFinder from './components/SignFinder';
+import BirthChartProfessional from './components/BirthChartProfessional';
 import { getCompatibility } from './services/geminiService';
 import { supabase } from './lib/supabaseClient';
 
 // LINK DE PAGAMENTO DO STRIPE
 const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/00w4gA3pR0j0cbRgqj9AA01";
 
-type ScreenType = 'home' | 'combinations' | 'signfinder';
+type ScreenType = 'home' | 'combinations' | 'signfinder' | 'birthchart';
 
 const App: React.FC = () => {
   const [session, setSession] = useState<any>(null);
@@ -229,6 +230,10 @@ const App: React.FC = () => {
     setCurrentScreen('signfinder');
   };
 
+  const handleGoToBirthChart = () => {
+    setCurrentScreen('birthchart');
+  };
+
   const handleSignFinderComplete = (sign: SignData) => {
     // Pre-select the discovered sign and go to combinations
     setSignA(sign);
@@ -261,6 +266,7 @@ const App: React.FC = () => {
       <HomeScreen
         onSelectCombinations={handleGoToCombinations}
         onSelectSignFinder={handleGoToSignFinder}
+        onSelectBirthChart={handleGoToBirthChart}
         onLogout={handleLogout}
         userEmail={session?.user?.email}
         credits={credits}
@@ -274,6 +280,22 @@ const App: React.FC = () => {
       <SignFinder
         onBack={handleGoHome}
         onGoToCombinations={handleSignFinderComplete}
+      />
+    );
+  }
+
+  // Birth Chart Screen
+  if (currentScreen === 'birthchart') {
+    return (
+      <BirthChartProfessional
+        onBack={handleGoHome}
+        userId={session.user.id}
+        credits={credits || 0}
+        onCreditsUpdate={(newCredits) => {
+          setCredits(newCredits);
+          // Atualizar no banco
+          supabase.from('profiles').update({ credits: newCredits }).eq('id', session.user.id);
+        }}
       />
     );
   }
