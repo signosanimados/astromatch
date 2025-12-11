@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { generateBirthChart } from '../services/geminiService';
+import { generateBirthChartInterpretation } from '../services/geminiService';
 
 interface BirthChartProps {
   onBack: () => void;
@@ -44,7 +44,7 @@ const BirthChart: React.FC<BirthChartProps> = ({ onBack, credits, onDeductCredit
 
     // 2. Call Gemini API
     try {
-      const result = await generateBirthChart({
+      const result = await generateBirthChartInterpretation({
         name,
         date: birthDate,
         time: birthTime,

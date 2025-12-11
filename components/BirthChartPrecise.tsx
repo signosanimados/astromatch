@@ -10,7 +10,6 @@ import type { BirthChartResult } from '../shared/birthChartTypes';
 import {
   calculateBirthChartApi,
   geocodeCity,
-  parseBirthData,
   checkApiHealth
 } from '../services/birthChartApiService';
 
@@ -51,8 +50,8 @@ const BirthChartPrecise: React.FC<BirthChartPreciseProps> = ({ onBack }) => {
     if (newCity.length > 3 && !manualCoords) {
       try {
         const coords = await geocodeCity(newCity);
-        setLatitude(coords.lat);
-        setLongitude(coords.lon);
+        setLatitude(coords.latitude);
+        setLongitude(coords.longitude);
         setTimezone(coords.timezone);
         setError(null);
       } catch (err) {
