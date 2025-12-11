@@ -106,14 +106,20 @@ function getJulianDay(data: BirthChartData): number {
   // Calcular hora decimal
   const hourDecimal = utcHour + data.minute / 60;
 
+  console.log(`[JulianDay] Local: ${data.year}-${data.month}-${data.day} ${data.hour}:${data.minute} (${data.timezone})`);
+  console.log(`[JulianDay] UTC: ${utcYear}-${utcMonth}-${utcDay} ${hourDecimal.toFixed(4)}h`);
+
   // Retornar Julian Day
-  return swisseph.swe_julday(
+  const jd = swisseph.swe_julday(
     utcYear,
     utcMonth,
     utcDay,
     hourDecimal,
     swisseph.SE_GREG_CAL
   );
+
+  console.log(`[JulianDay] Result: ${jd}`);
+  return jd;
 }
 
 /**
@@ -153,11 +159,17 @@ function calculateHouses(julday: number, latitude: number, longitude: number): {
   mc: number;
 } {
   const houseSystem = 'P'; // Placidus
-  const houses = swisseph.swe_houses(julday, latitude, longitude, houseSystem) as any;
+
+  // Usar swe_houses_ex para maior precisão
+  const flag = swisseph.SEFLG_SWIEPH;
+  const houses = swisseph.swe_houses_ex(julday, flag, latitude, longitude, houseSystem) as any;
 
   const cusps = houses.house.slice(1, 13); // Índices 1-12
   const ascendant = houses.ascendant;
   const mc = houses.mc;
+
+  console.log(`[Houses] JD: ${julday}, Lat: ${latitude}, Lon: ${longitude}`);
+  console.log(`[Houses] ASC: ${ascendant}°, MC: ${mc}°`);
 
   return { cusps, ascendant, mc };
 }

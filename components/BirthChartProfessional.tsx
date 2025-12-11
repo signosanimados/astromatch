@@ -29,6 +29,13 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
   const [longitude, setLongitude] = useState(-46.6333);
   const [timezone, setTimezone] = useState('America/Sao_Paulo');
   const [searchingCity, setSearchingCity] = useState(false);
+  const [citySuggestions, setCitySuggestions] = useState<Array<{
+    name: string;
+    displayName: string;
+    lat: number;
+    lon: number;
+  }>>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   // Estados da aplicação
   const [loading, setLoading] = useState(false);
@@ -50,9 +57,13 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
     });
   }, []);
 
-  // Buscar coordenadas da cidade via Nominatim (OpenStreetMap)
+  // Buscar sugestões de cidades via Nominatim (OpenStreetMap)
   const searchCityCoordinates = async (cityName: string) => {
-    if (!cityName || cityName.length < 3 || useManualCoords) return;
+    if (!cityName || cityName.length < 3 || useManualCoords) {
+      setCitySuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
 
     try {
       setSearchingCity(true);
@@ -64,7 +75,7 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
         `q=${encodeURIComponent(cityName)}&` +
         `format=json&` +
         `addressdetails=1&` +
-        `limit=1`,
+        `limit=5`, // Buscar 5 sugestões
         {
           headers: {
             'User-Agent': 'AstroMatch Birth Chart App'
@@ -79,30 +90,47 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
       const data = await response.json();
 
       if (data && data.length > 0) {
-        const location = data[0];
-        setLatitude(parseFloat(location.lat));
-        setLongitude(parseFloat(location.lon));
-
-        // Determinar timezone baseado na latitude/longitude (simplificado para Brasil)
-        const lat = parseFloat(location.lat);
-        const lon = parseFloat(location.lon);
-
-        // Timezones principais do Brasil
-        if (lat >= -33 && lat <= 5 && lon >= -75 && lon <= -30) {
-          if (lon >= -52) setTimezone('America/Sao_Paulo');
-          else if (lon >= -60) setTimezone('America/Manaus');
-          else if (lon >= -70) setTimezone('America/Rio_Branco');
-          else setTimezone('America/Sao_Paulo');
-        } else {
-          setTimezone('America/Sao_Paulo'); // Default
-        }
+        const suggestions = data.map((location: any) => ({
+          name: location.name,
+          displayName: location.display_name,
+          lat: parseFloat(location.lat),
+          lon: parseFloat(location.lon)
+        }));
+        setCitySuggestions(suggestions);
+        setShowSuggestions(true);
       } else {
-        console.warn('Cidade não encontrada, usando coordenadas padrão');
+        setCitySuggestions([]);
+        setShowSuggestions(false);
       }
     } catch (err) {
       console.error('Erro ao buscar coordenadas:', err);
+      setCitySuggestions([]);
+      setShowSuggestions(false);
     } finally {
       setSearchingCity(false);
+    }
+  };
+
+  // Selecionar cidade da sugestão
+  const selectCity = (suggestion: { name: string; displayName: string; lat: number; lon: number }) => {
+    setCity(suggestion.displayName);
+    setLatitude(suggestion.lat);
+    setLongitude(suggestion.lon);
+    setShowSuggestions(false);
+    setCitySuggestions([]);
+
+    // Determinar timezone baseado na latitude/longitude (simplificado para Brasil)
+    const lat = suggestion.lat;
+    const lon = suggestion.lon;
+
+    // Timezones principais do Brasil
+    if (lat >= -33 && lat <= 5 && lon >= -75 && lon <= -30) {
+      if (lon >= -52) setTimezone('America/Sao_Paulo');
+      else if (lon >= -60) setTimezone('America/Manaus');
+      else if (lon >= -70) setTimezone('America/Rio_Branco');
+      else setTimezone('America/Sao_Paulo');
+    } else {
+      setTimezone('America/Sao_Paulo'); // Default
     }
   };
 
@@ -116,6 +144,21 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
 
     return () => clearTimeout(timer);
   }, [city, useManualCoords]);
+
+  // Fechar sugestões ao clicar fora
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.city-autocomplete-container')) {
+        setShowSuggestions(false);
+      }
+    };
+
+    if (showSuggestions) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showSuggestions]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -633,7 +676,7 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
             </div>
           </div>
 
-          <div>
+          <div className="relative city-autocomplete-container">
             <label className="text-xs text-slate-400 mb-2 block uppercase tracking-wider font-medium">
               Cidade *
             </label>
@@ -642,14 +685,37 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
+                onFocus={() => {
+                  if (citySuggestions.length > 0) {
+                    setShowSuggestions(true);
+                  }
+                }}
                 disabled={useManualCoords}
                 className="w-full p-4 rounded-xl bg-slate-900/50 border border-slate-700/50 text-white focus:outline-none focus:border-purple-500/50 transition-all disabled:opacity-50"
                 placeholder="Ex: São Paulo, Brazil ou Rio de Janeiro, RJ"
                 required
+                autoComplete="off"
               />
               {searchingCity && (
                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
                   <div className="w-5 h-5 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+                </div>
+              )}
+
+              {/* Dropdown de Sugestões */}
+              {showSuggestions && citySuggestions.length > 0 && !useManualCoords && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-slate-900 border border-purple-500/30 rounded-xl shadow-xl overflow-hidden z-50 max-h-60 overflow-y-auto">
+                  {citySuggestions.map((suggestion, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => selectCity(suggestion)}
+                      className="w-full px-4 py-3 text-left hover:bg-purple-900/30 transition-colors border-b border-slate-800/50 last:border-0"
+                    >
+                      <p className="text-sm font-medium text-white">{suggestion.name}</p>
+                      <p className="text-xs text-slate-400 mt-1">{suggestion.displayName}</p>
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
