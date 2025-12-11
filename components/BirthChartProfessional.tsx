@@ -9,7 +9,7 @@ interface BirthChartProfessionalProps {
   onBack: () => void;
   userId: string;
   credits: number;
-  onCreditsUpdate: (newCredits: number) => void;
+  onCreditsUpdate: (newCredits: number) => void | Promise<void>;
 }
 
 const CREDIT_COST = 5;
@@ -200,7 +200,9 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
 
       // Deduzir créditos
       const newCredits = credits - CREDIT_COST;
-      onCreditsUpdate(newCredits);
+      console.log(`[Credits] Deducting ${CREDIT_COST} credits. Before: ${credits}, After: ${newCredits}`);
+      await onCreditsUpdate(newCredits);
+      console.log(`[Credits] Credits updated successfully`);
 
     } catch (err: any) {
       setError(err.message || 'Erro ao calcular mapa astral');

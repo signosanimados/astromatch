@@ -291,10 +291,21 @@ const App: React.FC = () => {
         onBack={handleGoHome}
         userId={session.user.id}
         credits={credits || 0}
-        onCreditsUpdate={(newCredits) => {
+        onCreditsUpdate={async (newCredits) => {
           setCredits(newCredits);
           // Atualizar no banco
-          supabase.from('profiles').update({ credits: newCredits }).eq('id', session.user.id);
+          try {
+            const { error } = await supabase
+              .from('profiles')
+              .update({ credits: newCredits })
+              .eq('id', session.user.id);
+
+            if (error) {
+              console.error('Erro ao atualizar créditos:', error);
+            }
+          } catch (err) {
+            console.error('Erro ao atualizar créditos:', err);
+          }
         }}
       />
     );
