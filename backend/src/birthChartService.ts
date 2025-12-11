@@ -53,32 +53,64 @@ const ASPECT_DEFINITIONS = [
 
 /**
  * Converte data/hora local para UTC e retorna Julian Day
+ * IMPORTANTE: Não usa horário de verão - usa offset fixo do timezone
  */
 function getJulianDay(data: BirthChartData): number {
-  // Criar DateTime no timezone especificado
-  const localTime = DateTime.fromObject(
-    {
-      year: data.year,
-      month: data.month,
-      day: data.day,
-      hour: data.hour,
-      minute: data.minute,
-      second: 0
-    },
-    { zone: data.timezone }
-  );
+  // Mapear timezone para offset UTC fixo (sem horário de verão)
+  const timezoneOffsets: Record<string, number> = {
+    'America/Sao_Paulo': -3,
+    'America/Fortaleza': -3,
+    'America/Recife': -3,
+    'America/Bahia': -3,
+    'America/Manaus': -4,
+    'America/Rio_Branco': -5,
+    'America/Noronha': -2,
+  };
 
-  // Converter para UTC
-  const utcTime = localTime.toUTC();
+  // Obter offset para o timezone (default -3 para Brasil)
+  const offset = timezoneOffsets[data.timezone] || -3;
+
+  // Calcular hora UTC manualmente (sem DST)
+  let utcHour = data.hour - offset;
+  let utcDay = data.day;
+  let utcMonth = data.month;
+  let utcYear = data.year;
+
+  // Ajustar se passou para o dia seguinte ou anterior
+  if (utcHour >= 24) {
+    utcHour -= 24;
+    utcDay += 1;
+    // Checar se mudou o mês (simplificado)
+    const daysInMonth = new Date(utcYear, utcMonth, 0).getDate();
+    if (utcDay > daysInMonth) {
+      utcDay = 1;
+      utcMonth += 1;
+      if (utcMonth > 12) {
+        utcMonth = 1;
+        utcYear += 1;
+      }
+    }
+  } else if (utcHour < 0) {
+    utcHour += 24;
+    utcDay -= 1;
+    if (utcDay < 1) {
+      utcMonth -= 1;
+      if (utcMonth < 1) {
+        utcMonth = 12;
+        utcYear -= 1;
+      }
+      utcDay = new Date(utcYear, utcMonth, 0).getDate();
+    }
+  }
 
   // Calcular hora decimal
-  const hourDecimal = utcTime.hour + utcTime.minute / 60 + utcTime.second / 3600;
+  const hourDecimal = utcHour + data.minute / 60;
 
   // Retornar Julian Day
   return swisseph.swe_julday(
-    utcTime.year,
-    utcTime.month,
-    utcTime.day,
+    utcYear,
+    utcMonth,
+    utcDay,
     hourDecimal,
     swisseph.SE_GREG_CAL
   );
