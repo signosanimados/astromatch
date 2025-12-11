@@ -1,152 +1,99 @@
 /**
  * Servidor Express para API de Mapa Astral
- * =========================================
- *
- * Endpoint: POST /api/birth-chart
- * Body: BirthChartData (JSON)
- * Response: BirthChartResult (JSON)
  */
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { BirthChartData, BirthChartResult } from './types/birthChartTypes';
-import { calculateBirthChartPrecise, closeSwissEph } from './birthChartService';
+import bodyParser from 'body-parser';
+import { calculateBirthChartPrecise } from './birthChartService';
+import { BirthChartData } from './types/birthChartTypes';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middlewares
-app.use(cors()); // Permite requisições do frontend
-app.use(express.json()); // Parse JSON no body
+app.use(cors());
+app.use(bodyParser.json());
 
 /**
- * Health check endpoint
+ * Health check
  */
-app.get('/health', (_req: Request, res: Response) => {
+app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', message: 'Birth Chart API is running' });
 });
 
 /**
- * Endpoint principal: Calcula mapa astral
+ * Endpoint principal: calcular mapa astral
  */
-app.post('/api/birth-chart', async (req: Request, res: Response) => {
+app.post('/api/birth-chart', (req: Request, res: Response) => {
   try {
     const data: BirthChartData = req.body;
 
-    // Validação básica
-    if (!data.year || !data.month || !data.day) {
+    // Validar campos obrigatórios
+    if (!data.year || !data.month || !data.day ||
+        data.hour === undefined || data.minute === undefined ||
+        data.latitude === undefined || data.longitude === undefined ||
+        !data.timezone) {
       return res.status(400).json({
-        error: 'Dados incompletos',
-        message: 'É necessário fornecer year, month e day'
+        error: 'Campos obrigatórios faltando',
+        required: ['year', 'month', 'day', 'hour', 'minute', 'latitude', 'longitude', 'timezone']
       });
     }
 
-    if (!data.latitude || !data.longitude) {
-      return res.status(400).json({
-        error: 'Localização obrigatória',
-        message: 'É necessário fornecer latitude e longitude'
-      });
-    }
+    // Calcular mapa astral
+    const result = calculateBirthChartPrecise(data);
 
-    if (!data.timezone) {
-      return res.status(400).json({
-        error: 'Timezone obrigatório',
-        message: 'É necessário fornecer timezone no formato IANA (ex: "America/Sao_Paulo")'
-      });
-    }
-
-    // Define valores padrão para hora e minuto se não fornecidos
-    const birthData: BirthChartData = {
-      ...data,
-      hour: data.hour ?? 12, // Meio-dia como padrão
-      minute: data.minute ?? 0
-    };
-
-    // Calcula o mapa astral
-    const result: BirthChartResult = calculateBirthChartPrecise(birthData);
-
-    // Retorna resultado
-    return res.json(result);
+    res.json({
+      success: true,
+      data: result
+    });
   } catch (error: any) {
-    console.error('Erro ao calcular mapa astral:', error);
-
-    return res.status(500).json({
-      error: 'Erro no cálculo',
-      message: error.message || 'Erro desconhecido ao calcular mapa astral'
+    console.error('Erro ao processar requisição:', error);
+    res.status(500).json({
+      error: 'Erro ao calcular mapa astral',
+      message: error.message
     });
   }
 });
 
 /**
- * Endpoint de geocoding (conversão de cidade para lat/lon)
- * Nota: Implementação básica - sugere-se usar serviço externo como Google Geocoding API
+ * Geocoding básico para cidades brasileiras
  */
-app.get('/api/geocode', async (req: Request, res: Response) => {
-  const { city } = req.query;
+app.get('/api/geocode', (req: Request, res: Response) => {
+  const city = req.query.city as string;
 
-  if (!city || typeof city !== 'string') {
-    return res.status(400).json({
-      error: 'Cidade obrigatória',
-      message: 'Forneça o parâmetro "city" na query string'
-    });
-  }
-
-  // IMPLEMENTAÇÃO FUTURA: integrar com API de geocoding
-  // Por enquanto, retorna coordenadas de algumas cidades brasileiras comuns
-  const cityCoordinates: Record<string, { lat: number; lon: number; timezone: string }> = {
-    'São Paulo': { lat: -23.5505, lon: -46.6333, timezone: 'America/Sao_Paulo' },
-    'Rio de Janeiro': { lat: -22.9068, lon: -43.1729, timezone: 'America/Sao_Paulo' },
-    'Brasília': { lat: -15.7942, lon: -47.8822, timezone: 'America/Sao_Paulo' },
-    'Salvador': { lat: -12.9714, lon: -38.5014, timezone: 'America/Bahia' },
-    'Fortaleza': { lat: -3.7172, lon: -38.5433, timezone: 'America/Fortaleza' },
-    'Belo Horizonte': { lat: -19.9167, lon: -43.9345, timezone: 'America/Sao_Paulo' },
-    'Manaus': { lat: -3.1190, lon: -60.0217, timezone: 'America/Manaus' },
-    'Curitiba': { lat: -25.4284, lon: -49.2733, timezone: 'America/Sao_Paulo' },
-    'Recife': { lat: -8.0476, lon: -34.8770, timezone: 'America/Recife' },
-    'Porto Alegre': { lat: -30.0346, lon: -51.2177, timezone: 'America/Sao_Paulo' }
+  const cities: Record<string, { lat: number; lng: number; timezone: string }> = {
+    'São Paulo': { lat: -23.5505, lng: -46.6333, timezone: 'America/Sao_Paulo' },
+    'Rio de Janeiro': { lat: -22.9068, lng: -43.1729, timezone: 'America/Sao_Paulo' },
+    'Brasília': { lat: -15.7939, lng: -47.8828, timezone: 'America/Sao_Paulo' },
+    'Salvador': { lat: -12.9714, lng: -38.5014, timezone: 'America/Bahia' },
+    'Fortaleza': { lat: -3.7172, lng: -38.5434, timezone: 'America/Fortaleza' },
+    'Belo Horizonte': { lat: -19.9167, lng: -43.9345, timezone: 'America/Sao_Paulo' },
+    'Manaus': { lat: -3.1190, lng: -60.0217, timezone: 'America/Manaus' },
+    'Curitiba': { lat: -25.4284, lng: -49.2733, timezone: 'America/Sao_Paulo' },
+    'Recife': { lat: -8.0476, lng: -34.8770, timezone: 'America/Recife' },
+    'Porto Alegre': { lat: -30.0346, lng: -51.2177, timezone: 'America/Sao_Paulo' }
   };
 
-  const normalized = city.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  const found = Object.keys(cityCoordinates).find(
-    key => key.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase() === normalized.toLowerCase()
-  );
-
-  if (found) {
-    return res.json(cityCoordinates[found]);
+  if (!city) {
+    return res.status(400).json({ error: 'Parâmetro city é obrigatório' });
   }
 
-  return res.status(404).json({
-    error: 'Cidade não encontrada',
-    message: `Não foi possível encontrar coordenadas para "${city}". Sugestão: use uma API de geocoding externa.`
+  const cityData = cities[city];
+  if (!cityData) {
+    return res.status(404).json({ error: 'Cidade não encontrada' });
+  }
+
+  res.json({
+    city,
+    latitude: cityData.lat,
+    longitude: cityData.lng,
+    timezone: cityData.timezone
   });
 });
 
-// Inicia o servidor
-const server = app.listen(PORT, () => {
-  console.log(`🌟 Birth Chart API rodando em http://localhost:${PORT}`);
-  console.log(`📍 Endpoints:`);
-  console.log(`   GET  /health - Health check`);
-  console.log(`   POST /api/birth-chart - Calcula mapa astral`);
-  console.log(`   GET  /api/geocode?city=... - Geocoding (básico)`);
+// Iniciar servidor
+app.listen(PORT, () => {
+  console.log(`🌟 Birth Chart API rodando na porta ${PORT}`);
+  console.log(`📍 Health check: http://localhost:${PORT}/health`);
 });
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-  console.log('Encerrando servidor...');
-  closeSwissEph();
-  server.close(() => {
-    console.log('Servidor encerrado');
-    process.exit(0);
-  });
-});
-
-process.on('SIGINT', () => {
-  console.log('\nEncerrando servidor...');
-  closeSwissEph();
-  server.close(() => {
-    console.log('Servidor encerrado');
-    process.exit(0);
-  });
-});
-
-export default app;

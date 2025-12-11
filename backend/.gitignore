@@ -1,22 +1,7 @@
-# Dependencies
 node_modules/
-
-# Build
 dist/
-
-# Environment
-.env
-
-# Logs
+ephe/
 *.log
-npm-debug.log*
-
-# OS
+.env
+.env.local
 .DS_Store
-Thumbs.db
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo

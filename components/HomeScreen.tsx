@@ -10,130 +10,182 @@ interface HomeScreenProps {
   credits: number | null;
 }
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ 
-  onSelectCombinations, 
-  onSelectSignFinder, 
-  onSelectBirthChart, 
+const HomeScreen: React.FC<HomeScreenProps> = ({
+  onSelectCombinations,
+  onSelectSignFinder,
+  onSelectBirthChart,
   onLogout,
   userEmail,
   credits
 }) => {
   return (
-    <div className="min-h-screen bg-[#050510] text-slate-200 font-sans relative overflow-x-hidden flex flex-col">
+    <div className="min-h-screen bg-[#050510] text-white flex flex-col relative overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-900/10 blur-[120px] rounded-full pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-900/10 blur-[120px] rounded-full pointer-events-none"></div>
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-indigo-900/15 blur-[150px] rounded-full"></div>
+        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-purple-900/15 blur-[150px] rounded-full"></div>
+        <div className="absolute top-[30%] right-[20%] w-[30%] h-[30%] bg-pink-900/10 blur-[100px] rounded-full"></div>
+      </div>
 
-      <header className="container mx-auto px-6 py-6 flex justify-between items-center relative z-10">
+      {/* Header */}
+      <header className="relative z-10 p-4 flex justify-end items-center">
         <div className="flex items-center gap-3">
-          <img src={APP_LOGO} alt="Logo" className="w-10 h-10 object-contain" crossOrigin="anonymous"/>
-          <span className="text-xl font-bold tracking-widest uppercase text-white hidden md:block">Signos Combinados</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="text-right hidden sm:block">
-            <div className="text-[10px] uppercase tracking-wider text-slate-500">Logado como</div>
-            <div className="text-xs text-slate-300">{userEmail}</div>
-          </div>
-          <button 
+          {credits !== null && (
+            <div className="px-3 py-1.5 bg-slate-900/80 rounded-full border border-slate-700 flex items-center gap-2">
+              <span className="text-[10px] text-slate-500 uppercase tracking-wider">Créditos</span>
+              <span className="text-white font-mono font-bold">{credits}</span>
+            </div>
+          )}
+          <button
             onClick={onLogout}
-            className="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition-colors"
+            className="text-xs text-slate-500 hover:text-white transition-colors border border-slate-800 px-3 py-1.5 rounded-lg hover:bg-slate-800"
           >
-            <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
+            Sair
           </button>
         </div>
       </header>
 
-      <main className="flex-1 container mx-auto px-6 flex flex-col items-center justify-center relative z-10 py-10">
-        
-        <div className="text-center mb-12 animate-fade-in-up">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 font-mono">
-            Portal Astral
-          </h1>
-          <p className="text-slate-400 max-w-lg mx-auto">
-            Explore as conexões do universo. Descubra compatibilidades, seu signo solar ou mergulhe em seu mapa astral com nossa IA.
+      {/* Main Content */}
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-8">
+        {/* Logo */}
+        <div className="mb-8">
+          <a
+            href="https://www.tiktok.com/@signosanimadosoficial"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center gap-4 hover:opacity-80 transition-opacity"
+          >
+            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 p-1 shadow-[0_0_60px_rgba(99,102,241,0.3)]">
+              <div className="w-full h-full rounded-full overflow-hidden bg-slate-900/50 flex items-center justify-center">
+                <img
+                  src={APP_LOGO}
+                  alt="Signos Animados"
+                  className="w-20 h-20 md:w-28 md:h-28 object-contain"
+                  crossOrigin="anonymous"
+                />
+              </div>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-[0.15em] uppercase text-white">
+              Signos Animados
+            </h1>
+            <p className="text-slate-500 text-sm flex items-center gap-2">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+              </svg>
+              @signosanimadosoficial
+            </p>
+          </a>
+        </div>
+
+        {/* Welcome Message */}
+        <div className="text-center mb-10">
+          <p className="text-slate-400 text-lg">
+            O que você quer descobrir hoje?
           </p>
-          
-          <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-slate-900/50 rounded-full border border-slate-700">
-             <span className="text-xs uppercase tracking-widest text-slate-500 font-bold">Créditos Disponíveis:</span>
-             <span className={`text-lg font-mono font-bold ${credits === 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-               {credits ?? '-'}
-             </span>
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
-          
-          {/* Card 1: Combinations */}
-          <button 
+        {/* Options */}
+        <div className="w-full max-w-md space-y-4">
+          {/* Option 1: Combinations */}
+          <button
             onClick={onSelectCombinations}
-            className="group glass p-8 rounded-2xl border border-white/5 hover:border-indigo-500/50 hover:bg-indigo-900/20 transition-all duration-500 text-left relative overflow-hidden h-64 flex flex-col justify-between"
+            className="w-full group relative overflow-hidden rounded-2xl bg-gradient-to-r from-pink-600/20 to-rose-600/20 border border-pink-500/30 p-6 text-left transition-all hover:scale-[1.02] hover:border-pink-500/50 active:scale-[0.98]"
           >
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-               <svg className="w-24 h-24 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-               </svg>
+            <div className="absolute inset-0 bg-gradient-to-r from-pink-600/0 to-rose-600/0 group-hover:from-pink-600/10 group-hover:to-rose-600/10 transition-all"></div>
+
+            <div className="relative flex items-center gap-4">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-white mb-1">Signos Combinados</h3>
+                <p className="text-slate-400 text-sm">Descubra a compatibilidade entre dois signos</p>
+              </div>
+
+              <svg className="w-6 h-6 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
-            <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-               <svg className="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-               </svg>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Combinação de Signos</h3>
-              <p className="text-sm text-slate-400">Descubra a compatibilidade no amor e na amizade entre todos os signos do zodíaco.</p>
+
+            <div className="relative mt-4 flex items-center gap-2">
+              <span className="text-[10px] text-pink-400/70 uppercase tracking-wider">Amor & Amizade</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-[10px] text-slate-500">1 crédito por combinação</span>
             </div>
           </button>
 
-          {/* Card 2: Sign Finder */}
-          <button 
+          {/* Option 2: Sign Finder */}
+          <button
             onClick={onSelectSignFinder}
-            className="group glass p-8 rounded-2xl border border-white/5 hover:border-purple-500/50 hover:bg-purple-900/20 transition-all duration-500 text-left relative overflow-hidden h-64 flex flex-col justify-between"
+            className="w-full group relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-600/20 to-purple-600/20 border border-indigo-500/30 p-6 text-left transition-all hover:scale-[1.02] hover:border-indigo-500/50 active:scale-[0.98]"
           >
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-               <svg className="w-24 h-24 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-               </svg>
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/0 to-purple-600/0 group-hover:from-indigo-600/10 group-hover:to-purple-600/10 transition-all"></div>
+
+            <div className="relative flex items-center gap-4">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-white mb-1">Signos Match</h3>
+                <p className="text-slate-400 text-sm">Quiz para descobrir qual signo combina mais com a sua personalidade</p>
+              </div>
+
+              <svg className="w-6 h-6 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
-            <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-               <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-               </svg>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">Qual meu Signo?</h3>
-              <p className="text-sm text-slate-400">Não sabe seu signo? Insira sua data de nascimento e descubra instantaneamente.</p>
+
+            <div className="relative mt-4 flex items-center gap-2">
+              <span className="text-[10px] text-indigo-400/70 uppercase tracking-wider">15 Perguntas</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-[10px] text-emerald-400/70">Gratuito</span>
             </div>
           </button>
 
-          {/* Card 3: Birth Chart */}
-          <button 
+          {/* Option 3: Professional Birth Chart */}
+          <button
             onClick={onSelectBirthChart}
-            className="group glass p-8 rounded-2xl border border-white/5 hover:border-emerald-500/50 hover:bg-emerald-900/20 transition-all duration-500 text-left relative overflow-hidden h-64 flex flex-col justify-between"
+            className="w-full group relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600/20 to-fuchsia-600/20 border border-purple-500/30 p-6 text-left transition-all hover:scale-[1.02] hover:border-purple-500/50 active:scale-[0.98]"
           >
-             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-               <svg className="w-24 h-24 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-               </svg>
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 to-fuchsia-600/0 group-hover:from-purple-600/10 group-hover:to-fuchsia-600/10 transition-all"></div>
+
+            <div className="relative flex items-center gap-4">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+              </div>
+
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-white mb-1">Mapa Astral Profissional</h3>
+                <p className="text-slate-400 text-sm">Análise completa com Swiss Ephemeris e IA • Exportar PDF</p>
+              </div>
+
+              <svg className="w-6 h-6 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
-            <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-               <svg className="w-6 h-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-               </svg>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">Mapa Astral (IA)</h3>
-              <p className="text-sm text-slate-400">Uma leitura profunda de Sol, Lua e Ascendente gerada pela nossa Inteligência Artificial.</p>
+
+            <div className="relative mt-4 flex items-center gap-2">
+              <span className="text-[10px] text-purple-400/70 uppercase tracking-wider">Precisão Profissional</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-[10px] text-slate-500">5 créditos</span>
             </div>
           </button>
-
         </div>
-
       </main>
 
-      <footer className="text-center py-6 text-xs text-slate-600">
-        © 2024 Signos Combinados. Todos os direitos reservados.
+      {/* Footer */}
+      <footer className="relative z-10 p-4 text-center">
+        <p className="text-slate-600 text-xs">
+          {userEmail && `Conectado como ${userEmail}`}
+        </p>
       </footer>
     </div>
   );

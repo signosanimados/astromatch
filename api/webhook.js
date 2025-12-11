@@ -50,21 +50,45 @@ export default async function handler(req, res) {
 
         console.log(`Processando pagamento para ${userId}: +${creditsToAdd} créditos.`);
 
-        const { data: profile } = await supabase
+        // Busca o perfil existente
+        const { data: profile, error: fetchError } = await supabase
           .from('profiles')
           .select('credits')
           .eq('id', userId)
           .single();
 
-        const currentCredits = profile?.credits || 0;
-        const newBalance = currentCredits + creditsToAdd;
+        let newBalance;
 
-        const { error: updateError } = await supabase
-          .from('profiles')
-          .update({ credits: newBalance })
-          .eq('id', userId);
+        if (profile) {
+          // Perfil existe - soma créditos
+          newBalance = (profile.credits || 0) + creditsToAdd;
 
-        if (updateError) throw updateError;
+          const { error: updateError } = await supabase
+            .from('profiles')
+            .update({ credits: newBalance })
+            .eq('id', userId);
+
+          if (updateError) throw updateError;
+        } else {
+          // Perfil não existe - cria com os créditos comprados + 3 bônus
+          newBalance = creditsToAdd + 3;
+
+          const { error: insertError } = await supabase
+            .from('profiles')
+            .insert({ id: userId, credits: newBalance });
+
+          if (insertError) {
+            // Pode ter sido criado por outra requisição, tenta update
+            const { error: retryError } = await supabase
+              .from('profiles')
+              .update({ credits: newBalance })
+              .eq('id', userId);
+
+            if (retryError) throw retryError;
+          }
+
+          console.log(`📝 Perfil criado para novo usuário com ${newBalance} créditos.`);
+        }
 
         console.log(`✅ Sucesso! Novo saldo: ${newBalance}`);
       } catch (error) {
