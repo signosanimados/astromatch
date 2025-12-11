@@ -93,7 +93,28 @@ Use linguagem profissional mas acessível. Seja detalhado, positivo e construtiv
     }
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    let analysisText = data.choices[0].message.content;
+
+    // Trocar ### por emojis nos títulos
+    analysisText = analysisText
+      .replace(/###\s*1\.\s*\*?\*?VISÃO GERAL\*?\*?/gi, '🌟 VISÃO GERAL')
+      .replace(/###\s*2\.\s*\*?\*?IDENTIDADE E EGO\*?\*?/gi, '☀️ IDENTIDADE E EGO')
+      .replace(/###\s*3\.\s*\*?\*?EMOÇÕES E INSTINTOS\*?\*?/gi, '🌙 EMOÇÕES E INSTINTOS')
+      .replace(/###\s*4\.\s*\*?\*?ASCENDENTE\*?\*?/gi, '🌅 ASCENDENTE')
+      .replace(/###\s*5\.\s*\*?\*?COMUNICAÇÃO\*?\*?/gi, '💬 COMUNICAÇÃO')
+      .replace(/###\s*6\.\s*\*?\*?AMOR E RELACIONAMENTOS\*?\*?/gi, '💖 AMOR E RELACIONAMENTOS')
+      .replace(/###\s*7\.\s*\*?\*?AÇÃO E ENERGIA\*?\*?/gi, '⚡ AÇÃO E ENERGIA')
+      .replace(/###\s*8\.\s*\*?\*?EXPANSÃO E CRESCIMENTO\*?\*?/gi, '🎯 EXPANSÃO E CRESCIMENTO')
+      .replace(/###\s*9\.\s*\*?\*?DESAFIOS E ESTRUTURA\*?\*?/gi, '🏛️ DESAFIOS E ESTRUTURA')
+      .replace(/###\s*10\.\s*\*?\*?TRANSFORMAÇÃO\*?\*?/gi, '🔮 TRANSFORMAÇÃO')
+      .replace(/###\s*11\.\s*\*?\*?PRINCIPAIS ASPECTOS\*?\*?/gi, '✨ PRINCIPAIS ASPECTOS')
+      .replace(/###\s*12\.\s*\*?\*?ELEMENTOS E MODALIDADES\*?\*?/gi, '🔥 ELEMENTOS E MODALIDADES')
+      .replace(/###\s*13\.\s*\*?\*?CASAS IMPORTANTES\*?\*?/gi, '🏠 CASAS IMPORTANTES')
+      .replace(/###\s*14\.\s*\*?\*?ORIENTAÇÕES\*?\*?/gi, '🧭 ORIENTAÇÕES')
+      // Fallback para qualquer ### restante
+      .replace(/###\s*/g, '✨ ');
+
+    return analysisText;
   } catch (error: any) {
     console.error('Erro ao gerar análise com GPT-4:', error);
     throw new Error('Não foi possível gerar a análise. Tente novamente.');

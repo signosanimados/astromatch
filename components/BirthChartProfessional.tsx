@@ -13,6 +13,7 @@ interface BirthChartProfessionalProps {
 }
 
 const CREDIT_COST = 5;
+const ANALYSIS_CREDIT_COST = 5;
 
 const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
   onBack,
@@ -41,6 +42,7 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
   // Estados da aplicação
   const [loading, setLoading] = useState(false);
   const [generatingAnalysis, setGeneratingAnalysis] = useState(false);
+  const [analysisProgress, setAnalysisProgress] = useState(0);
   const [apiAvailable, setApiAvailable] = useState<boolean | null>(true); // Assume available
   const [result, setResult] = useState<BirthChartResult | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
@@ -214,16 +216,45 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
   const handleGenerateAnalysis = async () => {
     if (!result) return;
 
+    // Verificar créditos
+    if (credits < ANALYSIS_CREDIT_COST) {
+      setError(`Você precisa de ${ANALYSIS_CREDIT_COST} créditos para gerar a interpretação completa. Você tem apenas ${credits} crédito(s).`);
+      return;
+    }
+
     setGeneratingAnalysis(true);
+    setAnalysisProgress(0);
     setError(null);
 
     try {
+      // Simular progresso gradual
+      const progressInterval = setInterval(() => {
+        setAnalysisProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 500);
+
       const analysisText = await generateBirthChartAnalysis(result, name);
+
+      clearInterval(progressInterval);
+      setAnalysisProgress(100);
+
+      // Deduzir créditos
+      const newCredits = credits - ANALYSIS_CREDIT_COST;
+      console.log(`[Credits] Deducting ${ANALYSIS_CREDIT_COST} credits for analysis. Before: ${credits}, After: ${newCredits}`);
+      await onCreditsUpdate(newCredits);
+      console.log(`[Credits] Analysis credits updated successfully`);
+
       setAnalysis(analysisText);
     } catch (err: any) {
       setError(err.message || 'Erro ao gerar análise');
     } finally {
       setGeneratingAnalysis(false);
+      setAnalysisProgress(0);
     }
   };
 
@@ -628,32 +659,55 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
             </div>
           )}
 
-          {/* Análise com IA */}
+          {/* Interpretação Completa */}
           <div className="glass p-6 md:p-8 rounded-2xl border border-purple-500/20 mb-6">
             <h2 className="text-2xl font-bold mb-4 flex items-center gap-3">
-              <span className="text-3xl">🤖</span>
-              Análise Profissional com IA
+              <span className="text-3xl">📜</span>
+              Interpretação Completa
             </h2>
 
             {!analysis ? (
               <div className="text-center py-8">
-                <p className="text-slate-400 mb-6">
-                  Gere uma análise completa e detalhada do seu mapa astral usando Inteligência Artificial.
+                <p className="text-slate-400 mb-2">
+                  Obtenha uma interpretação detalhada e personalizada do seu mapa astral.
                 </p>
+                <p className="text-purple-400 text-sm mb-6 font-bold">
+                  💫 {ANALYSIS_CREDIT_COST} créditos • Você tem {credits} crédito(s)
+                </p>
+
+                {generatingAnalysis && (
+                  <div className="mb-6">
+                    <p className="text-sm text-slate-300 mb-3">✨ Gerando sua interpretação...</p>
+                    <p className="text-xs text-slate-500 mb-2">Por favor, aguarde alguns instantes</p>
+                    <div className="w-full max-w-md mx-auto bg-slate-800/50 rounded-full h-4 overflow-hidden">
+                      <div
+                        className="bg-gradient-to-r from-purple-600 to-pink-600 h-full rounded-full transition-all duration-300 ease-out"
+                        style={{ width: `${analysisProgress}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-xs text-purple-400 mt-2">{analysisProgress}%</p>
+                  </div>
+                )}
+
                 <button
                   onClick={handleGenerateAnalysis}
-                  disabled={generatingAnalysis}
+                  disabled={generatingAnalysis || credits < ANALYSIS_CREDIT_COST}
                   className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:from-purple-500 hover:to-pink-500 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3 mx-auto"
                 >
                   {generatingAnalysis ? (
                     <>
                       <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
-                      Gerando análise...
+                      Gerando interpretação...
+                    </>
+                  ) : credits < ANALYSIS_CREDIT_COST ? (
+                    <>
+                      <span>🔒</span>
+                      Créditos Insuficientes
                     </>
                   ) : (
                     <>
                       <span className="text-xl">✨</span>
-                      Gerar Análise Completa
+                      Gerar Interpretação ({ANALYSIS_CREDIT_COST} créditos)
                     </>
                   )}
                 </button>
