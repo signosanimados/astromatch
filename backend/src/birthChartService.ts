@@ -159,10 +159,7 @@ function calculateHouses(julday: number, latitude: number, longitude: number): {
   mc: number;
 } {
   const houseSystem = 'P'; // Placidus
-
-  // Usar swe_houses_ex para maior precisão
-  const flag = swisseph.SEFLG_SWIEPH;
-  const houses = swisseph.swe_houses_ex(julday, flag, latitude, longitude, houseSystem) as any;
+  const houses = swisseph.swe_houses(julday, latitude, longitude, houseSystem) as any;
 
   const cusps = houses.house.slice(1, 13); // Índices 1-12
   const ascendant = houses.ascendant;
