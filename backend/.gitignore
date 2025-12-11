@@ -1,7 +1,9 @@
 node_modules/
 dist/
-ephe/
 *.log
 .env
 .env.local
 .DS_Store
+# Ignorar arquivos temporários em ephe/, mas permitir .se1
+ephe/*
+!ephe/*.se1
