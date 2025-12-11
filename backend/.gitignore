@@ -7,3 +7,5 @@ dist/
 # Ignorar arquivos temporários em ephe/, mas permitir .se1
 ephe/*
 !ephe/*.se1
+
+# Força rebuild: 2025-12-11
