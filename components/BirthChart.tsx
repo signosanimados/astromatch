@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { generateBirthChartInterpretation } from '../services/geminiService';
 
 interface BirthChartProps {
   onBack: () => void;
@@ -42,14 +41,49 @@ const BirthChart: React.FC<BirthChartProps> = ({ onBack, credits, onDeductCredit
       return;
     }
 
-    // 2. Call Gemini API
+    // 2. Call AI API for simple birth chart reading
     try {
-      const result = await generateBirthChartInterpretation({
-        name,
-        date: birthDate,
-        time: birthTime,
-        city
+      const prompt = `Crie uma interpretação astrológica detalhada e personalizada para ${name}, nascido(a) em ${birthDate} às ${birthTime} em ${city}.
+
+Analise e interprete em português brasileiro:
+1. Signo Solar e suas características principais
+2. Provável Signo Lunar (estimado com base na data) e influências emocionais
+3. Possível Ascendente (estimado com base no horário) e como se apresenta ao mundo
+
+Forneça uma leitura profunda, empática e inspiradora de aproximadamente 500-700 palavras, focando em:
+- Personalidade e características únicas
+- Emoções e vida interior
+- Como se relaciona com o mundo
+- Potenciais e desafios
+- Dicas para aproveitar melhor suas energias astrais
+
+Use uma linguagem acolhedora e positiva.`;
+
+      const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+      if (!OPENAI_API_KEY) {
+        throw new Error('API key não configurada');
+      }
+
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.7,
+          max_tokens: 1500,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error('Falha na API');
+      }
+
+      const data = await response.json();
+      const result = data.choices[0].message.content;
       setReading(result);
     } catch (err) {
       setError("Não foi possível conectar aos astros agora. Tente novamente.");

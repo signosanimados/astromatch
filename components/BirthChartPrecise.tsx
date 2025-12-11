@@ -83,15 +83,29 @@ const BirthChartPrecise: React.FC<BirthChartPreciseProps> = ({ onBack }) => {
     setError(null);
 
     try {
-      const birthData = parseBirthData(
-        birthDate,
-        birthTime,
+      // Parse date (YYYY-MM-DD format)
+      const [yearStr, monthStr, dayStr] = birthDate.split('-');
+      const year = parseInt(yearStr, 10);
+      const month = parseInt(monthStr, 10);
+      const day = parseInt(dayStr, 10);
+
+      // Parse time (HH:MM format)
+      const [hourStr, minuteStr] = birthTime.split(':');
+      const hour = parseInt(hourStr, 10);
+      const minute = parseInt(minuteStr, 10);
+
+      const birthData = {
+        name,
+        year,
+        month,
+        day,
+        hour,
+        minute,
         latitude,
         longitude,
         timezone,
-        name,
-        city
-      );
+        city,
+      };
 
       const chartResult = await calculateBirthChartApi(birthData);
       setResult(chartResult);
