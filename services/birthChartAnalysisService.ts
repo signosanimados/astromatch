@@ -75,7 +75,7 @@ Use linguagem profissional mas acessível. Seja detalhado, positivo e construtiv
         messages: [
           {
             role: 'system',
-            content: 'Você é um astrólogo profissional experiente que fornece análises detalhadas e precisas de mapas astrais.'
+            content: 'Você é um astrólogo profissional experiente. Forneça análises detalhadas e precisas de mapas astrais, sem mencionar que é uma inteligência artificial ou sistema automatizado.'
           },
           {
             role: 'user',
@@ -223,7 +223,7 @@ export function generatePDF(
 </head>
 <body>
   <div class="header">
-    <h1>🌟 MAPA ASTRAL PROFISSIONAL 🌟</h1>
+    <h1>🌟 MAPA ASTRAL 🌟</h1>
     ${name ? `<h2>${name}</h2>` : ''}
     ${birthData ? `
       <div class="birth-info">
@@ -306,9 +306,8 @@ export function generatePDF(
   </div>
 
   <div class="footer">
-    Mapa Astral gerado por Signos Animados<br>
-    Cálculos profissionais com Swiss Ephemeris<br>
-    Análise gerada com Inteligência Artificial GPT-4 mini
+    Mapa Astral calculado por Signos Animados<br>
+    Data de geração: ${new Date().toLocaleDateString('pt-BR')}
   </div>
 </body>
 </html>
