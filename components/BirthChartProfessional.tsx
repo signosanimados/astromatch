@@ -354,7 +354,7 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
                   />
                   <h2 className="text-4xl font-bold mb-2">{sunSign}</h2>
                   <p className="text-sm text-slate-300 mb-1">{result.planets[0].degree.toFixed(1)}° • Casa {result.planets[0].house}</p>
-                  <p className="text-xs text-slate-500">Elemento {sunData.element}</p>
+                  <p className="text-xs text-white">Elemento {sunData.element}</p>
                 </div>
               </div>
             </div>
@@ -716,7 +716,20 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
               <>
                 <div className="prose prose-invert max-w-none mb-6">
                   <div className="text-slate-300 whitespace-pre-wrap leading-relaxed">
-                    {analysis}
+                    {analysis.split('\n').map((line, idx) => {
+                      // Converter **texto** em negrito
+                      const parts = line.split(/(\*\*.*?\*\*)/g);
+                      return (
+                        <div key={idx} style={{ marginBottom: '8px' }}>
+                          {parts.map((part, partIdx) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                              return <strong key={partIdx}>{part.slice(2, -2)}</strong>;
+                            }
+                            return <span key={partIdx}>{part}</span>;
+                          })}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 

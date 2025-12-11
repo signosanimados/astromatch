@@ -95,24 +95,24 @@ Use linguagem profissional mas acessível. Seja detalhado, positivo e construtiv
     const data = await response.json();
     let analysisText = data.choices[0].message.content;
 
-    // Trocar ### por emojis nos títulos
+    // Trocar ### por emojis nos títulos e adicionar negrito
     analysisText = analysisText
-      .replace(/###\s*1\.\s*\*?\*?VISÃO GERAL\*?\*?/gi, '🌟 VISÃO GERAL')
-      .replace(/###\s*2\.\s*\*?\*?IDENTIDADE E EGO\*?\*?/gi, '☀️ IDENTIDADE E EGO')
-      .replace(/###\s*3\.\s*\*?\*?EMOÇÕES E INSTINTOS\*?\*?/gi, '🌙 EMOÇÕES E INSTINTOS')
-      .replace(/###\s*4\.\s*\*?\*?ASCENDENTE\*?\*?/gi, '🌅 ASCENDENTE')
-      .replace(/###\s*5\.\s*\*?\*?COMUNICAÇÃO\*?\*?/gi, '💬 COMUNICAÇÃO')
-      .replace(/###\s*6\.\s*\*?\*?AMOR E RELACIONAMENTOS\*?\*?/gi, '💖 AMOR E RELACIONAMENTOS')
-      .replace(/###\s*7\.\s*\*?\*?AÇÃO E ENERGIA\*?\*?/gi, '⚡ AÇÃO E ENERGIA')
-      .replace(/###\s*8\.\s*\*?\*?EXPANSÃO E CRESCIMENTO\*?\*?/gi, '🎯 EXPANSÃO E CRESCIMENTO')
-      .replace(/###\s*9\.\s*\*?\*?DESAFIOS E ESTRUTURA\*?\*?/gi, '🏛️ DESAFIOS E ESTRUTURA')
-      .replace(/###\s*10\.\s*\*?\*?TRANSFORMAÇÃO\*?\*?/gi, '🔮 TRANSFORMAÇÃO')
-      .replace(/###\s*11\.\s*\*?\*?PRINCIPAIS ASPECTOS\*?\*?/gi, '✨ PRINCIPAIS ASPECTOS')
-      .replace(/###\s*12\.\s*\*?\*?ELEMENTOS E MODALIDADES\*?\*?/gi, '🔥 ELEMENTOS E MODALIDADES')
-      .replace(/###\s*13\.\s*\*?\*?CASAS IMPORTANTES\*?\*?/gi, '🏠 CASAS IMPORTANTES')
-      .replace(/###\s*14\.\s*\*?\*?ORIENTAÇÕES\*?\*?/gi, '🧭 ORIENTAÇÕES')
+      .replace(/###\s*1\.\s*\*?\*?VISÃO GERAL\*?\*?/gi, '**🌟 VISÃO GERAL**')
+      .replace(/###\s*2\.\s*\*?\*?IDENTIDADE E EGO\*?\*?/gi, '**☀️ IDENTIDADE E EGO**')
+      .replace(/###\s*3\.\s*\*?\*?EMOÇÕES E INSTINTOS\*?\*?/gi, '**🌙 EMOÇÕES E INSTINTOS**')
+      .replace(/###\s*4\.\s*\*?\*?ASCENDENTE\*?\*?/gi, '**🌅 ASCENDENTE**')
+      .replace(/###\s*5\.\s*\*?\*?COMUNICAÇÃO\*?\*?/gi, '**💬 COMUNICAÇÃO**')
+      .replace(/###\s*6\.\s*\*?\*?AMOR E RELACIONAMENTOS\*?\*?/gi, '**💖 AMOR E RELACIONAMENTOS**')
+      .replace(/###\s*7\.\s*\*?\*?AÇÃO E ENERGIA\*?\*?/gi, '**⚡ AÇÃO E ENERGIA**')
+      .replace(/###\s*8\.\s*\*?\*?EXPANSÃO E CRESCIMENTO\*?\*?/gi, '**🎯 EXPANSÃO E CRESCIMENTO**')
+      .replace(/###\s*9\.\s*\*?\*?DESAFIOS E ESTRUTURA\*?\*?/gi, '**🏛️ DESAFIOS E ESTRUTURA**')
+      .replace(/###\s*10\.\s*\*?\*?TRANSFORMAÇÃO\*?\*?/gi, '**🔮 TRANSFORMAÇÃO**')
+      .replace(/###\s*11\.\s*\*?\*?PRINCIPAIS ASPECTOS\*?\*?/gi, '**✨ PRINCIPAIS ASPECTOS**')
+      .replace(/###\s*12\.\s*\*?\*?ELEMENTOS E MODALIDADES\*?\*?/gi, '**🔥 ELEMENTOS E MODALIDADES**')
+      .replace(/###\s*13\.\s*\*?\*?CASAS IMPORTANTES\*?\*?/gi, '**🏠 CASAS IMPORTANTES**')
+      .replace(/###\s*14\.\s*\*?\*?ORIENTAÇÕES\*?\*?/gi, '**🧭 ORIENTAÇÕES**')
       // Fallback para qualquer ### restante
-      .replace(/###\s*/g, '✨ ');
+      .replace(/###\s*/g, '**✨ ');
 
     return analysisText;
   } catch (error: any) {
@@ -123,6 +123,7 @@ Use linguagem profissional mas acessível. Seja detalhado, positivo e construtiv
 
 /**
  * Gera PDF do mapa astral com análise completa
+ * Abre em nova janela e permite salvar como PDF via impressão
  */
 export function generatePDF(
   result: BirthChartResult,
@@ -130,6 +131,16 @@ export function generatePDF(
   name?: string,
   birthData?: { date: string; time: string; city: string }
 ): void {
+  // Processar análise para HTML com negrito
+  const analysisHTML = analysis
+    .split('\n')
+    .map(line => {
+      // Converter **texto** em <strong>texto</strong>
+      const boldLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      return `<p style="margin: 10px 0;">${boldLine}</p>`;
+    })
+    .join('');
+
   // Criar conteúdo HTML para o PDF
   const htmlContent = `
 <!DOCTYPE html>
@@ -322,26 +333,29 @@ export function generatePDF(
   </div>
 
   <div class="section">
-    <h2>📖 ANÁLISE COMPLETA</h2>
-    <div class="analysis">${analysis}</div>
+    <h2>📖 INTERPRETAÇÃO COMPLETA</h2>
+    <div class="analysis">${analysisHTML}</div>
   </div>
 
   <div class="footer">
     Mapa Astral calculado por Signos Animados<br>
     Data de geração: ${new Date().toLocaleDateString('pt-BR')}
   </div>
+
+  <script>
+    // Abrir diálogo de impressão automaticamente ao carregar
+    window.onload = function() {
+      window.print();
+    };
+  </script>
 </body>
 </html>
   `;
 
-  // Criar blob e fazer download
-  const blob = new Blob([htmlContent], { type: 'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `mapa-astral${name ? `-${name.replace(/\s+/g, '-')}` : ''}.html`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  // Abrir em nova janela para impressão/salvar como PDF
+  const printWindow = window.open('', '_blank');
+  if (printWindow) {
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+  }
 }
