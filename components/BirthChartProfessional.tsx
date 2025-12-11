@@ -3,6 +3,7 @@ import { calculateBirthChartApi, geocodeCity, checkApiHealth } from '../services
 import { generateBirthChartAnalysis, generatePDF } from '../services/birthChartAnalysisService';
 import type { BirthChartResult } from '../shared/birthChartTypes';
 import { PLANET_MEANINGS, ASCENDANT_MEANING, MIDHEAVEN_MEANING } from '../data/planetMeanings';
+import { ELEMENTS_MEANINGS, MODALITIES_MEANINGS, DISTRIBUTION_MEANING } from '../data/elementsMeanings';
 
 interface BirthChartProfessionalProps {
   onBack: () => void;
@@ -45,7 +46,9 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedPlanet, setSelectedPlanet] = useState<string | null>(null);
-  const [tooltipType, setTooltipType] = useState<'planet' | 'ascendant' | 'midheaven' | null>(null);
+  const [tooltipType, setTooltipType] = useState<'planet' | 'ascendant' | 'midheaven' | 'element' | 'modality' | null>(null);
+  const [selectedElement, setSelectedElement] = useState<'fire' | 'earth' | 'air' | 'water' | null>(null);
+  const [selectedModality, setSelectedModality] = useState<'cardinal' | 'fixed' | 'mutable' | null>(null);
 
   // Verificar API ao montar (não bloqueia o uso)
   useEffect(() => {
@@ -393,47 +396,210 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
 
           {/* Elementos e Modalidades */}
           <div className="grid md:grid-cols-2 gap-4 mb-6">
+            {/* Elementos */}
             <div className="glass p-6 rounded-2xl border border-white/5">
               <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                 <span>🌟</span> Elementos
+                <span className="text-xs text-slate-500 font-normal ml-auto">Clique para saber mais</span>
               </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-slate-900/30 rounded-lg">
-                  <span className="text-red-400">🔥 Fogo</span>
-                  <span className="font-mono font-bold">{result.elements.fire}</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-slate-900/30 rounded-lg">
-                  <span className="text-green-400">🌍 Terra</span>
-                  <span className="font-mono font-bold">{result.elements.earth}</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-slate-900/30 rounded-lg">
-                  <span className="text-blue-400">💨 Ar</span>
-                  <span className="font-mono font-bold">{result.elements.air}</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-slate-900/30 rounded-lg">
-                  <span className="text-cyan-400">💧 Água</span>
-                  <span className="font-mono font-bold">{result.elements.water}</span>
-                </div>
+              <div className="space-y-4">
+                {/* Fogo */}
+                {(() => {
+                  const total = result.elements.fire + result.elements.earth + result.elements.air + result.elements.water;
+                  const percentage = total > 0 ? Math.round((result.elements.fire / total) * 100) : 0;
+                  return (
+                    <button
+                      onClick={() => {
+                        setSelectedElement('fire');
+                        setTooltipType('element');
+                        setSelectedPlanet(null);
+                      }}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-red-400">🔥 Fogo</span>
+                        <span className="text-sm font-bold">{percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-800/50 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-red-500 to-orange-500 h-full rounded-full transition-all duration-500 group-hover:opacity-80"
+                          style={{ width: `${percentage}%` }}
+                        ></div>
+                      </div>
+                    </button>
+                  );
+                })()}
+
+                {/* Terra */}
+                {(() => {
+                  const total = result.elements.fire + result.elements.earth + result.elements.air + result.elements.water;
+                  const percentage = total > 0 ? Math.round((result.elements.earth / total) * 100) : 0;
+                  return (
+                    <button
+                      onClick={() => {
+                        setSelectedElement('earth');
+                        setTooltipType('element');
+                        setSelectedPlanet(null);
+                      }}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-green-400">🌍 Terra</span>
+                        <span className="text-sm font-bold">{percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-800/50 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-green-600 to-emerald-500 h-full rounded-full transition-all duration-500 group-hover:opacity-80"
+                          style={{ width: `${percentage}%` }}
+                        ></div>
+                      </div>
+                    </button>
+                  );
+                })()}
+
+                {/* Ar */}
+                {(() => {
+                  const total = result.elements.fire + result.elements.earth + result.elements.air + result.elements.water;
+                  const percentage = total > 0 ? Math.round((result.elements.air / total) * 100) : 0;
+                  return (
+                    <button
+                      onClick={() => {
+                        setSelectedElement('air');
+                        setTooltipType('element');
+                        setSelectedPlanet(null);
+                      }}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-blue-400">💨 Ar</span>
+                        <span className="text-sm font-bold">{percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-800/50 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-blue-500 to-sky-400 h-full rounded-full transition-all duration-500 group-hover:opacity-80"
+                          style={{ width: `${percentage}%` }}
+                        ></div>
+                      </div>
+                    </button>
+                  );
+                })()}
+
+                {/* Água */}
+                {(() => {
+                  const total = result.elements.fire + result.elements.earth + result.elements.air + result.elements.water;
+                  const percentage = total > 0 ? Math.round((result.elements.water / total) * 100) : 0;
+                  return (
+                    <button
+                      onClick={() => {
+                        setSelectedElement('water');
+                        setTooltipType('element');
+                        setSelectedPlanet(null);
+                      }}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-cyan-400">💧 Água</span>
+                        <span className="text-sm font-bold">{percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-800/50 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-cyan-500 to-blue-400 h-full rounded-full transition-all duration-500 group-hover:opacity-80"
+                          style={{ width: `${percentage}%` }}
+                        ></div>
+                      </div>
+                    </button>
+                  );
+                })()}
               </div>
             </div>
 
+            {/* Modalidades */}
             <div className="glass p-6 rounded-2xl border border-white/5">
               <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                 <span>⚡</span> Modalidades
+                <span className="text-xs text-slate-500 font-normal ml-auto">Clique para saber mais</span>
               </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-slate-900/30 rounded-lg">
-                  <span className="text-pink-400">Cardinal</span>
-                  <span className="font-mono font-bold">{result.modalities.cardinal}</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-slate-900/30 rounded-lg">
-                  <span className="text-amber-400">Fixo</span>
-                  <span className="font-mono font-bold">{result.modalities.fixed}</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-slate-900/30 rounded-lg">
-                  <span className="text-indigo-400">Mutável</span>
-                  <span className="font-mono font-bold">{result.modalities.mutable}</span>
-                </div>
+              <div className="space-y-4">
+                {/* Cardinal */}
+                {(() => {
+                  const total = result.modalities.cardinal + result.modalities.fixed + result.modalities.mutable;
+                  const percentage = total > 0 ? Math.round((result.modalities.cardinal / total) * 100) : 0;
+                  return (
+                    <button
+                      onClick={() => {
+                        setSelectedModality('cardinal');
+                        setTooltipType('modality');
+                        setSelectedPlanet(null);
+                      }}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-pink-400">▲ Cardinal</span>
+                        <span className="text-sm font-bold">{percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-800/50 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-pink-500 to-rose-400 h-full rounded-full transition-all duration-500 group-hover:opacity-80"
+                          style={{ width: `${percentage}%` }}
+                        ></div>
+                      </div>
+                    </button>
+                  );
+                })()}
+
+                {/* Fixo */}
+                {(() => {
+                  const total = result.modalities.cardinal + result.modalities.fixed + result.modalities.mutable;
+                  const percentage = total > 0 ? Math.round((result.modalities.fixed / total) * 100) : 0;
+                  return (
+                    <button
+                      onClick={() => {
+                        setSelectedModality('fixed');
+                        setTooltipType('modality');
+                        setSelectedPlanet(null);
+                      }}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-amber-400">■ Fixo</span>
+                        <span className="text-sm font-bold">{percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-800/50 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-amber-500 to-yellow-400 h-full rounded-full transition-all duration-500 group-hover:opacity-80"
+                          style={{ width: `${percentage}%` }}
+                        ></div>
+                      </div>
+                    </button>
+                  );
+                })()}
+
+                {/* Mutável */}
+                {(() => {
+                  const total = result.modalities.cardinal + result.modalities.fixed + result.modalities.mutable;
+                  const percentage = total > 0 ? Math.round((result.modalities.mutable / total) * 100) : 0;
+                  return (
+                    <button
+                      onClick={() => {
+                        setSelectedModality('mutable');
+                        setTooltipType('modality');
+                        setSelectedPlanet(null);
+                      }}
+                      className="w-full text-left group"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-indigo-400">◆ Mutável</span>
+                        <span className="text-sm font-bold">{percentage}%</span>
+                      </div>
+                      <div className="w-full bg-slate-800/50 rounded-full h-3 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-indigo-500 to-purple-400 h-full rounded-full transition-all duration-500 group-hover:opacity-80"
+                          style={{ width: `${percentage}%` }}
+                        ></div>
+                      </div>
+                    </button>
+                  );
+                })()}
               </div>
             </div>
           </div>
@@ -520,12 +686,14 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
           )}
 
           {/* Tooltip Modal */}
-          {(selectedPlanet || tooltipType === 'ascendant' || tooltipType === 'midheaven') && (
+          {(selectedPlanet || tooltipType === 'ascendant' || tooltipType === 'midheaven' || tooltipType === 'element' || tooltipType === 'modality') && (
             <div
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
               onClick={() => {
                 setSelectedPlanet(null);
                 setTooltipType(null);
+                setSelectedElement(null);
+                setSelectedModality(null);
               }}
             >
               <div
@@ -582,10 +750,40 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
                     </div>
                   </>
                 )}
+                {tooltipType === 'element' && selectedElement && (
+                  <>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-5xl">{ELEMENTS_MEANINGS[selectedElement].icon}</span>
+                      <div>
+                        <h3 className="text-2xl font-bold">{ELEMENTS_MEANINGS[selectedElement].name}</h3>
+                        <p className="text-sm text-purple-400">{ELEMENTS_MEANINGS[selectedElement].short}</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 leading-relaxed mb-6">
+                      {ELEMENTS_MEANINGS[selectedElement].description}
+                    </p>
+                  </>
+                )}
+                {tooltipType === 'modality' && selectedModality && (
+                  <>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-5xl">{MODALITIES_MEANINGS[selectedModality].icon}</span>
+                      <div>
+                        <h3 className="text-2xl font-bold">{MODALITIES_MEANINGS[selectedModality].name}</h3>
+                        <p className="text-sm text-purple-400">{MODALITIES_MEANINGS[selectedModality].short}</p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300 leading-relaxed mb-6">
+                      {MODALITIES_MEANINGS[selectedModality].description}
+                    </p>
+                  </>
+                )}
                 <button
                   onClick={() => {
                     setSelectedPlanet(null);
                     setTooltipType(null);
+                    setSelectedElement(null);
+                    setSelectedModality(null);
                   }}
                   className="mt-6 w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:from-purple-500 hover:to-pink-500 transition-all"
                 >
