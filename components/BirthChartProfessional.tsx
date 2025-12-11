@@ -22,47 +22,97 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('12:00');
-  const [city, setCity] = useState('São Paulo');
+  const [city, setCity] = useState('São Paulo, Brazil');
   const [useManualCoords, setUseManualCoords] = useState(false);
   const [latitude, setLatitude] = useState(-23.5505);
   const [longitude, setLongitude] = useState(-46.6333);
   const [timezone, setTimezone] = useState('America/Sao_Paulo');
+  const [searchingCity, setSearchingCity] = useState(false);
 
   // Estados da aplicação
   const [loading, setLoading] = useState(false);
   const [generatingAnalysis, setGeneratingAnalysis] = useState(false);
-  const [apiAvailable, setApiAvailable] = useState<boolean | null>(null);
+  const [apiAvailable, setApiAvailable] = useState<boolean | null>(true); // Assume available
   const [result, setResult] = useState<BirthChartResult | null>(null);
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Verificar API ao montar
+  // Verificar API ao montar (não bloqueia o uso)
   useEffect(() => {
-    checkApiHealth().then(setApiAvailable);
+    checkApiHealth().then(available => {
+      if (!available) {
+        console.warn('Backend API may be offline');
+      }
+      setApiAvailable(available);
+    });
   }, []);
 
-  // Cidades disponíveis
-  const cityCoords: Record<string, { lat: number; lon: number; tz: string }> = {
-    'São Paulo': { lat: -23.5505, lon: -46.6333, tz: 'America/Sao_Paulo' },
-    'Rio de Janeiro': { lat: -22.9068, lon: -43.1729, tz: 'America/Sao_Paulo' },
-    'Brasília': { lat: -15.7939, lon: -47.8828, tz: 'America/Sao_Paulo' },
-    'Salvador': { lat: -12.9714, lon: -38.5014, tz: 'America/Bahia' },
-    'Fortaleza': { lat: -3.7172, lon: -38.5434, tz: 'America/Fortaleza' },
-    'Belo Horizonte': { lat: -19.9167, lon: -43.9345, tz: 'America/Sao_Paulo' },
-    'Manaus': { lat: -3.1190, lon: -60.0217, tz: 'America/Manaus' },
-    'Curitiba': { lat: -25.4284, lon: -49.2733, tz: 'America/Sao_Paulo' },
-    'Recife': { lat: -8.0476, lon: -34.8770, tz: 'America/Recife' },
-    'Porto Alegre': { lat: -30.0346, lon: -51.2177, tz: 'America/Sao_Paulo' }
-  };
+  // Buscar coordenadas da cidade via Nominatim (OpenStreetMap)
+  const searchCityCoordinates = async (cityName: string) => {
+    if (!cityName || cityName.length < 3 || useManualCoords) return;
 
-  const handleCityChange = (cityName: string) => {
-    setCity(cityName);
-    if (!useManualCoords && cityCoords[cityName]) {
-      setLatitude(cityCoords[cityName].lat);
-      setLongitude(cityCoords[cityName].lon);
-      setTimezone(cityCoords[cityName].tz);
+    try {
+      setSearchingCity(true);
+      setError(null);
+
+      // Usar Nominatim API (OpenStreetMap) - gratuita e sem necessidade de API key
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?` +
+        `q=${encodeURIComponent(cityName)}&` +
+        `format=json&` +
+        `addressdetails=1&` +
+        `limit=1`,
+        {
+          headers: {
+            'User-Agent': 'AstroMatch Birth Chart App'
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar cidade');
+      }
+
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        const location = data[0];
+        setLatitude(parseFloat(location.lat));
+        setLongitude(parseFloat(location.lon));
+
+        // Determinar timezone baseado na latitude/longitude (simplificado para Brasil)
+        const lat = parseFloat(location.lat);
+        const lon = parseFloat(location.lon);
+
+        // Timezones principais do Brasil
+        if (lat >= -33 && lat <= 5 && lon >= -75 && lon <= -30) {
+          if (lon >= -52) setTimezone('America/Sao_Paulo');
+          else if (lon >= -60) setTimezone('America/Manaus');
+          else if (lon >= -70) setTimezone('America/Rio_Branco');
+          else setTimezone('America/Sao_Paulo');
+        } else {
+          setTimezone('America/Sao_Paulo'); // Default
+        }
+      } else {
+        console.warn('Cidade não encontrada, usando coordenadas padrão');
+      }
+    } catch (err) {
+      console.error('Erro ao buscar coordenadas:', err);
+    } finally {
+      setSearchingCity(false);
     }
   };
+
+  // Debounce para buscar cidade após usuário parar de digitar
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (city && !useManualCoords) {
+        searchCityCoordinates(city);
+      }
+    }, 1000); // Aguarda 1 segundo após última digitação
+
+    return () => clearTimeout(timer);
+  }, [city, useManualCoords]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -400,11 +450,11 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
           </p>
         </div>
 
-        {/* Aviso de API offline */}
+        {/* Aviso de API offline (não bloqueia uso) */}
         {apiAvailable === false && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-sm text-center">
-            <p className="text-red-300">⚠️ Serviço temporariamente indisponível</p>
-            <p className="text-red-400/70 text-xs mt-1">Aguarde alguns instantes</p>
+          <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-sm text-center">
+            <p className="text-yellow-300">⚠️ Modo offline detectado</p>
+            <p className="text-yellow-400/70 text-xs mt-1">Tentando conectar ao servidor de cálculos...</p>
           </div>
         )}
 
@@ -453,18 +503,27 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
 
           <div>
             <label className="text-xs text-slate-400 mb-2 block uppercase tracking-wider font-medium">
-              Cidade
+              Cidade *
             </label>
-            <select
-              value={city}
-              onChange={(e) => handleCityChange(e.target.value)}
-              disabled={useManualCoords}
-              className="w-full p-4 rounded-xl bg-slate-900/50 border border-slate-700/50 text-white focus:outline-none focus:border-purple-500/50 transition-all disabled:opacity-50"
-            >
-              {Object.keys(cityCoords).map(c => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
+            <div className="relative">
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                disabled={useManualCoords}
+                className="w-full p-4 rounded-xl bg-slate-900/50 border border-slate-700/50 text-white focus:outline-none focus:border-purple-500/50 transition-all disabled:opacity-50"
+                placeholder="Ex: São Paulo, Brazil ou Rio de Janeiro, RJ"
+                required
+              />
+              {searchingCity && (
+                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                  <div className="w-5 h-5 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+                </div>
+              )}
+            </div>
+            <p className="text-xs text-slate-500 mt-1">
+              Digite qualquer cidade do mundo (Ex: São Paulo, Brazil • New York, USA • Paris, France)
+            </p>
           </div>
 
           <div className="flex items-center gap-2 pt-2">
