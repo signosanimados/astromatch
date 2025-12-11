@@ -10,7 +10,7 @@ const Login: React.FC = () => {
   const [sent, setSent] = useState(false);
   
   // Novos estados para gerenciar o modo de login
-  const [mode, setMode] = useState<'magic' | 'password'>('magic'); // 'magic' ou 'password'
+  const [mode, setMode] = useState<'magic' | 'password'>('password'); // 'magic' ou 'password'
   const [isSignUp, setIsSignUp] = useState(false); // Alternar entre Entrar/Cadastrar
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
