@@ -5,7 +5,8 @@
   "ignoreCommand": "git diff HEAD^ HEAD --quiet -- ':!backend/**'",
   "git": {
     "deploymentEnabled": {
-      "main": true
+      "main": true,
+      "claude/fix-astral-chart-calculations-01MPK7Psur2H8waNsruudp5a": true
     }
   }
 }
