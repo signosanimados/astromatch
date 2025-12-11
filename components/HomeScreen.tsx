@@ -163,8 +163,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
 
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-white mb-1">Mapa Astral Profissional</h3>
-                <p className="text-slate-400 text-sm">Análise completa com Swiss Ephemeris e IA • Exportar PDF</p>
+                <h3 className="text-xl font-bold text-white mb-1">Mapa Astral</h3>
+                <p className="text-slate-400 text-sm">Análise completa do seu mapa natal com interpretação por IA</p>
               </div>
 
               <svg className="w-6 h-6 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -173,7 +173,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
 
             <div className="relative mt-4 flex items-center gap-2">
-              <span className="text-[10px] text-purple-400/70 uppercase tracking-wider">Precisão Profissional</span>
+              <span className="text-[10px] text-purple-400/70 uppercase tracking-wider">Sol • Lua • Ascendente</span>
               <span className="text-slate-600">•</span>
               <span className="text-[10px] text-slate-500">5 créditos</span>
             </div>

@@ -233,7 +233,7 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
           {/* Título */}
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              {name || 'Mapa Astral Profissional'}
+              {name || 'Mapa Astral'}
             </h1>
             <p className="text-slate-400 text-sm">
               {date} às {time} • {city || 'Coordenadas personalizadas'}
@@ -440,23 +440,15 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
         {/* Título */}
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-500 bg-clip-text text-transparent">
-            Mapa Astral Profissional
+            Mapa Astral
           </h1>
           <p className="text-slate-400 text-base md:text-lg">
-            Cálculos precisos com Swiss Ephemeris
+            Descubra seu Sol, Lua, Ascendente e muito mais
           </p>
           <p className="text-purple-400 text-sm mt-2 font-bold">
             💫 {CREDIT_COST} créditos • Você tem {credits} crédito(s)
           </p>
         </div>
-
-        {/* Aviso de API offline (não bloqueia uso) */}
-        {apiAvailable === false && (
-          <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-sm text-center">
-            <p className="text-yellow-300">⚠️ Modo offline detectado</p>
-            <p className="text-yellow-400/70 text-xs mt-1">Tentando conectar ao servidor de cálculos...</p>
-          </div>
-        )}
 
         {/* Formulário */}
         <form onSubmit={handleSubmit} className="glass p-8 rounded-2xl border border-white/5 space-y-6">
@@ -607,7 +599,7 @@ const BirthChartProfessional: React.FC<BirthChartProfessionalProps> = ({
           </button>
 
           <p className="text-center text-xs text-slate-600 pt-2">
-            Cálculos profissionais Swiss Ephemeris • Análise com GPT-4 mini • Geração de PDF
+            Análise completa do seu mapa astral com interpretação por IA
           </p>
         </form>
       </div>
